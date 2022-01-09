@@ -17,7 +17,6 @@ class HomeController extends GetxController {
 
   late MainTab mainTab;
   late DiscoverTab discoverTab;
-  late ResourceTab resourceTab;
   late InboxTab inboxTab;
   late MeTab meTab;
 
@@ -29,7 +28,6 @@ class HomeController extends GetxController {
     loadUsers();
 
     discoverTab = DiscoverTab();
-    resourceTab = ResourceTab();
     inboxTab = InboxTab();
     meTab = MeTab();
   }
@@ -74,12 +72,10 @@ class HomeController extends GetxController {
         return 0;
       case MainTabs.discover:
         return 1;
-      case MainTabs.resource:
-        return 2;
       case MainTabs.inbox:
-        return 3;
+        return 2;
       case MainTabs.me:
-        return 4;
+        return 3;
       default:
         return 0;
     }
@@ -92,10 +88,8 @@ class HomeController extends GetxController {
       case 1:
         return MainTabs.discover;
       case 2:
-        return MainTabs.resource;
-      case 3:
         return MainTabs.inbox;
-      case 4:
+      case 3:
         return MainTabs.me;
       default:
         return MainTabs.home;

@@ -59,7 +59,7 @@ class BorderButton extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: hexToColor('#2F9AA0'),
+                      color: Colors.white,
                     ),
                   )
                 else
@@ -83,7 +83,7 @@ class _GradientPainter extends CustomPainter {
     required double strokeWidth,
     required double radius,
     required Gradient gradient,
-  })   : this.strokeWidth = strokeWidth,
+  })  : this.strokeWidth = strokeWidth,
         this.radius = radius,
         this.gradient = gradient;
 

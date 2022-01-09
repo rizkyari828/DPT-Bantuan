@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_boilerplate/modules/home/home.dart';
-import 'package:flutter_getx_boilerplate/modules/home/tabs/tabs.dart';
 import 'package:flutter_getx_boilerplate/shared/shared.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,29 +22,25 @@ class HomeScreen extends GetView<HomeController> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           _buildNavigationBarItem(
-            "Home",
+            "Beranda",
             MainTabs.home == controller.currentTab.value
                 ? "icon_home_activited.svg"
                 : "icon_home.svg",
           ),
           _buildNavigationBarItem(
-            "Discover",
+            "Absen",
             MainTabs.discover == controller.currentTab.value
                 ? "icon_discover_activited.svg"
                 : "icon_discover.svg",
           ),
           _buildNavigationBarItem(
-            "Resource",
-            "icon_resource.svg",
-          ),
-          _buildNavigationBarItem(
-            "Inbox",
+            "Task List",
             MainTabs.inbox == controller.currentTab.value
                 ? "icon_inbox_activited.svg"
                 : "icon_inbox.svg",
           ),
           _buildNavigationBarItem(
-            "Me",
+            "Profile",
             MainTabs.me == controller.currentTab.value
                 ? "icon_me_activited.svg"
                 : "icon_me.svg",
@@ -70,8 +65,6 @@ class HomeScreen extends GetView<HomeController> {
         return controller.mainTab;
       case MainTabs.discover:
         return controller.discoverTab;
-      case MainTabs.resource:
-        return controller.resourceTab;
       case MainTabs.inbox:
         return controller.inboxTab;
       case MainTabs.me:

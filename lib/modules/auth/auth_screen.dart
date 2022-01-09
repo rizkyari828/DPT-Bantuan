@@ -62,7 +62,7 @@ class AuthScreen extends GetView<AuthController> {
         ),
         SizedBox(height: 62.0),
         Text(
-          'This is a demo only used for test.',
+          'Alpha Version 0.0.1',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: CommonConstants.smallText,
