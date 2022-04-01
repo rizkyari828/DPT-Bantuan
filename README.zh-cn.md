@@ -1,4 +1,4 @@
-# flutter_getx_boilerplate
+# cleaner
 
 **语言: [English](README.md), 中文 (这个文件).**
 
@@ -13,15 +13,15 @@
 使用Flutter 2.x搭建的一套包含预定义的文件夹结构、样式主题、API访问、状态管理、路由 & 依赖等的框架。项目结构清晰，可以很方便的作为Flutter的模板项目来使用。使用技术包括但不限于[Flutter](https://flutter.cn/)、[Dart](https://dart.dev/)、[GetX](https://pub.dev/packages/get)等。
 
 <p align='center'>
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/2.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/3.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/4.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/5.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/6.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/7.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/8.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/9.jpg" width="187" heght="333" />
-    <img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/chat.gif" width="237px" heght="416px" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/2.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/3.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/4.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/5.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/6.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/7.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/8.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/9.jpg" width="187" heght="333" />
+    <img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/chat.gif" width="237px" heght="416px" />
 </p>
 
 ## 安装 & 使用
@@ -31,7 +31,7 @@
 Fork本项目到自己的仓库：
 
 ```
-git clone https://github.com/KevinZhang19870314/flutter_getx_boilerplate.git
+git clone https://github.com/KevinZhang19870314/cleaner.git
 ```
 
 **Step 2:**
@@ -87,4 +87,4 @@ lib/
 
 感兴趣的朋友扫码进Flutter & Web技术交流群，我们一起讨论Flutter的未来。
 
-<img src="https://github.com/KevinZhang19870314/flutter_getx_boilerplate/blob/master/assets/screenshot/weixin.png" width="187" heght="333" />
+<img src="https://github.com/KevinZhang19870314/cleaner/blob/master/assets/screenshot/weixin.png" width="187" heght="333" />

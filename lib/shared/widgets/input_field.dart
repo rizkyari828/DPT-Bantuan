@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_boilerplate/shared/constants/colors.dart';
-import 'package:flutter_getx_boilerplate/shared/constants/common.dart';
+import 'package:cleaner/shared/constants/colors.dart';
+import 'package:cleaner/shared/constants/common.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final String labelText;
   final String placeholder;
+  final bool? isPassword;
   final Color color;
   final double fontSize;
   final bool password;
   final String? Function(String?)? validator;
+  final Widget? prefixIcon, suffixIcon;
+  final bool? isError;
+  final bool? textObscured;
+  final Function()? onVisibilityPressed;
 
   InputField({
     required this.controller,
@@ -21,6 +26,16 @@ class InputField extends StatelessWidget {
     this.fontSize = CommonConstants.bodyText,
     this.password = false,
     this.validator,
+    this.prefixIcon = const Icon(Icons.person),
+    this.suffixIcon = const Icon(
+      Icons.error_outline,
+      size: 30,
+      color: Color.fromRGBO(255, 0, 0, 1.0),
+    ),
+    this.isPassword = false,
+    this.isError = false,
+    this.textObscured = true,
+    this.onVisibilityPressed,
   });
 
   @override
@@ -31,14 +46,23 @@ class InputField extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: TextFormField(
         decoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: color),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          filled: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
+          prefixIcon: prefixIcon,
+          suffix: isError ?? false
+              ? Icon(
+                  Icons.error_outline,
+                  size: 25,
+                  color: Color.fromRGBO(255, 0, 0, 1.0),
+                )
+              : null,
+          suffixIcon: _suffixIcon(),
+          focusedBorder: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: new BorderSide(
+                  color: isError ?? false ? Colors.red : color, width: 1.0)),
+          enabledBorder: new OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: new BorderSide(
+                  color: isError ?? false ? Colors.red : color, width: 1.0)),
           hintText: this.placeholder,
           hintStyle: TextStyle(
             fontSize: fontSize,
@@ -60,11 +84,159 @@ class InputField extends StatelessWidget {
           fontWeight: FontWeight.normal,
         ),
         keyboardType: this.keyboardType,
-        obscureText: this.password,
+        obscureText: _showPassword(),
         autocorrect: false,
         validator: this.validator,
       ),
     );
   }
+
+  Widget? _suffixIcon() {
+    if (isPassword ?? false) {
+      return IconButton(
+        onPressed: isPassword ?? false ? onVisibilityPressed : null,
+        icon: textObscured ?? false
+            ? Icon(
+                Icons.visibility_off,
+              )
+            : Icon(
+                Icons.visibility,
+              ),
+      );
+    }
+    return isError ?? false ? suffixIcon : null;
+  }
+
+  bool _showPassword() {
+    if (isPassword ?? false) {
+      return textObscured ?? false;
+    }
+    return false;
+  }
 }
 
+class InputInputField extends StatelessWidget {
+  final TextEditingController controller;
+  final TextInputType keyboardType;
+  final String labelText;
+  final String placeholder;
+  final Color color;
+  final double fontSize;
+  final bool password;
+  final String? Function(String?)? validator;
+  final bool? isSuffixIcon;
+  final Widget? suffixIcon;
+  final bool? isError;
+  final bool? textObscured;
+  final Function()? onSuffixPressed;
+  final VoidCallback? onChanged;
+  final isDisabled;
+
+  InputInputField({
+    required this.controller,
+    this.keyboardType = TextInputType.text,
+    this.labelText = '',
+    this.placeholder = '',
+    this.color = Colors.white,
+    this.fontSize = CommonConstants.bodyText,
+    this.password = false,
+    this.validator,
+    this.isSuffixIcon = false,
+    this.isError = false,
+    this.textObscured = true,
+    this.onSuffixPressed,
+    this.suffixIcon,
+    this.onChanged,
+    this.isDisabled = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+        readOnly: isDisabled,
+        enableInteractiveSelection: isDisabled,
+        keyboardType: this.keyboardType,
+        autocorrect: false,
+        controller: this.controller,
+        onChanged: (text) {
+          onChanged;
+        },
+        decoration: InputDecoration(
+          labelStyle: TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          prefixStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          suffixStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          labelText: labelText,
+          hintText: placeholder,
+          fillColor: Colors.white,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: BorderSide(
+              color: Colors.blue,
+            ),
+          ),
+          suffixIcon: _suffixIcon(),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorConstants.mainColor,
+            ),
+          ),
+        ));
+  }
+
+  Widget? _suffixIcon() {
+    if (isSuffixIcon ?? false) {
+      return IconButton(
+        onPressed: isSuffixIcon ?? false ? onSuffixPressed : null,
+        icon: suffixIcon ?? Icon(Icons.add),
+      );
+    }
+    return isError ?? false ? suffixIcon : null;
+  }
+}
+
+class TextAreaField extends StatelessWidget {
+  final TextEditingController controller;
+
+  TextAreaField({
+    required this.controller,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        elevation: 0.1,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(color: ColorConstants.mainColor, width: 1)),
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: TextField(
+            style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.normal,
+                fontSize: 14,
+                letterSpacing: 0.5,
+                fontFamily: 'Poppins'),
+            controller: controller,
+            maxLines: 8,
+            decoration:
+                InputDecoration.collapsed(hintText: "Enter your text here"),
+          ),
+        ));
+  }
+}

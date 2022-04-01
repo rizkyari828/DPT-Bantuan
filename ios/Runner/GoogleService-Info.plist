@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>740236615990-tcqfvkim87ifemv5e0iuh4h91qd9u7gk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.740236615990-tcqfvkim87ifemv5e0iuh4h91qd9u7gk</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>740236615990-3veaab4u84oqdkimbc0n644od0bdmauo.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB89EB7i_DuoHEYWJP_mnvQpLv4if-aMLA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>740236615990</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.sim.cleanerdev</string>
+	<key>PROJECT_ID</key>
+	<string>sigesit-143f5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sigesit-143f5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:740236615990:ios:c55b101328c0ac538dd397</string>
+</dict>
+</plist>

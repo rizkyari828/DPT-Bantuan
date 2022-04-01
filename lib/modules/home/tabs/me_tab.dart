@@ -1,184 +1,117 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cleaner/shared/widgets/button.dart';
+import 'package:cleaner/shared/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_boilerplate/modules/home/home.dart';
-import 'package:flutter_getx_boilerplate/routes/routes.dart';
-import 'package:flutter_getx_boilerplate/shared/shared.dart';
+import 'package:cleaner/modules/home/home.dart';
+import 'package:cleaner/shared/shared.dart';
 import 'package:get/get.dart';
 
 class MeTab extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: SizeConfig().screenHeight * .5,
-          child: Stack(
-            children: [
-              GradientBackground(
-                needWave: false,
-              ),
-              Obx(
-                () => _buildUserInfo(),
-              ),
-            ],
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            'Profile',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 25,
+              fontFamily: 'Poppins',
+            ),
           ),
+          elevation: 0,
+          backgroundColor: ColorConstants.mainColor,
+          automaticallyImplyLeading: false,
         ),
-        _buildListItems(),
-      ],
-    );
-  }
-
-  Widget _buildUserInfo() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Me',
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        _buildAvatar(),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          '${controller.user.value!.email}',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: Column(
           children: [
-            SizedBox(width: 10.0),
-            Expanded(
-              child: BorderButton(
-                text: '100 follower',
-                backgroundColor: Colors.white,
-                onPressed: () {},
-              ),
+            CustomContinuesAppBar(
+                type: "medium",
+                textLabel: "Profile",
+                textSubtitle:
+                    "Anda hanya dapar mengubah picture avatar \n pada profile"),
+            Container(
+              height: SizeConfig().screenHeight / 4,
+              child: _buildAvatar(),
+              // Stack(
+              //   children: [
+              //     GradientBackground(
+              //       needWave: false,
+              //     ),
+              //     Obx(
+              //       () => _buildUserInfo(),
+              //     ),
+              //   ],
+              // ),
             ),
-            SizedBox(width: 10.0),
-            Expanded(
-              child: BorderButton(
-                text: '100 following',
-                backgroundColor: Colors.white,
-                onPressed: () {},
-              ),
+            _buildListData(),
+            SizedBox(
+              height: 10,
             ),
-            SizedBox(width: 10.0),
           ],
-        ),
-      ],
-    );
+        ));
   }
 
   Widget _buildAvatar() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10.0),
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          SizedBox(
-            height: 110,
-            width: 110,
-            child: CachedNetworkImage(
-              fit: BoxFit.fill,
-              imageUrl: controller.user.value!.avatar ??
-                  'https://reqres.in/img/faces/1-image.jpg',
-              placeholder: (context, url) => Image(
-                image: AssetImage('assets/images/icon_success.png'),
-              ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          ),
-          Container(
-            width: 110,
-            height: 24,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: hexToColor('#9A434343'),
-            ),
-            child: Text(
-              controller.user.value!.firstName ?? '',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ],
-      ),
+    return MaterialButton(
+      onPressed: () {},
+      child: ClipOval(
+          // borderRadius: BorderRadius.circular(10.0),
+          child: CachedNetworkImage(
+        fit: BoxFit.fill,
+        imageUrl: controller.profilePhoto.value,
+        placeholder: (context, url) => Image(
+          image: AssetImage('assets/images/icon_success.png'),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      )),
     );
   }
 
-  Widget _buildListItems() {
+  Widget _buildListData() {
+    final sw = SizeConfig().screenWidth;
+    final sh = SizeConfig().screenHeight;
     return Align(
       alignment: Alignment.bottomCenter,
-      child: Container(
-        height: SizeConfig().screenHeight * .42,
-        decoration: BoxDecoration(
-          color: ColorConstants.white,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            topLeft: Radius.circular(20),
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              IconTitleItem(
-                title: 'Cards',
-                icon: 'assets/svgs/icon_discover.svg',
-                onTap: () {
-                  Get.toNamed(Routes.HOME + Routes.CARDS);
-                },
-              ),
-              IconTitleItem(
-                title: 'Resource',
-                icon: 'assets/svgs/icon_resource.svg',
-                onTap: () {},
-              ),
-              IconTitleItem(
-                title: 'Inbox',
-                icon: 'assets/svgs/icon_inbox.svg',
-                onTap: () {},
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              IconTitleItem(
-                backgroundColor: ColorConstants.lightGray,
-                paddingLeft: 16,
-                paddingTop: 16,
-                paddingRight: 16,
-                padingBottom: 16,
-                marginRight: 16,
-                marginLeft: 5,
-                drawablePadding: 10.0,
-                title: 'sign out',
-                icon: 'assets/svgs/icon_sign_out.svg',
-                onTap: () {
-                  controller.signout();
-                },
-              ),
-            ],
-          ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 20.0),
+          child: Obx(() => Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonWidget.captionText(
+                    text: "Nama",
+                  ),
+                  CommonWidget.bodyText(
+                    text: controller.name.value,
+                  ),
+                  SizedBox(height: 10),
+                  CommonWidget.captionText(
+                    text: "SIM ID",
+                  ),
+                  CommonWidget.bodyText(
+                    text: controller.simId.value,
+                  ),
+                  SizedBox(height: 10),
+                  CommonWidget.captionText(
+                    text: "Group User",
+                  ),
+                  CommonWidget.bodyText(
+                    text: controller.groupName.value,
+                  ),
+                  SizedBox(height: 20),
+                  CustomButton(
+                      borderColor: ColorConstants.mainColor,
+                      buttonColor: Colors.white,
+                      buttonTextColor: ColorConstants.mainColor,
+                      buttonText: 'LOGOUT',
+                      width: sw,
+                      onPressed: controller.signout),
+                ],
+              )),
         ),
       ),
     );

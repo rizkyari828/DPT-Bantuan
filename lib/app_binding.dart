@@ -1,4 +1,4 @@
-import 'package:flutter_getx_boilerplate/api/api.dart';
+import 'package:cleaner/api/api.dart';
 import 'package:get/get.dart';
 
 class AppBinding extends Bindings {

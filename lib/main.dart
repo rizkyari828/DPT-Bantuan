@@ -1,25 +1,85 @@
+import 'package:cleaner/models/push_notification.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_getx_boilerplate/shared/shared.dart';
+import 'package:cleaner/shared/shared.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-
 import 'app_binding.dart';
 import 'di.dart';
 import 'lang/lang.dart';
 import 'routes/routes.dart';
 import 'theme/theme.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'firebase_options.dart';
+
+Future<void> _messageHandler(RemoteMessage message) async {
+  print('background message ${message.notification!.body}');
+}
+
+/// Create a [AndroidNotificationChannel] for heads up notifications
+late AndroidNotificationChannel channel;
+
+/// Initialize the [FlutterLocalNotificationsPlugin] package.
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DenpendencyInjection.init();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_messageHandler);
+  // await Firebase.initializeApp(
+  //   options: const FirebaseOptions(
+  //     apiKey: 'AIzaSyAHAsf51D0A407EklG1bs-5wA7EbyfNFg0',
+  //     appId: '1:740236615990:android:5c7ee6e55ca7b3e48dd397',
+  //     messagingSenderId: '740236615990',
+  //     projectId: 'sigesit-143f5',
+  //   ),
+  // );
 
-  runApp(App());
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  if (!kIsWeb) {
+    channel = const AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      // 'This channel is used for important notifications.', // description
+      importance: Importance.high,
+    );
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    /// Create an Android Notification Channel.
+    ///
+    /// We use this channel in the `AndroidManifest.xml` file to override the
+    /// default FCM channel to enable heads up notifications.
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    /// Update the iOS foreground notification presentation options to allow
+    /// heads up notifications.
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+  await initializeDateFormatting('id_ID', "").then((_) => runApp(App()));
   configLoading();
 }
 
 class App extends StatelessWidget {
+  // final List<FirebaseMessage> messageList = [];
+
   @override
   Widget build(BuildContext context) {
+    initFCM();
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       enableLog: true,
@@ -28,7 +88,7 @@ class App extends StatelessWidget {
       getPages: AppPages.routes,
       initialBinding: AppBinding(),
       smartManagement: SmartManagement.keepFactory,
-      title: 'Flutter GetX Boilerplate',
+      title: 'SIGESIT',
       theme: ThemeConfig.lightTheme,
       locale: TranslationService.locale,
       fallbackLocale: TranslationService.fallbackLocale,
@@ -52,4 +112,92 @@ void configLoading() {
     ..userInteractions = false
     ..dismissOnTap = false
     ..animationStyle = EasyLoadingAnimationStyle.scale;
+}
+
+void initFCM() async {
+  // if (StringUtils.isEmpty(_userData.token)) return; // stop
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else {
+    print('User declined or has not accepted permission');
+  }
+
+  messaging.getToken().then((value) {
+    print("token FCM ${value}");
+  });
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage event) {
+    PushNotification notification = PushNotification(
+      title: event.notification?.title,
+      body: event.notification?.body,
+      // type: event.notification?.type,
+    );
+
+    FirebaseMessaging.onBackgroundMessage(_messageHandler);
+
+    print("message recieved");
+    print(event.notification!.body);
+    Get.snackbar(
+      event.notification!.title ?? '',
+      event.notification!.body.toString(),
+      icon: Icon(Icons.person, color: Colors.white),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: Colors.green,
+      borderRadius: 20,
+      margin: EdgeInsets.all(15),
+      colorText: Colors.white,
+      duration: Duration(seconds: 4),
+      isDismissible: true,
+      // //dismissDirection: SnackDismissDirection.HORIZONTAL,
+      forwardAnimationCurve: Curves.easeOutBack,
+    );
+  });
+
+  // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+  //   print('Message clicked!');
+  //   // print(message);
+  //   if (message.data.containsKey('type')) {
+  //     if (message.data['type'] == 'cnc') {
+  //       Get.toNamed(Routes.CN_C);
+  //     } else if (message.data['type'] == 'izin') {
+  //       Get.toNamed(Routes.IZIN);
+  //     } else if (message.data['type'] == 'cuti') {
+  //       Get.toNamed(Routes.CUTI);
+  //     } else if (message.data['type'] == 'overtime') {
+  //       Get.toNamed(Routes.LEMBUR);
+  //     } else if (message.data['type'] == 'task') {
+  //       Get.toNamed(Routes.HOME);
+  //     } else {
+  //       Get.toNamed(Routes.HOME);
+  //     }
+  //   }
+  // });
+  // FirebaseMessaging.instance
+  //     .getInitialMessage()
+  //     .then((RemoteMessage? message) {
+  //   if (message != null) {
+  //     // _openNotificationPage(message);
+  //   }
+  // });
+  // FirebaseMessaging.onMessage.listen(_handleFirebaseMessage);
+  // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  //   print('A new onMessageOpenedApp event was published!');
+  //   // _openNotificationPage(message);
+  // });
+  // FirebaseMessaging.onMessageOpenedApp.listen(_openNotificationPage);
+  // FirebaseMessaging.instance.getInitialMessage().then((remoteMessage) {
+  //   if (remoteMessage != null) _openNotificationPage(remoteMessage);
+  // });
 }

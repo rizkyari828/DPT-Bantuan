@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_boilerplate/modules/auth/auth.dart';
-import 'package:flutter_getx_boilerplate/shared/shared.dart';
+import 'package:cleaner/modules/auth/auth.dart';
+import 'package:cleaner/shared/shared.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -13,12 +13,7 @@ class RegisterScreen extends StatelessWidget {
         GradientBackground(),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: CommonWidget.appBar(
-            context,
-            'Sign Up',
-            Icons.arrow_back,
-            Colors.white,
-          ),
+          appBar: CommonWidget.appBar(title: 'Register'),
           body: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(horizontal: 35.0),
@@ -31,7 +26,7 @@ class RegisterScreen extends StatelessWidget {
 
   Widget _buildForms(BuildContext context) {
     return Form(
-      key: controller.registerFormKey,
+      // key: controller.registerFormKey,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,116 +1,146 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_boilerplate/shared/shared.dart';
-import 'package:flutter_getx_boilerplate/shared/widgets/button.dart';
+import 'package:cleaner/shared/shared.dart';
+import 'package:cleaner/shared/widgets/button.dart';
 import 'package:get/get.dart';
 
 import 'auth_controller.dart';
 
-class LoginScreen extends StatelessWidget {
-  final AuthController controller = Get.arguments;
+class LoginScreen extends GetView<AuthController> {
+  // final AuthController controller = Get.arguments;
   @override
   Widget build(BuildContext context) {
     double scaleWidth = MediaQuery.of(context).size.width / 360;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: scaleWidth * 150),
-            // height: 10,
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 35.0),
-            child: _buildForms(context),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.height,
-            height: scaleWidth * 250,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-              ),
-              // borderRadius: BorderRadius.circular(15),
-              color: ColorConstants.mainColor,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 60.0),
-            child: Container(
-              height: scaleWidth * 200,
-              child: Center(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Text("LOGO", style: TextStyle(fontSize: 30)),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/images/login.png'), fit: BoxFit.cover),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 200)),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    height: MediaQuery.of(context).size.height * .12,
+                    width: MediaQuery.of(context).size.width * .55,
+                    fit: BoxFit.fill,
                   ),
-                  // Image.asset(
-                  //   'assets/images/icon_success.png',
-                  //   height: MediaQuery.of(context).size.height / 7,
-                  //   width: MediaQuery.of(context).size.width / 2.5,
-                  //   fit: BoxFit.fill,
-                  // ),
                 ),
-              ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 35.0),
+                  child: _buildForms(context),
+                ),
+                CommonWidget.rowHeight(),
+                Container(
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(child: helpLabel))),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
+  final helpLabel = Container(
+    alignment: Alignment.center,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          child: Text(
+            "02619277700",
+            style:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+          ),
+          onTap: () {},
+        ),
+        Text(
+          "  |  ",
+          style: TextStyle(color: Colors.white),
+        ),
+        InkWell(
+          child: Text(
+            "Contact Support",
+            style:
+                TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+          ),
+          onTap: () {},
+        )
+      ],
+    ),
+  );
+
   Widget _buildForms(BuildContext context) {
     return Form(
-      key: controller.loginFormKey,
+      key: controller.formKey,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: CommonWidget.headText(text: "Selamat Datang")),
             CommonWidget.rowHeight(height: 32),
             InputField(
+              prefixIcon: Icon(
+                Icons.person,
+                size: 30,
+              ),
               controller: controller.loginEmailController,
               keyboardType: TextInputType.text,
               placeholder: 'Username',
               validator: (value) {
-                if (!Regex.isEmail(value!)) {
-                  return 'Email format error.';
-                }
+                // if (!Regex.isEmail(value!)) {
+                //   return 'username format error.';
+                // }
 
-                if (value.isEmpty) {
-                  return 'Email is required.';
-                }
+                // if (value.isEmpty) {
+                //   return 'Email is required.';
+                // }
                 return null;
               },
             ),
             CommonWidget.rowHeight(),
-            InputField(
-              controller: controller.loginPasswordController,
-              keyboardType: TextInputType.emailAddress,
-              placeholder: 'Password',
-              password: true,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Password is required.';
-                }
+            Obx(() => InputField(
+                  textObscured: controller.isObscured.value,
+                  isPassword: true,
+                  onVisibilityPressed: () {
+                    controller.toggleVisibility();
+                  },
+                  prefixIcon: Icon(
+                    Icons.vpn_key_rounded,
+                    size: 30,
+                  ),
+                  controller: controller.loginPasswordController,
+                  keyboardType: TextInputType.emailAddress,
+                  placeholder: 'Password',
+                  password: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Password is required.';
+                    }
+                    if (value.length < 6) {
+                      return 'Password should be more then 6 characters';
+                    }
 
-                if (value.length < 6 || value.length > 15) {
-                  return 'Password should be 6~15 characters';
-                }
-
-                return null;
-              },
-            ),
-            TextButton(
-              onPressed: () {
-                // Navigator.of(context).push(new MaterialPageRoute(
-                //     builder: (BuildContext context) => LupaPassword()));
-              },
-              child: CommonWidget.subtitleText(text: "Lupa Password?"),
-            ),
-            CommonWidget.rowHeight(height: 32),
+                    return null;
+                  },
+                )),
+            // CommonWidget.rowHeight(),
+            // TextButton(
+            //   onPressed: () {
+            //     // Navigator.of(context).push(new MaterialPageRoute(
+            //     //     builder: (BuildContext context) => LupaPassword()));
+            //   },
+            //   child: CommonWidget.subtitleText(
+            //       text: "Lupa Password?", color: Colors.white),
+            // ),
+            CommonWidget.rowHeight(),
             CustomButton(
               buttonText: 'LOGIN',
               width: MediaQuery.of(context).size.width,

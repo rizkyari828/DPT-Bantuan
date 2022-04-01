@@ -1,5 +1,5 @@
-import 'package:flutter_getx_boilerplate/routes/routes.dart';
-import 'package:flutter_getx_boilerplate/shared/shared.dart';
+import 'package:cleaner/routes/routes.dart';
+import 'package:cleaner/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,16 +8,16 @@ class SplashController extends GetxController {
   void onReady() async {
     super.onReady();
 
-    await Future.delayed(Duration(milliseconds: 2000));
+    await Future.delayed(Duration(milliseconds: 3000));
     var storage = Get.find<SharedPreferences>();
     try {
       if (storage.getString(StorageConstants.token) != null) {
         Get.toNamed(Routes.HOME);
       } else {
-        Get.toNamed(Routes.AUTH);
+        Get.toNamed(Routes.LOGIN);
       }
     } catch (e) {
-      Get.toNamed(Routes.AUTH);
+      Get.toNamed(Routes.LOGIN);
     }
   }
 }

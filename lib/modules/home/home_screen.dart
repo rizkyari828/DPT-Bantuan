@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_boilerplate/modules/home/home.dart';
-import 'package:flutter_getx_boilerplate/shared/shared.dart';
+import 'package:cleaner/modules/home/home.dart';
+import 'package:cleaner/shared/shared.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -19,64 +19,120 @@ class HomeScreen extends GetView<HomeController> {
       body: Center(
         child: _buildContent(controller.currentTab.value),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          _buildNavigationBarItem(
-            "Beranda",
-            MainTabs.home == controller.currentTab.value
-                ? "icon_home_activited.svg"
-                : "icon_home.svg",
-          ),
-          _buildNavigationBarItem(
-            "Absen",
-            MainTabs.discover == controller.currentTab.value
-                ? "icon_discover_activited.svg"
-                : "icon_discover.svg",
-          ),
-          _buildNavigationBarItem(
-            "Task List",
-            MainTabs.inbox == controller.currentTab.value
-                ? "icon_inbox_activited.svg"
-                : "icon_inbox.svg",
-          ),
-          _buildNavigationBarItem(
-            "Profile",
-            MainTabs.me == controller.currentTab.value
-                ? "icon_me_activited.svg"
-                : "icon_me.svg",
-          )
-        ],
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: ColorConstants.black,
-        currentIndex: controller.getCurrentIndex(controller.currentTab.value),
-        selectedItemColor: ColorConstants.black,
-        selectedLabelStyle: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-        ),
-        onTap: (index) => controller.switchTab(index),
-      ),
+      bottomNavigationBar: _navBar(),
     );
   }
 
+  Widget _navBar() {
+    return controller.groupId.value == '5'
+        ? BottomNavigationBar(
+            iconSize: 30,
+            backgroundColor: Colors.white,
+            items: [
+              _buildNavigationBarItem(
+                "Beranda",
+                MainTabs.home == controller.currentTab.value
+                    ? Icon(Icons.home_rounded)
+                    : Icon(Icons.home_outlined),
+              ),
+              _buildNavigationBarItem(
+                "Absen",
+                MainTabs.discover == controller.currentTab.value
+                    ? Icon(Icons.alarm)
+                    : Icon(Icons.alarm_outlined),
+              ),
+              _buildNavigationBarItem(
+                "Task List",
+                MainTabs.inbox == controller.currentTab.value
+                    ? Icon(Icons.task)
+                    : Icon(Icons.task_outlined),
+              ),
+              _buildNavigationBarItem(
+                "Profile",
+                MainTabs.me == controller.currentTab.value
+                    ? Icon(Icons.person_rounded)
+                    : Icon(Icons.person_outline_rounded),
+              )
+            ],
+            type: BottomNavigationBarType.fixed,
+            unselectedItemColor: Colors.grey,
+            selectedItemColor: ColorConstants.mainColor,
+            currentIndex:
+                controller.getCurrentIndex(controller.currentTab.value),
+            selectedLabelStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+            onTap: (index) => controller.switchTab(index),
+          )
+        : BottomNavigationBar(
+            iconSize: 30,
+            backgroundColor: Colors.white,
+            items: [
+              _buildNavigationBarItem(
+                "Beranda",
+                MainTabs.home == controller.currentTab.value
+                    ? Icon(Icons.home_rounded)
+                    : Icon(Icons.home_outlined),
+              ),
+              _buildNavigationBarItem(
+                "Task List",
+                MainTabs.inbox == controller.currentTab.value
+                    ? Icon(Icons.task)
+                    : Icon(Icons.task_outlined),
+              ),
+              _buildNavigationBarItem(
+                "Profile",
+                MainTabs.me == controller.currentTab.value
+                    ? Icon(Icons.person_rounded)
+                    : Icon(Icons.person_outline_rounded),
+              )
+            ],
+            type: BottomNavigationBarType.fixed,
+            unselectedItemColor: Colors.grey,
+            selectedItemColor: ColorConstants.mainColor,
+            currentIndex:
+                controller.getCurrentIndex(controller.currentTab.value),
+            selectedLabelStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+            onTap: (index) => controller.switchTab(index),
+          );
+  }
+
   Widget _buildContent(MainTabs tab) {
-    switch (tab) {
-      case MainTabs.home:
-        return controller.mainTab;
-      case MainTabs.discover:
-        return controller.discoverTab;
-      case MainTabs.inbox:
-        return controller.inboxTab;
-      case MainTabs.me:
-        return controller.meTab;
-      default:
-        return controller.mainTab;
+    if (controller.groupId.value == '3' || controller.groupId.value == '4') {
+      switch (tab) {
+        case MainTabs.home:
+          return controller.mainTab;
+        case MainTabs.inbox:
+          return controller.taskListTab;
+        case MainTabs.me:
+          return controller.meTab;
+        default:
+          return controller.mainTab;
+      }
+    } else {
+      switch (tab) {
+        case MainTabs.home:
+          return controller.mainTab;
+        case MainTabs.discover:
+          return controller.discoverTab;
+        case MainTabs.inbox:
+          return controller.taskListTab;
+        case MainTabs.me:
+          return controller.meTab;
+        default:
+          return controller.mainTab;
+      }
     }
   }
 
-  BottomNavigationBarItem _buildNavigationBarItem(String label, String svg) {
+  BottomNavigationBarItem _buildNavigationBarItem(String label, Icon svg) {
     return BottomNavigationBarItem(
-      icon: SvgPicture.asset('assets/svgs/$svg'),
+      backgroundColor: Colors.white,
+      icon: svg,
       label: label,
     );
   }
