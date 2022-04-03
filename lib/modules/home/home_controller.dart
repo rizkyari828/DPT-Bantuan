@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cleaner/models/request/logout_request.dart';
 import 'package:cleaner/models/request/rate/submit_rate_request.dart';
 import 'package:cleaner/models/request/update_fcm_profile_request.dart';
+import 'package:cleaner/models/request/update_photo_profile_request.dart';
 import 'package:cleaner/models/response/rate/show_rate_review_response.dart';
+import 'dart:io' as Io;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,7 +18,9 @@ import 'package:cleaner/shared/shared.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:mime/mime.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,6 +57,20 @@ class HomeController extends GetxController {
 
   var showRate = ShowReviewRateData().obs;
 
+  var imageFileList = <XFile>[].obs;
+
+  set _imageFile(XFile? value) {
+    imageFileList.addAll((value == null ? null : <XFile>[value])!);
+  }
+
+  dynamic pickImageError;
+  RxString? retrieveDataError;
+
+  final ImagePicker _picker = ImagePicker();
+  final TextEditingController maxWidthController = TextEditingController();
+  final TextEditingController maxHeightController = TextEditingController();
+  final TextEditingController qualityController = TextEditingController();
+
   late BuildContext context;
 
   @override
@@ -65,12 +84,12 @@ class HomeController extends GetxController {
     meTab = MeTab();
     determinePosition();
 
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    messaging.getToken().then((value) {
-      print("token FCM Home ${value}");
-      submitToken(value);
-    });
+    // messaging.getToken().then((value) {
+    //   print("token FCM Home ${value}");
+    //   submitToken(value);
+    // });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       if (message.data.containsKey('type')) {
@@ -126,7 +145,6 @@ class HomeController extends GetxController {
                       rate: response.rating.round(), note: response.comment);
                   print(
                       'rating: ${response.rating}, comment: ${response.comment}');
-                  // TODO: add your own logic
                   if (response.rating < 3.0) {
                     // send their comments to your email or anywhere you wish
                     // ask the user to contact you instead of leaving a bad review
@@ -157,6 +175,7 @@ class HomeController extends GetxController {
   }
 
   void signout() async {
+    EasyLoading.show(status: 'loading..');
     await Future.delayed(Duration(milliseconds: 3000));
     var storage = Get.find<SharedPreferences>();
     try {
@@ -169,6 +188,7 @@ class HomeController extends GetxController {
 
           // NavigatorHelper.popLastScreens(popCount: 1);
           goToLoginPages();
+          EasyLoading.dismiss();
         } else {
           Get.snackbar(
             "Error",
@@ -190,12 +210,55 @@ class HomeController extends GetxController {
         storage.clear();
         // NavigatorHelper.popLastScreens(popCount: 1);
         goToLoginPages();
+        EasyLoading.dismiss();
       }
     } catch (e) {
       storage.clear();
       // NavigatorHelper.popLastScreens(popCount: 1);
       goToLoginPages();
+      EasyLoading.dismiss();
     }
+  }
+
+  Future<void> onImageButtonPressed(ImageSource source,
+      {BuildContext? context, bool isMultiImage = false}) async {
+    imageFileList.clear();
+    if (isMultiImage) {
+      await _displayPickImageDialog(context!,
+          (double? maxWidth, double? maxHeight, int? quality) async {
+        try {
+          final List<XFile>? pickedFileList = await _picker.pickMultiImage(
+            maxWidth: maxWidth,
+            maxHeight: maxHeight,
+            imageQuality: quality,
+          );
+
+          imageFileList.addAll(pickedFileList!);
+        } catch (e) {
+          pickImageError = e;
+        }
+      });
+    } else {
+      await _displayPickImageDialog(context!,
+          (double? maxWidth, double? maxHeight, int? quality) async {
+        try {
+          final XFile? pickedFile = await _picker.pickImage(
+            source: source,
+            maxWidth: maxWidth,
+            maxHeight: maxHeight,
+            imageQuality: quality,
+          );
+
+          _imageFile = pickedFile;
+        } catch (e) {
+          pickImageError = e;
+        }
+      });
+    }
+  }
+
+  Future<void> _displayPickImageDialog(BuildContext context, onPick) async {
+    return onPick(200.0, 200.0, 50);
   }
 
   void switchTab(index) {
@@ -377,6 +440,36 @@ class HomeController extends GetxController {
       EasyLoading.showError('Gagal disimpan');
     }
     // listType.addAll(res?.data ?? []);
+  }
+
+  void submitPhotoProfile() async {
+    List<String> _afterBase64 = [];
+    EasyLoading.show(status: 'loading..');
+    for (var itemBefore in imageFileList) {
+      var mimeType = lookupMimeType(itemBefore.path);
+      var bytesBefore = await Io.File(itemBefore.path).readAsBytes();
+      String img64 = 'data:' +
+          mimeType.toString() +
+          ';base64,' +
+          base64Encode(bytesBefore);
+      _afterBase64.add(img64);
+    }
+
+    final res = await apiRepository.updatePhotoProfile(
+        UpdatePhotoProfileRequest(base64Photo: _afterBase64.first));
+    if (res!.error == false) {
+      EasyLoading.showSuccess('Berhasil disimpan');
+      final prefs = Get.find<SharedPreferences>();
+      prefs.setString(
+          StorageConstants.profilePhoto, res.data?.profilePhotoPath ?? "");
+      profilePhoto.value = res.data?.profilePhotoPath ?? "";
+      onRefresh();
+      EasyLoading.dismiss();
+      Get.back();
+    } else {
+      EasyLoading.showError('Gagal disimpan');
+      EasyLoading.dismiss();
+    }
   }
 
   void goToLoginPages() {

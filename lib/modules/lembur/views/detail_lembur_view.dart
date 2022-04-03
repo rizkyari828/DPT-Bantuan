@@ -1,12 +1,11 @@
 import 'dart:convert';
-
-import 'package:cleaner/models/request/overtime/set_done_overtime_request.dart';
 import 'package:cleaner/modules/lembur/controllers/lembur_detail_controller.dart';
 import 'package:cleaner/shared/shared.dart';
 import 'package:cleaner/shared/widgets/approval.dart';
 import 'package:cleaner/shared/widgets/button.dart';
 import 'package:cleaner/shared/widgets/image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cleaner/models/request/overtime/set_done_overtime_request.dart'
@@ -19,7 +18,6 @@ class LemburDetailView extends GetView<LemburDetailController> {
   @override
   Widget build(BuildContext context) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: CommonWidget.appBar(title: 'Detail Lembur'),
@@ -88,11 +86,38 @@ class LemburDetailView extends GetView<LemburDetailController> {
                   ),
                   SizedBox(height: 10.0),
                   controller.groupId.toString() != '5'
-                      ? InputInputField(
-                          keyboardType: TextInputType.number,
-                          controller: controller.actualTimeController,
-                          labelText: "Actual Time (Jam)",
+                      ? Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 11,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: DropdownSearch<dynamic>(
+                              selectedItem:
+                                  controller.actualTimeController.text,
+                              dropdownSearchDecoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: ColorConstants.mainColor),
+                                ),
+                                labelText: "Actual Timee (Jam)",
+                              ),
+                              items: controller.arrayFive.map((item) {
+                                return item.toString();
+                              }).toList(),
+                              maxHeight: 300,
+                              onChanged: (value) async {
+                                controller.actualTimeController.text = value;
+                              },
+                              showSearchBox: true,
+                            ),
+                          ),
                         )
+                      // InputInputField(
+                      //     keyboardType: TextInputType.number,
+                      //     controller: controller.actualTimeController,
+                      //     labelText: "Actual Time (Jam)",
+                      //   )
                       : CommonWidget.labelExpanded(
                           label: 'Actual Time (Jam)',
                           value: controller.actualTimeController.text),
@@ -227,7 +252,6 @@ class LemburDetailView extends GetView<LemburDetailController> {
 
   Widget dokumenPhoto(LemburDetailController controller) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       height: 300,
       child: ListView.builder(
@@ -277,8 +301,8 @@ class LemburDetailView extends GetView<LemburDetailController> {
                                       .toString() ??
                                   '';
                               return Container(
-                                width: 50,
-                                height: 50,
+                                width: 150,
+                                height: 150,
                                 child: Image.network(
                                   beforePhotos,
                                 ),
@@ -307,8 +331,8 @@ class LemburDetailView extends GetView<LemburDetailController> {
                                       .toString() ??
                                   '';
                               return Container(
-                                height: 50,
-                                width: 50,
+                                height: 150,
+                                width: 150,
                                 child: Image.network(
                                   beforePhotos,
                                 ),
@@ -329,9 +353,6 @@ class LemburDetailView extends GetView<LemburDetailController> {
   }
 
   Widget dokumenSetDonePhoto(setdone.OvertimeRoomPhoto dokumenRoom) {
-    // print(dokumenRoom.value.base64BeforePhotos?.length);
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       height: 320,
       child: Padding(
@@ -503,7 +524,6 @@ class LemburDetailView extends GetView<LemburDetailController> {
 
   Widget addSheetBar(BuildContext context, int list) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       width: sw,
       child: InkWell(

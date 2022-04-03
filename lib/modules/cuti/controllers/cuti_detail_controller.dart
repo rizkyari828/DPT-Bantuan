@@ -5,7 +5,6 @@ import 'package:cleaner/models/request/cnc/submit_cnc.dart' as item;
 import 'package:cleaner/models/request/cnc/submit_cnc.dart';
 import 'package:cleaner/models/request/cuti/update_approval_request.dart';
 import 'package:cleaner/models/response/cnc/list_item.dart';
-import 'package:cleaner/models/response/cnc/show.dart';
 import 'package:cleaner/models/response/cuti/show_cuti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -67,8 +66,6 @@ class CutiDetailController extends GetxController {
   }
 
   void getDetailCuti() async {
-    String _idCuti = argm;
-    // print(argm[0]);
     final res = await apiRepository.showCuti(argm.toString());
     detail.value = res!.data!;
     noRequestController.text = detail.value.code ?? '';

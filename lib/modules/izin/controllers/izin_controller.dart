@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:cleaner/api/api_repository.dart';
-import 'package:cleaner/models/request/attendance/submit_attendance.dart';
 import 'package:cleaner/models/request/izin/submit_izin_request.dart';
 import 'package:cleaner/models/response/izin/type_izin.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +80,7 @@ class IzinController extends GetxController {
 
   void submit() async {
     List<String> _afterBase64 = [];
+    EasyLoading.show(status: 'loading..');
 
     for (var itemBefore in imageFileList) {
       var mimeType = lookupMimeType(itemBefore.path);
@@ -103,6 +103,7 @@ class IzinController extends GetxController {
     );
     if (res!.error == false) {
       EasyLoading.showSuccess('Berhasil disimpan');
+      EasyLoading.dismiss();
       Get.back();
     } else {
       EasyLoading.showError('Gagal disimpan');

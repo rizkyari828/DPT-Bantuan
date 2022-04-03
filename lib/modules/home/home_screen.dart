@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cleaner/modules/home/home.dart';
 import 'package:cleaner/shared/shared.dart';
-
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends GetView<HomeController> {

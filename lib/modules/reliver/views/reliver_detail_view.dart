@@ -1,4 +1,3 @@
-import 'package:cleaner/modules/izin/controllers/izin_detail_controller.dart';
 import 'package:cleaner/modules/reliver/controllers/reliver_detail_controller.dart';
 import 'package:cleaner/shared/shared.dart';
 import 'package:cleaner/shared/widgets/approval.dart';
@@ -10,8 +9,6 @@ class ReliverDetailView extends GetView<ReliverDetailController> {
   final data = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonWidget.appBar(title: 'Detail Reliver'),

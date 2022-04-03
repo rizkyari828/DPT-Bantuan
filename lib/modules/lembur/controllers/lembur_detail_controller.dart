@@ -4,14 +4,12 @@ import 'dart:io' as Io;
 import 'package:cleaner/api/api_repository.dart';
 import 'package:cleaner/models/request/overtime/set_done_overtime_request.dart'
     as setdone;
-import 'package:cleaner/models/request/overtime/submit_request_overtime.dart';
 import 'package:cleaner/models/request/overtime/update_approval_overtime_request.dart';
 import 'package:cleaner/models/response/overtime/show.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mime/mime.dart';
 
@@ -21,6 +19,25 @@ class LemburDetailController extends GetxController {
 
   final argm = Get.arguments;
   var detail = DataDetailOvertime().obs;
+  var arrayFive = <double>[
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5,
+    4.0,
+    4.5,
+    5.0,
+    5.5,
+    6.0,
+    6.5,
+    7.0,
+    7.5,
+    8.0,
+    8.5
+  ].obs;
   String date = "";
   DateTime selectedDate = DateTime.now();
   final noRequestController = TextEditingController();
@@ -208,6 +225,7 @@ class LemburDetailController extends GetxController {
   }
 
   void submit() async {
+    EasyLoading.show(status: 'loading..');
     var dokumentRoom = <setdone.OvertimeRoomPhoto>[].obs;
 
     if (isFilledDokumentRoom1.value) {
@@ -225,27 +243,28 @@ class LemburDetailController extends GetxController {
     if (isFilledDokumentRoom5.value) {
       dokumentRoom.add(dokumentRoom5.value);
     }
-
-    print(argm);
     final res = await apiRepository.setDoneOvertime(argm,
         setdone.SetDoneOvertimeRequest(overtimeRoomPhotos: dokumentRoom.value));
-    print(res);
     if (res!.error == false) {
       EasyLoading.showSuccess('Berhasil disimpan');
+      Get.back();
+      EasyLoading.dismiss();
     } else {
       EasyLoading.showError('Gagal disimpan');
+      EasyLoading.dismiss();
     }
   }
 
   void approval({
     action = "reject",
   }) async {
+    print("total" + actualTimeController.text);
     final res = await apiRepository.updateApprovalOvertime(
       detail.value.id.toString(),
       UpdateApprovalOvertimeRequest(
           action: action,
           noteApproval: approvalController.value.text,
-          actualTime: int.parse(actualTimeController.value.text)),
+          actualTime: double.parse(actualTimeController.value.text)),
     );
     if (res!.error == false) {
       getDetailOvertime();
@@ -382,51 +401,5 @@ class LemburDetailController extends GetxController {
     _afterBase641.clear();
     _beforeBase642.clear();
     _afterBase642.clear();
-  }
-
-  void deleteGoods({name}) {
-    // goods.removeWhere((e) => e.name == name);
-
-    // int _idItemSearch = 0;
-    // for (var f in listItem) {
-    //   if (f.name.toString() == name) {
-    //     _idItemSearch = f.id ?? 0;
-    //   }
-    // }
-
-    // submitItem.removeWhere((element) => element.itemId == _idItemSearch);
-
-    // print(submitItem);
-
-    // Get.back();
-  }
-
-  void approvalCnC({
-    action = "reject",
-  }) async {
-    // if (submitItem.value.length == 0) {
-    //   EasyLoading.showError('Tidak ada item yang di submit');
-    //   return;
-    // } else {
-    //   List<ItemListApproval> _submitedItem = [];
-    //   for (var data in submitItem.value) {
-    //     _submitedItem.add(ItemListApproval(
-    //       itemId: data.itemId,
-    //       quantity: data.quantity ?? 0,
-    //     ));
-    //   }
-
-    //   final res = await apiRepository.updateApprovalCnC(
-    //     detail.value.id.toString(),
-    //     ApprovalCnCRequest(action: action, itemList: _submitedItem),
-    //   );
-    //   if (res!.error == false) {
-    //     getDetailOvertime();
-    //     loadUsers();
-    //     EasyLoading.showSuccess('Berhasil disimpan');
-    //   } else {
-    //     EasyLoading.showError('Gagal disimpan');
-    //   }
-    // }
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:cleaner/modules/home/home_controller.dart';
 import 'package:cleaner/modules/lembur/controllers/lembur_detail_controller.dart';
 import 'package:cleaner/modules/task_list/controllers/task_list_detail_controller.dart';
 import 'package:cleaner/shared/shared.dart';
-import 'package:cleaner/shared/utils/common_widget.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,38 +11,23 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CustomImagePicker {
-  static Widget previewImages(controller) {
+  static Widget previewImages(HomeController controller) {
     final Text? retrieveError = _getRetrieveErrorWidget(controller);
     if (retrieveError != null) {
       return retrieveError;
     }
-    if (controller.imageFileList != null) {
+    if (controller.imageFileList.isNotEmpty) {
       return Semantics(
-          child: ListView.builder(
-            key: UniqueKey(),
-            itemBuilder: (BuildContext context, int index) {
-              // Why network for web?
-              // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
-              return Semantics(
-                label: 'image_picker_example_picked_image',
-                child: kIsWeb
-                    ? Image.network(controller.imageFileList[index].path)
-                    : Image.file(File(controller.imageFileList[index].path)),
-              );
-            },
-            itemCount: controller.imageFileList.length,
-          ),
-          label: 'image_picker_example_picked_images');
+        label: 'image_picker_example_picked_image',
+        child: kIsWeb
+            ? Image.network(controller.imageFileList.first.path)
+            : Image.file(File(controller.imageFileList.first.path)),
+      );
     } else if (controller.pickImageError != null) {
-      return Text(
-        'Pick image error: ${controller.pickImageError}',
-        textAlign: TextAlign.center,
-      );
+      return CommonWidget.bodyText(text: "Loading", color: Colors.grey);
     } else {
-      return const Text(
-        'You have not yet picked an image.',
-        textAlign: TextAlign.center,
-      );
+      return CommonWidget.bodyText(
+          text: "Anda belum memilih foto", color: Colors.grey);
     }
   }
 
@@ -215,7 +200,6 @@ class CustomImagePicker {
 
   static Widget cardPickCamera(context, controller) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -265,7 +249,6 @@ class CustomImagePicker {
   static Widget cardBeforeAfterPickCamera(
       context, LemburDetailController controller, int list) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Obx(() => Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -357,7 +340,6 @@ class CustomImagePicker {
   static Widget cardPickOneBeforeAfterCamera(
       context, TaskListDetailController controller, String type) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

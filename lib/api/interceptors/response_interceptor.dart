@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cleaner/routes/routes.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:cleaner/models/models.dart';
 import 'package:cleaner/shared/shared.dart';
@@ -46,6 +45,11 @@ void handleErrorStatus(Response response) {
     } else {
       CommonWidget.errorSnackBar(message.message);
     }
+    EasyLoading.dismiss();
+    return;
+  } else if (response.statusCode == 422) {
+    final message = ErrorResponse.fromJson(response.body);
+    CommonWidget.errorSnackBar(message.message);
     EasyLoading.dismiss();
     return;
   } else {

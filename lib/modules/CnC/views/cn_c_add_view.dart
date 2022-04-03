@@ -13,7 +13,6 @@ class CnCAddView extends GetView<CnCController> {
   @override
   Widget build(BuildContext context) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonWidget.appBar(title: 'Add CnC'),
@@ -126,7 +125,6 @@ class CnCAddView extends GetView<CnCController> {
 
   Widget addSheetBar(BuildContext context) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       width: sw,
       child: InkWell(

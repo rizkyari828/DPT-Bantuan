@@ -1,4 +1,3 @@
-import 'package:cleaner/modules/CnC/controllers/cn_c_detail_controller.dart';
 import 'package:cleaner/modules/cuti/controllers/cuti_detail_controller.dart';
 import 'package:cleaner/shared/shared.dart';
 import 'package:cleaner/shared/widgets/approval.dart';
@@ -7,14 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:dotted_border/dotted_border.dart';
 
 class CutiDetailView extends GetView<CutiDetailController> {
   final data = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonWidget.appBar(title: 'Detail Cuti'),
@@ -97,7 +93,6 @@ class CutiDetailView extends GetView<CutiDetailController> {
 
   Widget addSheetBar(BuildContext context) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       width: sw,
       child: InkWell(

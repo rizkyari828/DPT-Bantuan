@@ -1,3 +1,5 @@
+import 'package:cleaner/models/request/update_fcm_profile_request.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:cleaner/api/api.dart';
 import 'package:cleaner/models/models.dart';
@@ -32,29 +34,6 @@ class AuthController extends GetxController {
     super.onReady();
   }
 
-  void register(BuildContext context) async {
-    AppFocus.unfocus(context);
-    // if (registerFormKey.currentState!.validate()) {
-    //   if (!registerTermsChecked) {
-    //     CommonWidget.toast('Please check the terms first.');
-    //     return;
-    //   }
-
-    //   final res = await apiRepository.register(
-    //     RegisterRequest(
-    //       email: registerEmailController.text,
-    //       password: registerPasswordController.text,
-    //     ),
-    //   );
-
-    //   final prefs = Get.find<SharedPreferences>();
-    //   if (res!.token.isNotEmpty) {
-    //     prefs.setString(StorageConstants.token, res.token);
-    //     print('Go to Home screen');
-    //   }
-    // }
-  }
-
   void login(BuildContext context) async {
     AppFocus.unfocus(context);
     if (formKey.currentState!.validate()) {
@@ -86,6 +65,47 @@ class AuthController extends GetxController {
         Get.toNamed(Routes.HOME);
       }
     }
+
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    messaging.getToken().then((value) {
+      print("token FCM Home ${value}");
+      submitToken(value);
+    });
+  }
+
+  void submitToken(token) async {
+    final res = await apiRepository
+        .updateFcmProfile(UpdateFcmProfileRequest(fcmToken: token));
+    if (res!.error == false) {
+      print('Token updated');
+    } else {
+      print('Token update failed');
+    }
+    // listType.addAll(res?.data ?? []);
+  }
+
+  void register(BuildContext context) async {
+    AppFocus.unfocus(context);
+    // if (registerFormKey.currentState!.validate()) {
+    //   if (!registerTermsChecked) {
+    //     CommonWidget.toast('Please check the terms first.');
+    //     return;
+    //   }
+
+    //   final res = await apiRepository.register(
+    //     RegisterRequest(
+    //       email: registerEmailController.text,
+    //       password: registerPasswordController.text,
+    //     ),
+    //   );
+
+    //   final prefs = Get.find<SharedPreferences>();
+    //   if (res!.token.isNotEmpty) {
+    //     prefs.setString(StorageConstants.token, res.token);
+    //     print('Go to Home screen');
+    //   }
+    // }
   }
 
   void toggleVisibility() => isObscured.value == true

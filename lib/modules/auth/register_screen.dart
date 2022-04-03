@@ -99,7 +99,7 @@ class RegisterScreen extends StatelessWidget {
               text: 'Sign Up',
               backgroundColor: Colors.white,
               onPressed: () {
-                controller.register(context);
+                // controller.register(context);
               },
             ),
           ],

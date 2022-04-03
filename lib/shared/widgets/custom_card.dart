@@ -164,7 +164,6 @@ class CustomExpandedCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       margin: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
       height: 110,

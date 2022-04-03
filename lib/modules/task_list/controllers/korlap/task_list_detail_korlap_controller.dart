@@ -111,6 +111,7 @@ class TaskListDetailKorlapController extends GetxController {
 
       if (res!.error == false) {
         EasyLoading.showSuccess('Berhasil disimpan');
+        Get.back();
       } else {
         EasyLoading.showError('Gagal disimpan');
       }
@@ -124,11 +125,12 @@ class TaskListDetailKorlapController extends GetxController {
               endTime: endTimeController.text,
               date: startDateController.text,
               userId: int.parse(idTad.value)),
-          detail.value.id.toString(),
+          detailKhusus.value.id.toString(),
           idType.value);
 
       if (res!.error == false) {
         EasyLoading.showSuccess('Berhasil disimpan');
+        Get.back();
       } else {
         EasyLoading.showError('Gagal disimpan');
       }
@@ -201,16 +203,15 @@ class TaskListDetailKorlapController extends GetxController {
       nameType.value = detailKhusus.value.task?.taskType?.name ?? '';
       noteController.text = detailKhusus.value.note ?? '';
       idBranch.value = detailKhusus.value.branchId.toString();
-      nameBranch.value =
-          detailKhusus.value.branch?.companyName.toString() ?? '';
+      nameBranch.value = detailKhusus.value.branch?.name.toString() ?? '';
       idTad.value = detailKhusus.value.userTad?.id.toString() ?? '';
       nameTad.value = detailKhusus.value.userTad?.name.toString() ?? '';
       startTimeController.text = detailKhusus.value.startTime ?? '';
       endTimeController.text = detailKhusus.value.endTime ?? '';
       idNameTask.value = detailKhusus.value.taskId.toString();
       nameTask.value = detailKhusus.value.task?.name.toString() ?? '';
-      startDateController.text = DateFormat("EEEE, d MMMM yyyy", "id_ID")
-          .format(detailKhusus.value.timestamp ?? DateTime.now())
+      startDateController.text = DateFormat("yyyy-MM-dd", "id_ID")
+          .format(detailKhusus.value.task?.createdAt ?? DateTime.now())
           .toString();
     } else {
       final res =
@@ -221,15 +222,15 @@ class TaskListDetailKorlapController extends GetxController {
       nameType.value = detail.value.task?.taskType?.name ?? '';
       noteController.text = detail.value.note ?? '';
       idBranch.value = detail.value.branchId.toString();
-      nameBranch.value = detail.value.branch?.companyName.toString() ?? '';
+      nameBranch.value = detail.value.branch?.name.toString() ?? '';
       // idTad.value = detail.value.id.toString();
       // nameTad.value = detail.value.id.toString();
       startTimeController.text = detail.value.startTime ?? '';
       endTimeController.text = detail.value.endTime ?? '';
       idNameTask.value = detail.value.taskId.toString();
       nameTask.value = detail.value.task?.name.toString() ?? '';
-      startDateController.text = DateFormat("EEEE, d MMMM yyyy", "id_ID")
-          .format(detail.value.timestamp ?? DateTime.now())
+      startDateController.text = DateFormat("yyyy-MM-dd", "id_ID")
+          .format(detail.value.task?.createdAt ?? DateTime.now())
           .toString();
     }
 

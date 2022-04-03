@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cleaner/modules/izin/controllers/izin_controller.dart';
 import 'package:cleaner/shared/constants/colors.dart';
 import 'package:cleaner/shared/utils/utils.dart';
@@ -19,7 +17,6 @@ class AddIzinView extends GetView<IzinController> {
   @override
   Widget build(BuildContext context) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonWidget.appBar(title: 'Tambah Izin'),

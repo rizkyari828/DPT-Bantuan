@@ -9,7 +9,6 @@ class LoginScreen extends GetView<AuthController> {
   // final AuthController controller = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    double scaleWidth = MediaQuery.of(context).size.width / 360;
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(

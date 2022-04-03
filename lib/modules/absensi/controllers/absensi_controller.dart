@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AbsensiController extends GetxController {
-  //TODO: Implement AbsensiController
   static final LatLng kMapCenter =
       LatLng(19.018255973653343, 72.84793849278007);
 

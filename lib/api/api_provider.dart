@@ -9,6 +9,7 @@ import 'package:cleaner/models/request/izin/submit_izin_request.dart';
 import 'package:cleaner/models/request/izin/update_approval_request.dart';
 import 'package:cleaner/models/request/logout_request.dart';
 import 'package:cleaner/models/request/overtime/set_done_overtime_request.dart';
+import 'package:cleaner/models/request/overtime/submit_overtime_client_request.dart';
 import 'package:cleaner/models/request/overtime/submit_request_overtime.dart';
 import 'package:cleaner/models/request/overtime/update_approval_overtime_request.dart';
 import 'package:cleaner/models/request/rate/submit_rate_request.dart';
@@ -95,6 +96,11 @@ class ApiProvider extends BaseProvider {
   Future<Response> submitOvertime(String path, SubmitOvertimeRequest data) {
     return post(path, data.toJson());
   }
+
+  Future<Response> submitOvertimeClient(String path, SubmitOvertimeClientRequest data) {
+    return post(path, data.toJson());
+  }
+
 
   Future<Response> setDoneOvertime(String path, SetDoneOvertimeRequest data) {
     return patch(path, data.toJson());
@@ -217,6 +223,9 @@ class ApiProvider extends BaseProvider {
 
   Future<Response> editTaskListKhusus(
       String path, CreateTaskListKhususRequest data) {
+    print('Test Check');
+    print(path);
+    print(data.toJson());
     return patch(path, data.toJson());
   }
 

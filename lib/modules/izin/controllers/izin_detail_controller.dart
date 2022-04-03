@@ -5,7 +5,6 @@ import 'package:cleaner/models/request/cnc/submit_cnc.dart' as item;
 import 'package:cleaner/models/request/cnc/submit_cnc.dart';
 import 'package:cleaner/models/request/izin/update_approval_request.dart';
 import 'package:cleaner/models/response/cnc/list_item.dart';
-import 'package:cleaner/models/response/cnc/show.dart';
 import 'package:cleaner/models/response/izin/show_izin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

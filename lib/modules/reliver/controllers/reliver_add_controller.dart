@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:cleaner/api/api_repository.dart';
-import 'package:cleaner/models/request/izin/submit_izin_request.dart';
 import 'package:cleaner/models/request/reliver/create_reliver_request.dart';
 import 'package:cleaner/models/response/branch_response.dart';
 import 'package:cleaner/models/response/izin/type_izin.dart';
@@ -10,9 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:io' as Io;
 
 class ReliverAddController extends GetxController {
   final ApiRepository apiRepository;
@@ -87,12 +82,13 @@ class ReliverAddController extends GetxController {
   void submit() async {
     final res = await apiRepository.submitReliver(
       CreateReliverRequest(
-          branchId: nameBranchId.value,
-          dateNeeded: startDateKebutuhanController.text,
-          dateEndNeeded: endDateKebutuhanController.text,
-          note: noteController.text,
-          needEmployee: int.parse(numberReliver.text),
-          dateStartWorkEmployee: startDateController.text),
+        branchId: nameBranchId.value,
+        dateNeeded: startDateKebutuhanController.text,
+        dateEndNeeded: endDateKebutuhanController.text,
+        note: noteController.text,
+        needEmployee: int.parse(numberReliver.text),
+        dateStartWorkEmployee: startDateKebutuhanController.text,
+      ),
     );
     if (res!.error == false) {
       EasyLoading.showSuccess('Berhasil disimpan');

@@ -1,9 +1,9 @@
 import 'package:cleaner/api/api_repository.dart';
 import 'package:cleaner/models/request/attendance/submit_attendance.dart';
-import 'package:cleaner/models/request/cnc/goods.dart';
-import 'package:cleaner/models/request/cnc/submit_cnc.dart';
+import 'package:cleaner/models/request/overtime/submit_overtime_client_request.dart';
 import 'package:cleaner/models/request/overtime/submit_request_overtime.dart';
-import 'package:cleaner/models/response/cnc/list_item.dart';
+import 'package:cleaner/models/response/branch_response.dart';
+import 'package:cleaner/models/response/name_tad_list_response.dart';
 import 'package:cleaner/shared/constants/storage.dart';
 import 'package:cleaner/shared/utils/common_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +24,16 @@ class LemburAddController extends GetxController {
   final noteController = TextEditingController();
   RxString groupName = "".obs;
   RxString groupId = "".obs;
+  RxString branchId = "".obs;
   RxString placement = "".obs;
   RxBool isClockIn = true.obs;
   RxString timeString = '--:--'.obs;
   RxString timeIn = '--:--'.obs;
   RxString timeOut = '--:--'.obs;
   late LatLng myLocation = LatLng(0, 0);
+  var listTad = <BranchTadListData>[].obs;
+  var listBranch = <BranchListData>[].obs;
+  RxString idTad = "".obs;
 
   @override
   void onInit() {
@@ -41,6 +45,18 @@ class LemburAddController extends GetxController {
     super.onReady();
     loadUsers();
     determinePosition();
+    getBranch();
+  }
+
+  void getBranchTad(String branchId) async {
+    final res = await apiRepository.branchNameTad(branchId: branchId);
+    listTad.addAll(res?.data ?? []);
+    EasyLoading.dismiss();
+  }
+
+  void getBranch() async {
+    final res = await apiRepository.branchList();
+    listBranch.addAll(res?.data ?? []);
   }
 
   void submitIn() async {
@@ -72,23 +88,21 @@ class LemburAddController extends GetxController {
     }
   }
 
-  // void submitCnC() async {
-  // for (var item in imageFileList) {
-  //   final bytes = await Io.File(item.path).readAsBytes();
-  //   String img64 = base64Encode(bytes);
-  // }
-  // final res = await apiRepository.submitCnC(
-  //   SubmitCnCRequest(
-  //       date: DateFormat("yyyy-MM-dd").format(DateTime.now()).toString(),
-  //       note: noteController.text,
-  //       itemList: submitItem.value),
-  // );
-  // if (res!.data != null) {
-  //   EasyLoading.showSuccess('Berhasil disimpan');
-  // } else {
-  //   EasyLoading.showError('Gagal disimpan');
-  // }
-  // }
+  void submitOvertimeClient() async {
+    final res = await apiRepository.submitOvertimeClient(
+      SubmitOvertimeClientRequest(
+          note: noteController.text, userId: int.parse(idTad.value)),
+    );
+
+    if (res!.message == 'Silahkan untuk absen keluar dulu') {
+      errorNotFoundClockOut();
+    } else if (res.error == false) {
+      EasyLoading.showSuccess('Berhasil disimpan');
+      Get.back();
+    } else {
+      EasyLoading.showError('Gagal disimpan');
+    }
+  }
 
   void errorNotFoundClockOut() {
     Get.defaultDialog(

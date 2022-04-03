@@ -1,7 +1,6 @@
 import 'package:cleaner/modules/cuti/controllers/cuti_add_controller.dart';
 import 'package:cleaner/shared/shared.dart';
 import 'package:cleaner/shared/widgets/button.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -11,8 +10,6 @@ class CutiAddView extends GetView<CutiAddController> {
   // final CnCController controller = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonWidget.appBar(title: 'Tambah Cuti'),

@@ -1,18 +1,11 @@
-import 'dart:io';
-
-import 'package:cleaner/modules/reliver/controllers/reliver_detail_controller.dart';
-import 'package:cleaner/routes/app_pages.dart';
 import 'package:cleaner/shared/utils/common_widget.dart';
 import 'package:cleaner/shared/utils/size_config.dart';
 import 'package:cleaner/shared/widgets/button.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ApprovalFlow {
   static Widget buttonApprovalCnC(controller) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       child: controller.detail.value.statusLabel == 'Waiting for approval'
           ? controller.groupId.toString() == '5'
@@ -56,7 +49,6 @@ class ApprovalFlow {
 
   static Widget buttonApproval(controller) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       child: controller.detail.value.status == '1' ||
               controller.detail.value.statusLabel == 'Created'

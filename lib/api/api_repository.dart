@@ -9,6 +9,7 @@ import 'package:cleaner/models/request/izin/submit_izin_request.dart';
 import 'package:cleaner/models/request/izin/update_approval_request.dart';
 import 'package:cleaner/models/request/logout_request.dart';
 import 'package:cleaner/models/request/overtime/set_done_overtime_request.dart';
+import 'package:cleaner/models/request/overtime/submit_overtime_client_request.dart';
 import 'package:cleaner/models/request/overtime/submit_request_overtime.dart';
 import 'package:cleaner/models/request/overtime/update_approval_overtime_request.dart';
 import 'package:cleaner/models/request/rate/submit_rate_request.dart';
@@ -51,6 +52,7 @@ import 'package:cleaner/models/response/taskList/show_task_list_response.dart';
 import 'package:cleaner/models/response/taskList/tad/show_task_list_tad_response.dart';
 import 'package:cleaner/models/response/taskList/tad/task_list_tad_response.dart';
 import 'package:cleaner/models/response/taskList/task_list_response.dart';
+import 'package:cleaner/models/response/update_profile_response.dart';
 import 'package:cleaner/models/response/user/logout_response.dart';
 import 'package:cleaner/models/response/user/user_schedule.dart';
 import 'package:cleaner/models/response/user/users_response.dart';
@@ -323,9 +325,23 @@ class ApiRepository {
       final res = await apiProvider
           .submitOvertime('/api/v1/overtime', data)
           .timeout(Duration(seconds: timeout));
-      if (res.statusCode == 200 ||
-          res.statusCode == 401 ||
-          res.statusCode == 403) {
+      if (res.statusCode == 200) {
+        return ErrorResponse.fromJson(res.body);
+      }
+    } on TimeoutException catch (_) {
+      EasyLoading.showError('Connection Timeout. Please try again later');
+      EasyLoading.dismiss();
+    } catch (exception) {
+      print(exception);
+    }
+  }
+
+  Future<ErrorResponse?> submitOvertimeClient(SubmitOvertimeClientRequest data) async {
+    try {
+      final res = await apiProvider
+          .submitOvertimeClient('/api/v1/overtime', data)
+          .timeout(Duration(seconds: timeout));
+      if (res.statusCode == 200) {
         return ErrorResponse.fromJson(res.body);
       }
     } on TimeoutException catch (_) {
@@ -992,7 +1008,7 @@ class ApiRepository {
     }
   }
 
-  Future<ErrorResponse?> updatePhotoProfile(
+  Future<UpdateProfileResponse?> updatePhotoProfile(
       UpdatePhotoProfileRequest data) async {
     try {
       final res = await apiProvider
@@ -1000,7 +1016,7 @@ class ApiRepository {
           .timeout(Duration(seconds: timeout));
       print(res);
       if (res.statusCode == 200 || res.statusCode == 401) {
-        return ErrorResponse.fromJson(res.body);
+        return UpdateProfileResponse.fromJson(res.body);
       }
     } on TimeoutException catch (_) {
       EasyLoading.showError('Connection Timeout. Please try again later');

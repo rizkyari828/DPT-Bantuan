@@ -9,8 +9,6 @@ class IzinDetailView extends GetView<IzinDetailController> {
   final data = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CommonWidget.appBar(title: 'Detail Izin'),
@@ -105,8 +103,6 @@ class IzinDetailView extends GetView<IzinDetailController> {
   }
 
   Widget dokumenPhoto(IzinDetailController controller) {
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       child: Card(
         elevation: 0.1,

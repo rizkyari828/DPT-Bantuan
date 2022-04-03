@@ -59,11 +59,12 @@ class TaskListTab extends GetView<TaskListController> {
               firstParagraf: controller.list[i].task?.name ?? '',
               secondParagrafLabel: 'Mulai ',
               secondParagrafValue: controller.list[i].startTime.toString() +
+                  ' - ' +
                   controller.list[i].endTime.toString(),
               thirdParagrafLabel: 'Type ',
               thirdParagrafValue: controller.list[i].task?.taskType?.name ?? '',
               forthParagraf:
-                  '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.list[i].task?.taskType?.createdAt ?? DateTime.now())}',
+                  '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.list[i].task?.createdAt ?? DateTime.now())}',
               updateDelete: true,
               onPressedEdit: () {
                 controller.goToDetailKorlapPages(

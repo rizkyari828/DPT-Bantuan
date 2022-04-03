@@ -1,12 +1,9 @@
 import 'package:cleaner/api/api_repository.dart';
-import 'package:cleaner/models/request/cnc/approval_cnc.dart';
 import 'package:cleaner/models/request/cnc/goods.dart';
 import 'package:cleaner/models/request/cnc/submit_cnc.dart' as item;
 import 'package:cleaner/models/request/cnc/submit_cnc.dart';
-import 'package:cleaner/models/request/izin/update_approval_request.dart';
 import 'package:cleaner/models/request/reliver/approve_reliver_request.dart';
 import 'package:cleaner/models/response/cnc/list_item.dart';
-import 'package:cleaner/models/response/izin/show_izin.dart';
 import 'package:cleaner/models/response/reliver/show_reliver_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

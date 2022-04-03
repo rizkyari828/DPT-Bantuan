@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleaner/shared/widgets/button.dart';
 import 'package:cleaner/shared/widgets/custom_appbar.dart';
+import 'package:cleaner/shared/widgets/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cleaner/modules/home/home.dart';
 import 'package:cleaner/shared/shared.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MeTab extends GetView<HomeController> {
   @override
@@ -17,7 +19,7 @@ class MeTab extends GetView<HomeController> {
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
-              fontSize: 25,
+              fontSize: 20,
               fontFamily: 'Poppins',
             ),
           ),
@@ -31,20 +33,22 @@ class MeTab extends GetView<HomeController> {
                 type: "medium",
                 textLabel: "Profile",
                 textSubtitle:
-                    "Anda hanya dapar mengubah picture avatar \n pada profile"),
-            Container(
-              height: SizeConfig().screenHeight / 4,
-              child: _buildAvatar(),
-              // Stack(
-              //   children: [
-              //     GradientBackground(
-              //       needWave: false,
-              //     ),
-              //     Obx(
-              //       () => _buildUserInfo(),
-              //     ),
-              //   ],
-              // ),
+                    "Anda hanya dapat mengubah picture avatar \npada profile"),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                changePhoto(context, controller);
+              },
+              child: Obx(() => Container(
+                    height: SizeConfig().screenWidth * 0.4,
+                    width: SizeConfig().screenWidth * 0.4,
+                    child: _buildAvatar(),
+                  )),
+            ),
+            SizedBox(
+              height: 10,
             ),
             _buildListData(),
             SizedBox(
@@ -55,24 +59,20 @@ class MeTab extends GetView<HomeController> {
   }
 
   Widget _buildAvatar() {
-    return MaterialButton(
-      onPressed: () {},
-      child: ClipOval(
-          // borderRadius: BorderRadius.circular(10.0),
-          child: CachedNetworkImage(
-        fit: BoxFit.fill,
-        imageUrl: controller.profilePhoto.value,
-        placeholder: (context, url) => Image(
-          image: AssetImage('assets/images/icon_success.png'),
-        ),
-        errorWidget: (context, url, error) => Icon(Icons.error),
-      )),
-    );
+    return ClipOval(
+        // borderRadius: BorderRadius.circular(10.0),
+        child: CachedNetworkImage(
+      fit: BoxFit.fill,
+      imageUrl: controller.profilePhoto.value,
+      placeholder: (context, url) => Image(
+        image: AssetImage('assets/images/icon_success.png'),
+      ),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+    ));
   }
 
   Widget _buildListData() {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Align(
       alignment: Alignment.bottomCenter,
       child: SingleChildScrollView(
@@ -114,6 +114,99 @@ class MeTab extends GetView<HomeController> {
               )),
         ),
       ),
+    );
+  }
+
+  void changePhoto(context, controller) {
+    Get.defaultDialog(
+      title: "Ubah Foto Profil",
+      content: Obx(() => Column(
+            children: [
+              Container(
+                height: 100,
+                width: 100,
+                child: CustomImagePicker.previewImages(controller),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: MaterialButton(
+                      child: Container(
+                        decoration: new BoxDecoration(
+                          color: ColorConstants.mainColor,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 20.0,
+                              spreadRadius: 4.0,
+                              offset: Offset(
+                                -10.0,
+                                10.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Icon(
+                            Icons.camera_alt_rounded,
+                            color: Colors.white,
+                            size: 30.0,
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        controller.onImageButtonPressed(ImageSource.camera,
+                            context: context);
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: MaterialButton(
+                      child: Container(
+                        decoration: new BoxDecoration(
+                          color: ColorConstants.mainColor,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 20.0,
+                              spreadRadius: 4.0,
+                              offset: Offset(
+                                -10.0,
+                                10.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Icon(
+                            Icons.photo_library,
+                            color: Colors.white,
+                            size: 30.0,
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        controller.onImageButtonPressed(ImageSource.gallery,
+                            context: context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          )),
+      textConfirm: 'Submit',
+      textCancel: 'Batal',
+      onCancel: () {
+        Get.back();
+      },
+      onConfirm: () {
+        controller.submitPhotoProfile();
+      },
     );
   }
 }

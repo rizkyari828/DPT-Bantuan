@@ -237,6 +237,7 @@ class TaskListDetailController extends GetxController {
     List<String> _beforeBase64 = [];
 
     if (type == 'before') {
+      EasyLoading.show(status: 'loading..');
       print(imageFileListBefore);
       for (var itemBefore in imageFileListBefore) {
         var mimeType = lookupMimeType(itemBefore.path);
@@ -257,10 +258,12 @@ class TaskListDetailController extends GetxController {
       if (res?.error == false) {
         EasyLoading.showSuccess('Berhasil disimpan');
         currentStep.value < 2 ? currentStep.value += 1 : currentStep.value = 0;
+        EasyLoading.dismiss();
       } else {
         EasyLoading.showError('Gagal disimpan');
       }
     } else {
+      EasyLoading.show(status: 'loading..');
       for (var itemAfter in imageFileListAfter) {
         var mimeType = lookupMimeType(itemAfter.path);
         var bytesAfter = await Io.File(itemAfter.path).readAsBytes();
@@ -285,6 +288,7 @@ class TaskListDetailController extends GetxController {
         EasyLoading.showSuccess('Berhasil disimpan');
         getDetail();
         currentStep.value < 2 ? currentStep.value += 1 : currentStep.value = 0;
+        EasyLoading.dismiss();
       } else {
         EasyLoading.showError('Gagal disimpan');
         EasyLoading.dismiss();

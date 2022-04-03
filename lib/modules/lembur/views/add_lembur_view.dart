@@ -1,20 +1,15 @@
 import 'package:cleaner/modules/lembur/controllers/lembur_add_controller.dart';
 import 'package:cleaner/shared/shared.dart';
 import 'package:cleaner/shared/widgets/button.dart';
-import 'package:cleaner/shared/widgets/image_picker.dart';
-import 'package:dotted_border/dotted_border.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:timer_builder/timer_builder.dart';
 
 class LemburAddView extends GetView<LemburAddController> {
   // final CnCController controller = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonWidget.appBar(title: 'Tambah Lembur'),
@@ -30,9 +25,82 @@ class LemburAddView extends GetView<LemburAddController> {
                         value: DateFormat("EEEE, d MMMM yyyy", "id_ID")
                             .format(DateTime.now())
                             .toString()),
-                    SizedBox(height: 10.0),
-                    CommonWidget.labelExpanded(
-                        label: 'Client', value: controller.placement.value),
+                    controller.groupId.value == '3'
+                        ? Column(
+                            children: [
+                              SizedBox(height: 10.0),
+                              CommonWidget.labelExpanded(
+                                  label: 'Client',
+                                  value: controller.placement.value),
+                              SizedBox(height: 10.0),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height / 11,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, bottom: 8.0),
+                                  child: DropdownSearch<dynamic>(
+                                    dropdownSearchDecoration: InputDecoration(
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: ColorConstants.mainColor),
+                                      ),
+                                      labelText: "Cabang",
+                                    ),
+                                    items: controller.listBranch.map((item) {
+                                      return item.name;
+                                    }).toList(),
+                                    maxHeight: 300,
+                                    onChanged: (value) async {
+                                      // controller.nameItem.value = value;
+                                      for (var f in controller.listBranch) {
+                                        if (f.name == value) {
+                                          controller.branchId.value =
+                                              f.id.toString();
+                                          controller
+                                              .getBranchTad(f.id.toString());
+                                        }
+                                      }
+                                    },
+                                    showSearchBox: true,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height / 11,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8.0, bottom: 8.0),
+                                  child: DropdownSearch<dynamic>(
+                                    dropdownSearchDecoration: InputDecoration(
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: ColorConstants.mainColor),
+                                      ),
+                                      labelText: "Nama",
+                                    ),
+                                    items: controller.listTad.map((item) {
+                                      return item.name;
+                                    }).toList(),
+                                    maxHeight: 300,
+                                    onChanged: (value) async {
+                                      // controller.nameItem.value = value;
+                                      for (var f in controller.listTad) {
+                                        if (f.name == value) {
+                                          controller.idTad.value =
+                                              f.id.toString();
+                                        }
+                                      }
+                                    },
+                                    showSearchBox: true,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(),
                     SizedBox(height: 20.0),
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,13 +180,16 @@ class LemburAddView extends GetView<LemburAddController> {
                     TextAreaField(
                       controller: controller.noteController,
                     ),
-
                     SizedBox(height: 30.0),
                     CustomButton(
                       buttonText: 'SIMPAN',
                       width: MediaQuery.of(context).size.width,
                       onPressed: () {
-                        controller.submitOvertime();
+                        if (controller.groupId.value == '3') {
+                          controller.submitOvertimeClient();
+                        } else {
+                          controller.submitOvertime();
+                        }
                       },
                     ),
                   ],

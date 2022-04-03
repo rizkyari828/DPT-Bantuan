@@ -194,7 +194,6 @@ class CommonWidget {
 
   static Widget cardWithShadow(child) {
     final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Container(
       width: sw,
       decoration: BoxDecoration(

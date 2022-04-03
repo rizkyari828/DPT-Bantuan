@@ -43,6 +43,7 @@ class TaskListDetailKorlapView extends GetView<TaskListDetailKorlapController> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: DropdownSearch<dynamic>(
+                  enabled: false,
                   selectedItem: controller.nameType.value,
                   dropdownSearchDecoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(

@@ -1,5 +1,4 @@
 import 'package:cleaner/api/api_repository.dart';
-import 'package:cleaner/models/response/cnc/list.dart';
 import 'package:cleaner/models/response/cuti/list_cuti.dart';
 import 'package:cleaner/routes/app_pages.dart';
 import 'package:get/get.dart';

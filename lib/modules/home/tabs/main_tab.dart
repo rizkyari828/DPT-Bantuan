@@ -8,7 +8,6 @@ import 'package:cleaner/shared/utils/size_config.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
-import 'package:rating_dialog/rating_dialog.dart';
 
 class MainTab extends GetView<HomeController> {
   @override

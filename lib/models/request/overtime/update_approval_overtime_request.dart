@@ -12,7 +12,7 @@ class UpdateApprovalOvertimeRequest {
   });
 
   String? action;
-  int? actualTime;
+  double? actualTime;
   String? noteApproval;
 
   factory UpdateApprovalOvertimeRequest.fromRawJson(String str) =>

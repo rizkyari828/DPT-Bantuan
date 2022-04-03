@@ -14,56 +14,59 @@ class TaskListTadKorlapDetailView
       appBar: CommonWidget.appBar(title: 'Detail Task List TAD'),
       body: SingleChildScrollView(
         child: Obx(
-          () => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CommonWidget.cardWithShadow(Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ApprovalFlow.statusApproval(controller.detail.value),
-                  SizedBox(height: 20.0),
-                  CommonWidget.minHeadText(text: "Kebutuhan"),
-                  SizedBox(height: 20.0),
-                  CommonWidget.labelExpanded(
-                      label: 'Waktu Mulai',
-                      value: controller.detail.value.startTime),
-                  SizedBox(height: 10.0),
-                  CommonWidget.labelExpanded(
-                      label: 'Waktu Selesai',
-                      value: controller.detail.value.endTime),
-                  SizedBox(height: 10.0),
-                  CommonWidget.labelExpanded(
-                      label: 'Client',
-                      value: controller.detail.value.branch?.name ?? ''),
-                  SizedBox(height: 10.0),
-                  CommonWidget.labelExpanded(
-                      label: 'Penempatan',
-                      value: controller.detail.value.branch?.building ?? ''),
-                  SizedBox(height: 10.0),
-                ],
-              )),
-              SizedBox(height: 20.0),
-              CommonWidget.cardWithShadow(Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CommonWidget.minHeadText(
-                      text:
-                          "Task ${controller.detail.value.task?.taskType?.name}"),
-                  SizedBox(height: 20.0),
-                  CommonWidget.labelExpanded(
-                      label: 'Nama Task',
-                      value: controller.detail.value.task?.name),
-                  SizedBox(height: 10.0),
-                  CommonWidget.bodyText(text: "Sebelum"),
-                  dokumenPhoto(controller, 'before'),
-                  SizedBox(height: 10.0),
-                  CommonWidget.bodyText(text: "Sesudah"),
-                  dokumenPhoto(controller, 'after'),
-                  SizedBox(height: 10.0),
-                ],
-              )),
-            ],
-          ),
+          () => controller.detail.value.id == null
+              ? Center(child: CircularProgressIndicator())
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CommonWidget.cardWithShadow(Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ApprovalFlow.statusApproval(controller.detail.value),
+                        SizedBox(height: 20.0),
+                        CommonWidget.minHeadText(text: "Kebutuhan"),
+                        SizedBox(height: 20.0),
+                        CommonWidget.labelExpanded(
+                            label: 'Waktu Mulai',
+                            value: controller.detail.value.startTime),
+                        SizedBox(height: 10.0),
+                        CommonWidget.labelExpanded(
+                            label: 'Waktu Selesai',
+                            value: controller.detail.value.endTime),
+                        SizedBox(height: 10.0),
+                        CommonWidget.labelExpanded(
+                            label: 'Client',
+                            value: controller.detail.value.branch?.name ?? ''),
+                        SizedBox(height: 10.0),
+                        CommonWidget.labelExpanded(
+                            label: 'Penempatan',
+                            value:
+                                controller.detail.value.branch?.building ?? ''),
+                        SizedBox(height: 10.0),
+                      ],
+                    )),
+                    SizedBox(height: 20.0),
+                    CommonWidget.cardWithShadow(Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonWidget.minHeadText(
+                            text:
+                                "Task ${controller.detail.value.task?.taskType?.name}"),
+                        SizedBox(height: 20.0),
+                        CommonWidget.labelExpanded(
+                            label: 'Nama Task',
+                            value: controller.detail.value.task?.name),
+                        SizedBox(height: 10.0),
+                        CommonWidget.bodyText(text: "Sebelum"),
+                        dokumenPhoto(controller, 'before'),
+                        SizedBox(height: 10.0),
+                        CommonWidget.bodyText(text: "Sesudah"),
+                        dokumenPhoto(controller, 'after'),
+                        SizedBox(height: 10.0),
+                      ],
+                    )),
+                  ],
+                ),
         ),
       ),
     );
@@ -79,7 +82,7 @@ class TaskListTadKorlapDetailView
             borderRadius: BorderRadius.circular(10.0),
             side: BorderSide(color: Colors.grey, width: 1)),
         child: Container(
-          height: 100,
+          height: 200,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListView.builder(
@@ -91,8 +94,8 @@ class TaskListTadKorlapDetailView
                 return Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: Container(
-                      width: 50,
-                      height: 50,
+                      width: 150,
+                      height: 150,
                       child: type == 'before'
                           ? Image.network(
                               controller.detail.value.beforePhotos?[index] ??

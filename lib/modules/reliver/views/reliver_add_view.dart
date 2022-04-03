@@ -13,8 +13,6 @@ class ReliverAddView extends GetView<ReliverAddController> {
 
   @override
   Widget build(BuildContext context) {
-    final sw = SizeConfig().screenWidth;
-    final sh = SizeConfig().screenHeight;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonWidget.appBar(title: 'Kebutuhan Reliver'),
@@ -182,23 +180,28 @@ class ReliverAddView extends GetView<ReliverAddController> {
                       //   ),
                       // ),
                       SizedBox(height: 10.0),
-                      CommonWidget.widgetExpanded(
-                        left: InputInputField(
-                          keyboardType: TextInputType.number,
-                          controller: controller.numberReliver,
-                          labelText: "Jumlah Karyawan",
-                        ),
-                        right: InputInputField(
-                          isSuffixIcon: true,
-                          suffixIcon: Icon(Icons.calendar_today_rounded),
-                          controller: controller.startDateController,
-                          labelText: "Tanggal Bekerja",
-                          onSuffixPressed: () {
-                            controller.selectDate(
-                                context, controller.startDateController);
-                          },
-                        ),
+                      InputInputField(
+                        keyboardType: TextInputType.number,
+                        controller: controller.numberReliver,
+                        labelText: "Jumlah Karyawan",
                       ),
+                      // CommonWidget.widgetExpanded(
+                      //   left: InputInputField(
+                      //     keyboardType: TextInputType.number,
+                      //     controller: controller.numberReliver,
+                      //     labelText: "Jumlah Karyawan",
+                      //   ),
+                      //   right: InputInputField(
+                      //     isSuffixIcon: true,
+                      //     suffixIcon: Icon(Icons.calendar_today_rounded),
+                      //     controller: controller.startDateController,
+                      //     labelText: "Tanggal Bekerja",
+                      //     onSuffixPressed: () {
+                      //       controller.selectDate(
+                      //           context, controller.startDateController);
+                      //     },
+                      //   ),
+                      // ),
                       SizedBox(height: 10.0),
                       CommonWidget.bodyText(text: "Keterangan"),
                       SizedBox(height: 10.0),

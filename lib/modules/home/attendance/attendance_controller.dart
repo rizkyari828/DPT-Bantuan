@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cleaner/models/request/attendance/submit_attendance.dart';
-import 'package:cleaner/models/request/logout_request.dart';
 import 'package:cleaner/models/response/user/user_schedule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
