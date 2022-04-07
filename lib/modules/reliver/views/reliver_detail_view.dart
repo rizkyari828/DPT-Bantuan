@@ -85,19 +85,19 @@ class ReliverDetailView extends GetView<ReliverDetailController> {
                       labelText: "Jumlah Kebutuhan",
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  CommonWidget.widgetExpanded(
-                    left: CommonWidget.bodyText(text: "Tanggal Bekerja"),
-                    right: InputInputField(
-                      isSuffixIcon: true,
-                      suffixIcon: Icon(Icons.calendar_today_rounded),
-                      controller: controller.dateStartWorkController,
-                      labelText: "Tanggal Bekerja",
-                      onSuffixPressed: () {
-                        controller.selectDate(context);
-                      },
-                    ),
-                  ),
+                  // SizedBox(height: 10.0),
+                  // CommonWidget.widgetExpanded(
+                  //   left: CommonWidget.bodyText(text: "Tanggal Bekerja"),
+                  //   right: InputInputField(
+                  //     isSuffixIcon: true,
+                  //     suffixIcon: Icon(Icons.calendar_today_rounded),
+                  //     controller: controller.dateStartWorkController,
+                  //     labelText: "Tanggal Bekerja",
+                  //     onSuffixPressed: () {
+                  //       controller.selectDate(context);
+                  //     },
+                  //   ),
+                  // ),
                   SizedBox(height: 10.0),
                   CommonWidget.bodyText(text: "Catatan Approval"),
                   SizedBox(height: 10.0),

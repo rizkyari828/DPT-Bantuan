@@ -130,6 +130,8 @@ class LoginScreen extends GetView<AuthController> {
                     return null;
                   },
                 )),
+            //  CommonWidget.captionText(
+            //           text: "Password is required"),
             // CommonWidget.rowHeight(),
             // TextButton(
             //   onPressed: () {

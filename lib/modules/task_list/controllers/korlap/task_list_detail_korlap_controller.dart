@@ -211,7 +211,7 @@ class TaskListDetailKorlapController extends GetxController {
       idNameTask.value = detailKhusus.value.taskId.toString();
       nameTask.value = detailKhusus.value.task?.name.toString() ?? '';
       startDateController.text = DateFormat("yyyy-MM-dd", "id_ID")
-          .format(detailKhusus.value.task?.createdAt ?? DateTime.now())
+          .format(detailKhusus.value.timestamp ?? DateTime.now())
           .toString();
     } else {
       final res =

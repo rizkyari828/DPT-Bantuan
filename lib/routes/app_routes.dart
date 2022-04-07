@@ -31,4 +31,5 @@ abstract class Routes {
   static const RELIVER = '/reliver';
   static const DETAIL_RELIVER = '/detail-reliver';
   static const ADD_RELIVER = '/add-reliver';
+  static const NOTIFICATION = '/notification';
 }

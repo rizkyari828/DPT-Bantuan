@@ -64,7 +64,7 @@ class TaskListTab extends GetView<TaskListController> {
               thirdParagrafLabel: 'Type ',
               thirdParagrafValue: controller.list[i].task?.taskType?.name ?? '',
               forthParagraf:
-                  '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.list[i].task?.createdAt ?? DateTime.now())}',
+                  '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.list[i].createdAt ?? DateTime.now())}',
               updateDelete: true,
               onPressedEdit: () {
                 controller.goToDetailKorlapPages(
@@ -104,12 +104,13 @@ class TaskListTab extends GetView<TaskListController> {
             firstParagraf: controller.listTad[i].task?.name ?? '',
             secondParagrafLabel: 'Mulai ',
             secondParagrafValue: controller.listTad[i].startTime.toString() +
+                ' - ' +
                 controller.listTad[i].endTime.toString(),
             thirdParagrafLabel: 'Type ',
             thirdParagrafValue:
                 controller.listTad[i].task?.taskType?.name ?? '',
             forthParagraf:
-                '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.listTad[i].task?.taskType?.createdAt ?? DateTime.now())}',
+                '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.listTad[i].createdAt ?? DateTime.now())}',
             approval:
                 controller.listTad[i].statusLabel == 'Waiting for approval'
                     ? 'Waiting'

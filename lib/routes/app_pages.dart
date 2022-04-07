@@ -1,12 +1,7 @@
-import 'package:cleaner/modules/reliver/views/reliver_add_view.dart';
-import 'package:cleaner/modules/reliver/views/reliver_detail_view.dart';
-import 'package:cleaner/modules/task_list/views/korlap/tad/task_list_tad_korlap_detail_view.dart';
-import 'package:cleaner/modules/task_list/views/korlap/tad/task_list_tad_korlap_list_view.dart';
-import 'package:cleaner/modules/task_list/views/korlap/task_list_detail_korlap.dart';
 import 'package:get/get.dart';
 
-import '../modules/reliver/bindings/reliver_binding.dart';
-import '../modules/reliver/views/reliver_view.dart';
+import '../modules/notification/bindings/notification_binding.dart';
+import '../modules/notification/views/notification_view.dart';
 import '../modules/CnC/bindings/cn_c_binding.dart';
 import '../modules/CnC/views/cn_c_add_view.dart';
 import '../modules/CnC/views/cn_c_show_view.dart';
@@ -33,7 +28,14 @@ import '../modules/lembur/views/lembur_view.dart';
 import '../modules/modules.dart';
 import '../modules/recap/bindings/recap_binding.dart';
 import '../modules/recap/views/recap_view.dart';
+import '../modules/reliver/bindings/reliver_binding.dart';
+import '../modules/reliver/views/reliver_add_view.dart';
+import '../modules/reliver/views/reliver_detail_view.dart';
+import '../modules/reliver/views/reliver_view.dart';
 import '../modules/task_list/bindings/task_list_binding.dart';
+import '../modules/task_list/views/korlap/tad/task_list_tad_korlap_detail_view.dart';
+import '../modules/task_list/views/korlap/tad/task_list_tad_korlap_list_view.dart';
+import '../modules/task_list/views/korlap/task_list_detail_korlap.dart';
 import '../modules/task_list/views/task_list_add_view.dart';
 import '../modules/task_list/views/task_list_detail.dart';
 
@@ -137,7 +139,7 @@ class AppPages {
       page: () => TaskListDetailView(),
       binding: TaskListBinding(),
     ),
-     GetPage(
+    GetPage(
       name: Routes.TASK_LIST_KORLAP_DETAIL,
       page: () => TaskListDetailKorlapView(),
       binding: TaskListBinding(),
@@ -186,6 +188,11 @@ class AppPages {
       name: Routes.ADD_RELIVER,
       page: () => ReliverAddView(),
       binding: ReliverBinding(),
+    ),
+    GetPage(
+      name: Routes.NOTIFICATION,
+      page: () => NotificationView(),
+      binding: NotificationBinding(),
     ),
   ];
 }

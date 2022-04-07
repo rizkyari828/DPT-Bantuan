@@ -91,8 +91,12 @@ class ApprovalFlow {
     );
   }
 
-  static Widget hideWidget(id, widget) {
-    return id != '5' ? widget : Container();
+  static Widget hideWidget({id, widget, hideId = '5'}) {
+    return id != hideId ? widget : Container();
+  }
+
+  static Widget notHideWidget({id, widget, hideId = '5'}) {
+    return id == hideId ? widget : Container();
   }
 
   static Widget statusApproval(data) {

@@ -91,7 +91,7 @@ class ReliverAddController extends GetxController {
       ),
     );
     if (res!.error == false) {
-      EasyLoading.showSuccess('Berhasil disimpan');
+      EasyLoading.showSuccess(res.message);
       Get.back();
     } else {
       EasyLoading.showError('Gagal disimpan');

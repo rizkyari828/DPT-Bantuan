@@ -1,4 +1,3 @@
-import 'package:cleaner/models/push_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -106,8 +105,8 @@ void configLoading() {
     ..radius = 10.0
     // ..progressColor = Colors.yellow
     ..backgroundColor = ColorConstants.lightGray
-    ..indicatorColor = hexToColor('#64DEE0')
-    ..textColor = hexToColor('#64DEE0')
+    ..indicatorColor = ColorConstants.mainColor
+    ..textColor = ColorConstants.mainColor
     // ..maskColor = Colors.red
     ..userInteractions = false
     ..dismissOnTap = false
@@ -135,15 +134,15 @@ void initFCM() async {
   }
 
   messaging.getToken().then((value) {
-    print("token FCM ${value}");
+    print("token FCM " + value.toString());
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage event) {
-    PushNotification notification = PushNotification(
-      title: event.notification?.title,
-      body: event.notification?.body,
-      // type: event.notification?.type,
-    );
+    // PushNotification notification = PushNotification(
+    //   title: event.notification?.title,
+    //   body: event.notification?.body,
+    //   // type: event.notification?.type,
+    // );
 
     FirebaseMessaging.onBackgroundMessage(_messageHandler);
 

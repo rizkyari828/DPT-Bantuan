@@ -47,6 +47,8 @@ class ShowTaskTadData {
     this.endTime,
     this.branch,
     this.task,
+    this.createdAt,
+    this.updatedAt,
     this.beforePhotos = const [],
     this.afterPhotos = const [],
     this.status,
@@ -62,6 +64,8 @@ class ShowTaskTadData {
   String? endTime;
   Branch? branch;
   Task? task;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   List<dynamic> beforePhotos;
   List<dynamic> afterPhotos;
   String? status;
@@ -78,6 +82,12 @@ class ShowTaskTadData {
         endTime: json["end_time"] == null ? null : json["end_time"],
         branch: json["branch"] == null ? null : Branch.fromJson(json["branch"]),
         task: json["task"] == null ? null : Task.fromJson(json["task"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         beforePhotos: json["before_photos"] == null
             ? []
             : List<dynamic>.from(json["before_photos"].map((x) => x)),
@@ -98,6 +108,8 @@ class ShowTaskTadData {
         "end_time": endTime == null ? null : endTime,
         "branch": branch == null ? null : branch?.toJson(),
         "task": task == null ? null : task?.toJson(),
+        "created_at": createdAt == null ? null : createdAt?.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt?.toIso8601String(),
         "before_photos": beforePhotos == null
             ? []
             : List<dynamic>.from(beforePhotos.map((x) => x)),

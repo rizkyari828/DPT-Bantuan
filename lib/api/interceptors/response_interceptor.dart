@@ -41,7 +41,7 @@ void handleErrorStatus(Response response) {
     return;
   } else if (response.statusCode == 403) {
     final message = ErrorResponse.fromJson(response.body);
-    if (message.message == 'Hanya tad yg bisa memberika rating') {
+    if (message.message == 'Hanya client yg bisa memberika rating') {
     } else {
       CommonWidget.errorSnackBar(message.message);
     }

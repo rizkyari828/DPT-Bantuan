@@ -4,7 +4,6 @@ import 'package:cleaner/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 
 class CutiAddView extends GetView<CutiAddController> {
   // final CnCController controller = Get.arguments;
@@ -28,35 +27,49 @@ class CutiAddView extends GetView<CutiAddController> {
                     CommonWidget.labelExpanded(
                         label: 'Client', value: controller.placement.value),
                     SizedBox(height: 20.0),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 11,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        child: DropdownSearch<dynamic>(
-                          dropdownSearchDecoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: ColorConstants.mainColor),
-                            ),
-                            labelText: "Type Cuti",
-                          ),
-                          items: controller.listType.map((item) {
-                            return item.name;
-                          }).toList(),
-                          maxHeight: 300,
-                          onChanged: (value) async {
-                            // controller.nameItem.value = value;
-                            for (var f in controller.listType) {
-                              if (f.name == value) {
-                                controller.nameItem.value = f.id.toString();
-                              }
-                            }
-                          },
-                          showSearchBox: true,
-                        ),
-                      ),
+                    CustomDropDownSearch(
+                      listItem: controller.listType.map((item) {
+                        return item.name;
+                      }).toList(),
+                      labelText: "Type Cuti",
+                      onChanged: (value) async {
+                        // controller.nameItem.value = value;
+                        for (var f in controller.listType) {
+                          if (f.name == value) {
+                            controller.nameItem.value = f.id.toString();
+                          }
+                        }
+                      },
                     ),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   height: MediaQuery.of(context).size.height / 11,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    //     child: DropdownSearch<dynamic>(
+                    //       dropdownSearchDecoration: InputDecoration(
+                    //         enabledBorder: UnderlineInputBorder(
+                    //           borderSide:
+                    //               BorderSide(color: ColorConstants.mainColor),
+                    //         ),
+                    //         labelText: "Type Cuti",
+                    //       ),
+                    //       items: controller.listType.map((item) {
+                    //         return item.name;
+                    //       }).toList(),
+                    //       maxHeight: 300,
+                    //       onChanged: (value) async {
+                    //         // controller.nameItem.value = value;
+                    //         for (var f in controller.listType) {
+                    //           if (f.name == value) {
+                    //             controller.nameItem.value = f.id.toString();
+                    //           }
+                    //         }
+                    //       },
+                    //       showSearchBox: true,
+                    //     ),
+                    //   ),
+                    // ),
                     Row(
                       children: [
                         Expanded(

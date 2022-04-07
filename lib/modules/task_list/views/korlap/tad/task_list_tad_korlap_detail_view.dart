@@ -58,10 +58,16 @@ class TaskListTadKorlapDetailView
                             value: controller.detail.value.task?.name),
                         SizedBox(height: 10.0),
                         CommonWidget.bodyText(text: "Sebelum"),
-                        dokumenPhoto(controller, 'before'),
+                        controller.detail.value.beforePhotos.isNotEmpty
+                            ? dokumenPhoto(controller, 'before')
+                            : CommonWidget.subtitleText(
+                                text: "Belum ada dokumen"),
                         SizedBox(height: 10.0),
                         CommonWidget.bodyText(text: "Sesudah"),
-                        dokumenPhoto(controller, 'after'),
+                        controller.detail.value.afterPhotos.isNotEmpty
+                            ? dokumenPhoto(controller, 'after')
+                            : CommonWidget.subtitleText(
+                                text: "Belum ada dokumen"),
                         SizedBox(height: 10.0),
                       ],
                     )),
@@ -82,27 +88,31 @@ class TaskListTadKorlapDetailView
             borderRadius: BorderRadius.circular(10.0),
             side: BorderSide(color: Colors.grey, width: 1)),
         child: Container(
-          height: 200,
+          height: 220,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: type == 'before'
-                  ? controller.detail.value.beforePhotos?.length
-                  : controller.detail.value.afterPhotos?.length,
+                  ? controller.detail.value.beforePhotos.length
+                  : controller.detail.value.afterPhotos.length,
               itemBuilder: (context, index) {
                 return Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      child: type == 'before'
-                          ? Image.network(
-                              controller.detail.value.beforePhotos?[index] ??
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 150,
+                          child: type == 'before'
+                              ? Image.network(controller
+                                      .detail.value.beforePhotos[index] ??
                                   '')
-                          : Image.network(
-                              controller.detail.value.afterPhotos?[index] ??
-                                  ''),
+                              : Image.network(
+                                  controller.detail.value.afterPhotos[index] ??
+                                      ''),
+                        ),
+                      ],
                     ));
               },
             ),

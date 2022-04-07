@@ -46,9 +46,13 @@ class CommonWidget {
     return SizedBox(width: width);
   }
 
-  static Text headText({String text = "", Color color = Colors.black87}) {
+  static Text headText(
+      {String text = "",
+      Color color = Colors.black87,
+      TextAlign align: TextAlign.start}) {
     return Text(
       text,
+      textAlign: align,
       style: TextStyle(
           color: color,
           fontWeight: FontWeight.w600,
@@ -57,9 +61,13 @@ class CommonWidget {
     );
   }
 
-  static Text minHeadText({String text = "", Color color = Colors.black87}) {
+  static Text minHeadText(
+      {String text = "",
+      Color color = Colors.black87,
+      TextAlign align: TextAlign.start}) {
     return Text(
       text,
+      textAlign: align,
       style: TextStyle(
           color: color,
           fontWeight: FontWeight.w600,
@@ -84,7 +92,9 @@ class CommonWidget {
   }
 
   static Text minSubtitleText(
-      {String text = "", Color color = Colors.black87,FontWeight fontWeight = FontWeight.normal}) {
+      {String text = "",
+      Color color = Colors.black87,
+      FontWeight fontWeight = FontWeight.normal}) {
     return Text(
       text,
       style: TextStyle(

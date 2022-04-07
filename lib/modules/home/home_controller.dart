@@ -83,7 +83,6 @@ class HomeController extends GetxController {
     taskListTab = TaskListTab();
     meTab = MeTab();
     determinePosition();
-
     // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     // messaging.getToken().then((value) {
@@ -123,34 +122,29 @@ class HomeController extends GetxController {
           context: context,
           builder: (BuildContext context) => new RatingDialog(
                 initialRating: 1.0,
-                // your app's name?
-                title: Text(
-                  'Berikan Rate',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
+                title: CommonWidget.minHeadText(
+                  text: 'Berikan Review Anda',
+                  align: TextAlign.center,
                 ),
-                // encourage your user to leave a high rating?
                 message:
                     CommonWidget.subtitleText(text: showRate.value.note ?? ''),
                 // your app's logo?
-                // image: const FlutterLogo(size: 100),
+                image: Container(
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    height: MediaQuery.of(context).size.height * .1,
+                    // width: MediaQuery.of(context).size.width * .1,
+                    fit: BoxFit.fill,
+                  ),
+                ),
                 submitButtonText: 'Submit',
-                commentHint: 'Set your custom comment hint',
+                commentHint: 'Masukkan komentar',
                 onCancelled: () => print('cancelled'),
                 onSubmitted: (response) {
                   submitReview(
                       rate: response.rating.round(), note: response.comment);
                   print(
                       'rating: ${response.rating}, comment: ${response.comment}');
-                  if (response.rating < 3.0) {
-                    // send their comments to your email or anywhere you wish
-                    // ask the user to contact you instead of leaving a bad review
-                  } else {
-                    // _rateAndReviewApp();
-                  }
                 },
               ));
     });
@@ -414,7 +408,6 @@ class HomeController extends GetxController {
     } else {
       print('Token update failed');
     }
-    // listType.addAll(res?.data ?? []);
   }
 
   void getReviewRate() async {
@@ -427,7 +420,6 @@ class HomeController extends GetxController {
     } else {
       print('Token update failed');
     }
-    // listType.addAll(res?.data ?? []);
   }
 
   void submitReview({int rate = 0, String note = ''}) async {
@@ -439,7 +431,6 @@ class HomeController extends GetxController {
     } else {
       EasyLoading.showError('Gagal disimpan');
     }
-    // listType.addAll(res?.data ?? []);
   }
 
   void submitPhotoProfile() async {
@@ -506,6 +497,10 @@ class HomeController extends GetxController {
 
   void goToListTadKorlapPages() {
     Get.toNamed(Routes.TASK_LIST_TAD_KORLAP_LIST);
+  }
+
+  void goToNotificationPages() {
+    Get.toNamed(Routes.NOTIFICATION);
   }
 
   @override

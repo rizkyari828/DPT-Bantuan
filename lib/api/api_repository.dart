@@ -64,7 +64,7 @@ class ApiRepository {
   ApiRepository({required this.apiProvider});
 
   final ApiProvider apiProvider;
-  final int timeout = 120;
+  final int timeout = 60;
 
   Future<LoginResponse?> login(LoginRequest data) async {
     try {
@@ -336,7 +336,8 @@ class ApiRepository {
     }
   }
 
-  Future<ErrorResponse?> submitOvertimeClient(SubmitOvertimeClientRequest data) async {
+  Future<ErrorResponse?> submitOvertimeClient(
+      SubmitOvertimeClientRequest data) async {
     try {
       final res = await apiProvider
           .submitOvertimeClient('/api/v1/overtime', data)

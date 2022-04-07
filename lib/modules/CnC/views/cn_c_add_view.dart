@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../controllers/cn_c_controller.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 
 class CnCAddView extends GetView<CnCController> {
   // final CnCController controller = Get.arguments;
@@ -135,48 +134,66 @@ class CnCAddView extends GetView<CnCController> {
                 child: Obx(() => Column(
                       children: [
                         SizedBox(height: 10.0),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 11,
-                          child: DropdownSearch<dynamic>(
-                            dropdownSearchDecoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorConstants.mainColor),
-                              ),
-                              labelText: "Kategori Barang",
-                            ),
-                            items: controller.listCategory.map((item) {
-                              return item.name;
-                            }).toList(),
-                            maxHeight: 300,
-                            onChanged: (value) async {
-                              controller.getItemCnC(value);
-                            },
-                            showSearchBox: true,
-                          ),
+                        CustomDropDownSearch(
+                          listItem: controller.listCategory.map((item) {
+                            return item.name;
+                          }).toList(),
+                          labelText: 'Kategori Barang',
+                          onChanged: (value) {
+                            controller.getItemCnC(value);
+                          },
                         ),
+                        // Container(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   height: MediaQuery.of(context).size.height / 11,
+                        //   child: DropdownSearch<dynamic>(
+                        //     dropdownSearchDecoration: InputDecoration(
+                        //       enabledBorder: UnderlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: ColorConstants.mainColor),
+                        //       ),
+                        //       labelText: "Kategori Barang",
+                        //     ),
+                        //     items: controller.listCategory.map((item) {
+                        //       return item.name;
+                        //     }).toList(),
+                        //     maxHeight: 300,
+                        //     onChanged: (value) async {
+                        //       controller.getItemCnC(value);
+                        //     },
+                        //     showSearchBox: true,
+                        //   ),
+                        // ),
                         SizedBox(height: 10.0),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 11,
-                          child: DropdownSearch<dynamic>(
-                            dropdownSearchDecoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorConstants.mainColor),
-                              ),
-                              labelText: "Nama Barang",
-                            ),
-                            items: controller.listItem.map((item) {
-                              return item.name;
-                            }).toList(),
-                            maxHeight: 300,
-                            onChanged: (value) async {
-                              controller.nameItem.value = value;
-                            },
-                            showSearchBox: true,
-                          ),
+                        // Container(
+                        //   width: MediaQuery.of(context).size.width,
+                        //   height: MediaQuery.of(context).size.height / 11,
+                        //   child: DropdownSearch<dynamic>(
+                        //     dropdownSearchDecoration: InputDecoration(
+                        //       enabledBorder: UnderlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: ColorConstants.mainColor),
+                        //       ),
+                        //       labelText: "Nama Barang",
+                        //     ),
+                        //     items: controller.listItem.map((item) {
+                        //       return item.name;
+                        //     }).toList(),
+                        //     maxHeight: 300,
+                        //     onChanged: (value) async {
+                        //       controller.nameItem.value = value;
+                        //     },
+                        //     showSearchBox: true,
+                        //   ),
+                        // ),
+                        CustomDropDownSearch(
+                          listItem: controller.listItem.map((item) {
+                            return item.name;
+                          }).toList(),
+                          labelText: "Nama Barang",
+                          onChanged: (value) async {
+                            controller.nameItem.value = value;
+                          },
                         ),
                         SizedBox(height: 10.0),
                         InputInputField(
@@ -240,52 +257,74 @@ class CnCAddView extends GetView<CnCController> {
                 child: Obx(() => Column(
                       children: [
                         SizedBox(height: 10.0),
-                        Container(
-                          width: sw,
-                          height: sh / 11,
-                          child: DropdownSearch<dynamic>(
-                            enabled: false,
-                            selectedItem: controller?.unitTypeName.value,
-                            dropdownSearchDecoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorConstants.mainColor),
-                              ),
-                              labelText: "Kategori Barang",
-                            ),
-                            items: controller?.listCategory.map((item) {
-                              return item.name;
-                            }).toList(),
-                            maxHeight: 300,
-                            onChanged: (value) async {
-                              controller?.getItemCnC(value);
-                            },
-                            showSearchBox: true,
-                          ),
+                        // Container(
+                        //   width: sw,
+                        //   height: sh / 11,
+                        //   child: DropdownSearch<dynamic>(
+                        //     enabled: false,
+                        //     selectedItem: controller?.unitTypeName.value,
+                        //     dropdownSearchDecoration: InputDecoration(
+                        //       enabledBorder: UnderlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: ColorConstants.mainColor),
+                        //       ),
+                        //       labelText: "Kategori Barang",
+                        //     ),
+                        //     items: controller?.listCategory.map((item) {
+                        //       return item.name;
+                        //     }).toList(),
+                        //     maxHeight: 300,
+                        //     onChanged: (value) async {
+                        //       controller?.getItemCnC(value);
+                        //     },
+                        //     showSearchBox: true,
+                        //   ),
+                        // ),
+                        CustomDropDownSearch(
+                          enabled: false,
+                          selectedItem: controller?.unitTypeName.value,
+                          listItem: controller?.listCategory.map((item) {
+                            return item.name;
+                          }).toList(),
+                          labelText: "Kategori Barang",
+                          onChanged: (value) async {
+                            controller?.getItemCnC(value);
+                          },
                         ),
                         SizedBox(height: 10.0),
-                        Container(
-                          width: sw,
-                          height: sh / 11,
-                          child: DropdownSearch<dynamic>(
-                            enabled: false,
-                            selectedItem: controller?.nameItem.value,
-                            dropdownSearchDecoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: ColorConstants.mainColor),
-                              ),
-                              labelText: "Nama Barang",
-                            ),
-                            items: controller!.listItem.map((item) {
-                              return item.name;
-                            }).toList(),
-                            maxHeight: 300,
-                            onChanged: (value) async {
-                              controller.nameItem.value = value;
-                            },
-                            showSearchBox: true,
-                          ),
+                        // Container(
+                        //   width: sw,
+                        //   height: sh / 11,
+                        //   child: DropdownSearch<dynamic>(
+                        //     enabled: false,
+                        //     selectedItem: controller?.nameItem.value,
+                        //     dropdownSearchDecoration: InputDecoration(
+                        //       enabledBorder: UnderlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: ColorConstants.mainColor),
+                        //       ),
+                        //       labelText: "Nama Barang",
+                        //     ),
+                        //     items: controller!.listItem.map((item) {
+                        //       return item.name;
+                        //     }).toList(),
+                        //     maxHeight: 300,
+                        //     onChanged: (value) async {
+                        //       controller.nameItem.value = value;
+                        //     },
+                        //     showSearchBox: true,
+                        //   ),
+                        // ),
+                        CustomDropDownSearch(
+                          enabled: false,
+                          selectedItem: controller?.nameItem.value,
+                          listItem: controller!.listItem.map((item) {
+                            return item.name;
+                          }).toList(),
+                          labelText: "Kategori Barang",
+                          onChanged: (value) async {
+                            controller.nameItem.value = value;
+                          },
                         ),
                         SizedBox(height: 10.0),
                         InputInputField(

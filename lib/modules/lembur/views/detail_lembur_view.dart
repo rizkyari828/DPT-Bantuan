@@ -5,7 +5,6 @@ import 'package:cleaner/shared/widgets/approval.dart';
 import 'package:cleaner/shared/widgets/button.dart';
 import 'package:cleaner/shared/widgets/image_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cleaner/models/request/overtime/set_done_overtime_request.dart'
@@ -34,7 +33,7 @@ class LemburDetailView extends GetView<LemburDetailController> {
                   ApprovalFlow.statusApproval(controller.detail.value),
                   SizedBox(height: 20.0),
                   CommonWidget.labelExpanded(
-                      label: 'No Request' + data,
+                      label: 'No Request',
                       value: controller.noRequestController.text),
                   SizedBox(height: 10.0),
                   CommonWidget.labelExpanded(
@@ -86,37 +85,42 @@ class LemburDetailView extends GetView<LemburDetailController> {
                   ),
                   SizedBox(height: 10.0),
                   controller.groupId.toString() != '5'
-                      ? Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 11,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                            child: DropdownSearch<dynamic>(
-                              selectedItem:
-                                  controller.actualTimeController.text,
-                              dropdownSearchDecoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: ColorConstants.mainColor),
-                                ),
-                                labelText: "Actual Timee (Jam)",
-                              ),
-                              items: controller.arrayFive.map((item) {
-                                return item.toString();
-                              }).toList(),
-                              maxHeight: 300,
-                              onChanged: (value) async {
-                                controller.actualTimeController.text = value;
-                              },
-                              showSearchBox: true,
-                            ),
-                          ),
+                      ? CustomDropDownSearch(
+                          selectedItem: controller.actualTimeController.text,
+                          listItem: controller.arrayFive.map((item) {
+                            return item.toString();
+                          }).toList(),
+                          labelText: "Actual Timee (Jam)",
+                          onChanged: (value) async {
+                            controller.actualTimeController.text = value;
+                          },
                         )
-                      // InputInputField(
-                      //     keyboardType: TextInputType.number,
-                      //     controller: controller.actualTimeController,
-                      //     labelText: "Actual Time (Jam)",
+                      // Container(
+                      //     width: MediaQuery.of(context).size.width,
+                      //     height: MediaQuery.of(context).size.height / 11,
+                      //     child: Padding(
+                      //       padding:
+                      //           const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      //       child: DropdownSearch<dynamic>(
+                      //         selectedItem:
+                      //             controller.actualTimeController.text,
+                      //         dropdownSearchDecoration: InputDecoration(
+                      //           enabledBorder: UnderlineInputBorder(
+                      //             borderSide: BorderSide(
+                      //                 color: ColorConstants.mainColor),
+                      //           ),
+                      //           labelText: "Actual Timee (Jam)",
+                      //         ),
+                      //         items: controller.arrayFive.map((item) {
+                      //           return item.toString();
+                      //         }).toList(),
+                      //         maxHeight: 300,
+                      //         onChanged: (value) async {
+                      //           controller.actualTimeController.text = value;
+                      //         },
+                      //         showSearchBox: true,
+                      //       ),
+                      //     ),
                       //   )
                       : CommonWidget.labelExpanded(
                           label: 'Actual Time (Jam)',

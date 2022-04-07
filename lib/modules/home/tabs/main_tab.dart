@@ -40,19 +40,11 @@ class MainTab extends GetView<HomeController> {
                 topRight: Radius.circular(30),
                 topLeft: Radius.circular(30),
               ),
-              // borderRadius: BorderRadius.circular(15),
               color: Colors.red,
             ),
             child: Card(
               elevation: 1,
               color: ColorConstants.lightScaffoldBackgroundColor,
-              // shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.only(
-              //       topRight: Radius.circular(30),
-              //       topLeft: Radius.circular(30),
-              //     ),
-              //     side: BorderSide(
-              //         color: ColorConstants.borderColor, width: 1))
             ),
           ),
           Container(
@@ -76,6 +68,10 @@ class MainTab extends GetView<HomeController> {
               ),
               subtitle: CommonWidget.subtitleText(
                   text: controller.simId.value, color: Colors.white),
+              // trailing: InkWell(
+              //     onTap: controller.goToNotificationPages,
+              //     child:
+              //         Icon(Icons.notifications, color: Colors.white, size: 27)),
             ),
           ),
           CommonWidget.rowHeight(),
@@ -107,27 +103,41 @@ class MainTab extends GetView<HomeController> {
                 Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _cardMenu(Icons.bar_chart_rounded, "Rekap",
-                        controller.goToRecapPages, Colors.pink),
-                    CommonWidget.rowWidth(width: 15),
+                    ApprovalFlow.notHideWidget(
+                      id: controller.groupId,
+                      widget: _cardMenu(Icons.bar_chart_rounded, "Rekap",
+                          controller.goToRecapPages, Colors.pink),
+                      hideId: '5',
+                    ),
+                    ApprovalFlow.notHideWidget(
+                      id: controller.groupId,
+                      widget: CommonWidget.rowWidth(width: 15),
+                      hideId: '5',
+                    ),
                     _cardMenu(Icons.build_rounded, "CnC",
                         controller.goToCnCPages, Colors.deepOrange),
                     ApprovalFlow.hideWidget(
-                      controller.groupId,
-                      CommonWidget.rowWidth(width: 15),
+                      id: controller.groupId,
+                      widget: CommonWidget.rowWidth(width: 15),
+                      hideId: '5',
                     ),
                     ApprovalFlow.hideWidget(
-                        controller.groupId,
-                        _cardMenu(Icons.hail_outlined, "Reliver",
-                            controller.goToReliverPages, Colors.teal)),
-                    ApprovalFlow.hideWidget(
-                      controller.groupId,
-                      CommonWidget.rowWidth(width: 15),
+                      id: controller.groupId,
+                      widget: _cardMenu(Icons.hail_outlined, "Reliver",
+                          controller.goToReliverPages, Colors.teal),
+                      hideId: '5',
                     ),
                     ApprovalFlow.hideWidget(
-                        controller.groupId,
-                        _cardMenu(Icons.list, "TASK TAD",
-                            controller.goToListTadKorlapPages, Colors.lime))
+                      id: controller.groupId,
+                      widget: CommonWidget.rowWidth(width: 15),
+                      hideId: '5',
+                    ),
+                    ApprovalFlow.hideWidget(
+                      id: controller.groupId,
+                      widget: _cardMenu(Icons.list, "TASK TAD",
+                          controller.goToListTadKorlapPages, Colors.lime),
+                      hideId: '5',
+                    )
                   ],
                 ),
               ],

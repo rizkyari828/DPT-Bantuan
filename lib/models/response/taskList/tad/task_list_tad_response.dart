@@ -46,6 +46,8 @@ class TaskListTadData {
     this.taskId,
     this.startTime,
     this.endTime,
+    this.createdAt,
+    this.updatedAt,
     this.task,
     this.beforePhotos,
     this.afterPhotos,
@@ -58,6 +60,8 @@ class TaskListTadData {
   int? taskId;
   String? startTime;
   String? endTime;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   Task? task;
   List<dynamic>? beforePhotos;
   List<dynamic>? afterPhotos;
@@ -71,6 +75,12 @@ class TaskListTadData {
         taskId: json["task_id"] == null ? null : json["task_id"],
         startTime: json["start_time"] == null ? null : json["start_time"],
         endTime: json["end_time"] == null ? null : json["end_time"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         task: json["task"] == null ? null : Task.fromJson(json["task"]),
         beforePhotos: json["before_photos"] == null
             ? null
@@ -88,6 +98,8 @@ class TaskListTadData {
         "task_id": taskId == null ? null : taskId,
         "start_time": startTime == null ? null : startTime,
         "end_time": endTime == null ? null : endTime,
+        "created_at": createdAt == null ? null : createdAt?.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt?.toIso8601String(),
         "task": task == null ? null : task?.toJson(),
         "before_photos": beforePhotos == null
             ? null

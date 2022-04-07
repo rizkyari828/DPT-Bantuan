@@ -49,6 +49,7 @@ class LemburAddController extends GetxController {
   }
 
   void getBranchTad(String branchId) async {
+    listTad.clear();
     final res = await apiRepository.branchNameTad(branchId: branchId);
     listTad.addAll(res?.data ?? []);
     EasyLoading.dismiss();

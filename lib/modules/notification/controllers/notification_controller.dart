@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CutiController extends GetxController {
+class NotificationController extends GetxController {
   final ApiRepository apiRepository;
-  CutiController({required this.apiRepository});
+  NotificationController({required this.apiRepository});
 
   var listCuti = <DataCuti>[].obs;
   RxString groupName = "".obs;

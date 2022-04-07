@@ -52,6 +52,8 @@ class ListTadKorlapTaskData {
     this.statusLabel,
     this.branch,
     this.taskId,
+    this.createdAt,
+    this.updatedAt,
     this.startTime,
     this.endTime,
     this.task,
@@ -67,6 +69,8 @@ class ListTadKorlapTaskData {
   String? statusLabel;
   Branch? branch;
   int? taskId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   String? startTime;
   String? endTime;
   Task? task;
@@ -87,6 +91,12 @@ class ListTadKorlapTaskData {
         statusLabel: json["status_label"] == null ? null : json["status_label"],
         branch: json["branch"] == null ? null : Branch.fromJson(json["branch"]),
         taskId: json["task_id"] == null ? null : json["task_id"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
         startTime: json["start_time"] == null ? null : json["start_time"],
         endTime: json["end_time"] == null ? null : json["end_time"],
         task: json["task"] == null ? null : Task.fromJson(json["task"]),
@@ -109,6 +119,8 @@ class ListTadKorlapTaskData {
         "status_label": statusLabel == null ? null : statusLabel,
         "branch": branch == null ? null : branch?.toJson(),
         "task_id": taskId == null ? null : taskId,
+        "created_at": createdAt == null ? null : createdAt?.toIso8601String(),
+        "updated_at": updatedAt == null ? null : updatedAt?.toIso8601String(),
         "start_time": startTime == null ? null : startTime,
         "end_time": endTime == null ? null : endTime,
         "task": task == null ? null : task?.toJson(),

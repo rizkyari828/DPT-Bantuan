@@ -69,7 +69,7 @@ class AuthController extends GetxController {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     messaging.getToken().then((value) {
-      print("token FCM Home ${value}");
+      print("token FCM Home $value");
       submitToken(value);
     });
   }

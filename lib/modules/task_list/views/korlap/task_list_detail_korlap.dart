@@ -3,7 +3,6 @@ import 'package:cleaner/shared/constants/colors.dart';
 import 'package:cleaner/shared/utils/utils.dart';
 import 'package:cleaner/shared/widgets/button.dart';
 import 'package:cleaner/shared/widgets/input_field.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -37,109 +36,159 @@ class TaskListDetailKorlapView extends GetView<TaskListDetailKorlapController> {
                     .format(DateTime.now())
                     .toString()),
             SizedBox(height: 10.0),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 11,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: DropdownSearch<dynamic>(
-                  enabled: false,
-                  selectedItem: controller.nameType.value,
-                  dropdownSearchDecoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: ColorConstants.mainColor),
-                    ),
-                    labelText: "Jenis Task List",
-                  ),
-                  items: controller.listType.map((item) {
-                    return item.name;
-                  }).toList(),
-                  maxHeight: 300,
-                  onChanged: (value) async {
-                    // controller.nameItem.value = value;
-                    for (var f in controller.listType) {
-                      if (f.name == value) {
-                        controller.idType.value = f.id.toString();
-                        controller.getTaskName();
-                      }
-                    }
-                  },
-                  showSearchBox: true,
-                ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 11,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: DropdownSearch<dynamic>(
-                  selectedItem: controller.nameBranch.value,
-                  dropdownSearchDecoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: ColorConstants.mainColor),
-                    ),
-                    labelText: "Cabang",
-                  ),
-                  items: controller.listBranch.map((item) {
-                    return item.name;
-                  }).toList(),
-                  maxHeight: 300,
-                  onChanged: (value) async {
-                    // controller.nameItem.value = value;
-                    for (var f in controller.listBranch) {
-                      if (f.name == value) {
-                        controller.idBranch.value = f.id.toString();
-                        controller.getBranchTad(f.id.toString());
-                      }
-                    }
-                  },
-                  showSearchBox: true,
-                ),
-              ),
-            ),
-            controller.idType.value == '2'
-                ? Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 11,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      child: DropdownSearch<dynamic>(
-                        selectedItem: controller.nameTad.value,
-                        dropdownSearchDecoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: ColorConstants.mainColor),
-                          ),
-                          labelText: "Nama",
-                        ),
-                        items: controller.listTad.map((item) {
-                          return item.name;
-                        }).toList(),
-                        maxHeight: 300,
-                        onChanged: (value) async {
-                          // controller.nameItem.value = value;
-                          for (var f in controller.listTad) {
-                            if (f.name == value) {
-                              controller.idTad.value = f.id.toString();
-                            }
-                          }
-                        },
-                        showSearchBox: true,
-                      ),
-                    ),
-                  )
-                : Container(),
-            SizedBox(height: 10.0),
-            InputInputField(
-              isSuffixIcon: true,
-              suffixIcon: Icon(Icons.calendar_today_rounded),
-              controller: controller.startDateController,
-              labelText: "Tanggal",
-              onSuffixPressed: () {
-                controller.selectDateStart(context);
+            CustomDropDownSearch(
+              enabled: false,
+              selectedItem: controller.nameType.value,
+              listItem: controller.listType.map((item) {
+                return item.name;
+              }).toList(),
+              labelText: "Jenis Task List",
+              onChanged: (value) async {
+                // controller.nameItem.value = value;
+                for (var f in controller.listType) {
+                  if (f.name == value) {
+                    controller.idType.value = f.id.toString();
+                    controller.getTaskName();
+                  }
+                }
               },
             ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.height / 11,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            //     child: DropdownSearch<dynamic>(
+            //       enabled: false,
+            //       selectedItem: controller.nameType.value,
+            //       dropdownSearchDecoration: InputDecoration(
+            //         enabledBorder: UnderlineInputBorder(
+            //           borderSide: BorderSide(color: ColorConstants.mainColor),
+            //         ),
+            //         labelText: "Jenis Task List",
+            //       ),
+            //       items: controller.listType.map((item) {
+            //         return item.name;
+            //       }).toList(),
+            //       maxHeight: 300,
+            //       onChanged: (value) async {
+            //         // controller.nameItem.value = value;
+            //         for (var f in controller.listType) {
+            //           if (f.name == value) {
+            //             controller.idType.value = f.id.toString();
+            //             controller.getTaskName();
+            //           }
+            //         }
+            //       },
+            //       showSearchBox: true,
+            //     ),
+            //   ),
+            // ),
+            CustomDropDownSearch(
+              selectedItem: controller.nameBranch.value,
+              listItem: controller.listBranch.map((item) {
+                return item.name;
+              }).toList(),
+              labelText: "Cabang",
+              onChanged: (value) async {
+                // controller.nameItem.value = value;
+                for (var f in controller.listBranch) {
+                  if (f.name == value) {
+                    controller.idBranch.value = f.id.toString();
+                    controller.getBranchTad(f.id.toString());
+                  }
+                }
+              },
+            ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.height / 11,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+            //     child: DropdownSearch<dynamic>(
+            //       selectedItem: controller.nameBranch.value,
+            //       dropdownSearchDecoration: InputDecoration(
+            //         enabledBorder: UnderlineInputBorder(
+            //           borderSide: BorderSide(color: ColorConstants.mainColor),
+            //         ),
+            //         labelText: "Cabang",
+            //       ),
+            //       items: controller.listBranch.map((item) {
+            //         return item.name;
+            //       }).toList(),
+            //       maxHeight: 300,
+            //       onChanged: (value) async {
+            //         // controller.nameItem.value = value;
+            //         for (var f in controller.listBranch) {
+            //           if (f.name == value) {
+            //             controller.idBranch.value = f.id.toString();
+            //             controller.getBranchTad(f.id.toString());
+            //           }
+            //         }
+            //       },
+            //       showSearchBox: true,
+            //     ),
+            //   ),
+            // ),
+            controller.idType.value == '2'
+                ? CustomDropDownSearch(
+                    selectedItem: controller.nameTad.value,
+                    listItem: controller.listTad.map((item) {
+                      return item.name;
+                    }).toList(),
+                    labelText: "Nama",
+                    onChanged: (value) async {
+                      // controller.nameItem.value = value;
+                      for (var f in controller.listTad) {
+                        if (f.name == value) {
+                          controller.idTad.value = f.id.toString();
+                        }
+                      }
+                    },
+                  )
+                //           Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   height: MediaQuery.of(context).size.height / 11,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                //     child: DropdownSearch<dynamic>(
+                //       selectedItem: controller.nameTad.value,
+                //       dropdownSearchDecoration: InputDecoration(
+                //         enabledBorder: UnderlineInputBorder(
+                //           borderSide:
+                //               BorderSide(color: ColorConstants.mainColor),
+                //         ),
+                //         labelText: "Nama",
+                //       ),
+                //       items: controller.listTad.map((item) {
+                //         return item.name;
+                //       }).toList(),
+                //       maxHeight: 300,
+                //       onChanged: (value) async {
+                //         // controller.nameItem.value = value;
+                //         for (var f in controller.listTad) {
+                //           if (f.name == value) {
+                //             controller.idTad.value = f.id.toString();
+                //           }
+                //         }
+                //       },
+                //       showSearchBox: true,
+                //     ),
+                //   ),
+                // )
+                : Container(),
+            SizedBox(height: 10.0),
+            controller.idType.value == '2'
+                ? InputInputField(
+                    isSuffixIcon: true,
+                    suffixIcon: Icon(Icons.calendar_today_rounded),
+                    controller: controller.startDateController,
+                    labelText: "Tanggal",
+                    onSuffixPressed: () {
+                      controller.selectDateStart(context);
+                    },
+                  )
+                : Container(),
             SizedBox(height: 10.0),
           ],
         )),
@@ -147,34 +196,20 @@ class TaskListDetailKorlapView extends GetView<TaskListDetailKorlapController> {
         CommonWidget.cardWithShadow(Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 11,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: DropdownSearch<dynamic>(
-                  selectedItem: controller.nameTask.value,
-                  dropdownSearchDecoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: ColorConstants.mainColor),
-                    ),
-                    labelText: "Judul Task List",
-                  ),
-                  items: controller.listTaskName.map((item) {
-                    return item.name;
-                  }).toList(),
-                  maxHeight: 300,
-                  onChanged: (value) async {
-                    // controller.nameItem.value = value;
-                    for (var f in controller.listTaskName) {
-                      if (f.name == value) {
-                        controller.idNameTask.value = f.id.toString();
-                      }
-                    }
-                  },
-                  showSearchBox: true,
-                ),
-              ),
+            CustomDropDownSearch(
+              selectedItem: controller.nameTask.value,
+              listItem: controller.listTaskName.map((item) {
+                return item.name;
+              }).toList(),
+              labelText: "Judul Task List",
+              onChanged: (value) async {
+                // controller.nameItem.value = value;
+                for (var f in controller.listTaskName) {
+                  if (f.name == value) {
+                    controller.idNameTask.value = f.id.toString();
+                  }
+                }
+              },
             ),
             SizedBox(height: 10.0),
             CommonWidget.widgetExpanded(

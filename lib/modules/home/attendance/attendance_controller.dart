@@ -55,8 +55,6 @@ class AttendanceController extends GetxController {
   }
 
   void submitIn() async {
-    var now = new DateTime.now();
-    timeIn.value = DateFormat("HH:mm:ss").format(now);
     final res = await apiRepository.submitAttendance(
       AttendanceSubmitRequest(
         latitude: myLocation.latitude.toString(),
@@ -65,14 +63,14 @@ class AttendanceController extends GetxController {
     );
     if (res!.data != null) {
       EasyLoading.showSuccess('Berhasil Clock In');
+      var now = new DateTime.now();
+      timeIn.value = DateFormat("HH:mm:ss").format(now);
     } else {
       EasyLoading.showError('Gagal Clock In');
     }
   }
 
   void submitOut() async {
-    var now = new DateTime.now();
-    timeOut.value = DateFormat("HH:mm:ss").format(now);
     final res = await apiRepository.submitAttendance(
       AttendanceSubmitRequest(
         latitude: myLocation.latitude.toString(),
@@ -81,9 +79,11 @@ class AttendanceController extends GetxController {
     );
     print(res);
     if (res!.data != null) {
-      EasyLoading.showSuccess('Berhasil Clock In');
+      EasyLoading.showSuccess('Berhasil Clock Out');
+      var now = new DateTime.now();
+      timeOut.value = DateFormat("HH:mm:ss").format(now);
     } else {
-      EasyLoading.showError('Gagal Clock In');
+      EasyLoading.showError('Gagal Clock Out');
     }
   }
 
@@ -157,10 +157,10 @@ class AttendanceController extends GetxController {
 
     final position = await _geolocatorPlatform.getCurrentPosition();
     myLocation = LatLng(position.latitude, position.longitude);
-    markers.add(Marker(
-        markerId: MarkerId('SomeId'),
-        position: LatLng(position.latitude, position.longitude),
-        infoWindow: InfoWindow(title: 'The title of the marker')));
+    // markers.add(Marker(
+    //     markerId: MarkerId('SomeId'),
+    //     position: LatLng(position.latitude, position.longitude),
+    //     infoWindow: InfoWindow(title: 'The title of the marker')));
 
     final prefs = Get.find<SharedPreferences>();
     if (prefs.getString('token') != null) {
@@ -191,6 +191,11 @@ class AttendanceController extends GetxController {
   }
 
   Future<void> onRefresh() async {
+    isClockIn.value = false;
+    timeString.value = '--:--';
+    timeIn.value = '--:--';
+    timeOut.value = '--:--';
+    duration.value = '--:--';
     markers.clear();
     determinePosition();
     getSchedule();

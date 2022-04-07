@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:cleaner/shared/constants/colors.dart';
 import 'package:cleaner/shared/constants/common.dart';
@@ -238,5 +239,106 @@ class TextAreaField extends StatelessWidget {
                 InputDecoration.collapsed(hintText: "Enter your text here"),
           ),
         ));
+  }
+}
+
+class CustomDropDownSearch extends StatelessWidget {
+  var listItem;
+  final String labelText;
+  final onChanged;
+  final bool enabled;
+  final selectedItem;
+
+  CustomDropDownSearch({
+    required this.listItem,
+    this.labelText = '',
+    this.onChanged,
+    this.enabled = true,
+    // ignore: avoid_init_to_null
+    this.selectedItem = null,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // width: MediaQuery.of(context).size.width,
+      // height: MediaQuery.of(context).size.height / 11,
+      child: DropdownSearch<dynamic>(
+        mode: Mode.MENU,
+        enabled: enabled,
+        selectedItem: selectedItem,
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecoration(
+            labelStyle: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.normal,
+                fontSize: 14,
+                letterSpacing: 0.5,
+                fontFamily: 'Poppins'),
+            hintStyle: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.normal,
+                fontSize: 14,
+                letterSpacing: 0.5,
+                fontFamily: 'Poppins'),
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
+            labelText: "Cari $labelText",
+          ),
+        ),
+        dropdownSearchBaseStyle: TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.normal,
+            fontSize: 14,
+            letterSpacing: 0.5,
+            fontFamily: 'Poppins'),
+        dropdownSearchDecoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ColorConstants.mainColor),
+          ),
+          labelText: labelText,
+          labelStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          hintStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          helperStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          prefixStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          counterStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+          suffixStyle: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              letterSpacing: 0.5,
+              fontFamily: 'Poppins'),
+        ),
+        items: listItem,
+        onChanged: onChanged,
+        showSearchBox: true,
+      ),
+    );
   }
 }

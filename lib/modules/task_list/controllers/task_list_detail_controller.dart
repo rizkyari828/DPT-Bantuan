@@ -160,6 +160,10 @@ class TaskListDetailController extends GetxController {
     // noteApprovalController.text = detail.value.noteApproval ?? '';
   }
 
+  void backToStart() {
+    currentStep.value = 1;
+  }
+
   void approval({
     action = "reject",
   }) async {
@@ -207,22 +211,22 @@ class TaskListDetailController extends GetxController {
     print(currentStep.value);
     if (currentStep.value == 0) {
       print(detail.value.beforePhotos);
-      if (detail.value.beforePhotos.isEmpty) {
-        // EasyLoading.show(status: 'loading..');
-        submitDokuments('before');
-      } else {
-        EasyLoading.dismiss();
-        currentStep.value < 2 ? currentStep.value += 1 : currentStep.value = 0;
-      }
+      // if (detail.value.beforePhotos.isEmpty) {
+      // EasyLoading.show(status: 'loading..');
+      submitDokuments('before');
+      // } else {
+      //   EasyLoading.dismiss();
+      //   currentStep.value < 2 ? currentStep.value += 1 : currentStep.value = 0;
+      // }
     } else if (currentStep.value == 1) {
-      if (detail.value.afterPhotos.isEmpty) {
-        // EasyLoading.show(status: 'loading..');
-        submitDokuments('after');
-        getDetail();
-      } else {
-        EasyLoading.dismiss();
-        currentStep.value < 2 ? currentStep.value += 1 : currentStep.value = 0;
-      }
+      // if (detail.value.afterPhotos.isEmpty) {
+      // EasyLoading.show(status: 'loading..');
+      submitDokuments('after');
+      getDetail();
+      // } else {
+      //   EasyLoading.dismiss();
+      //   currentStep.value < 2 ? currentStep.value += 1 : currentStep.value = 0;
+      // }
     } else {
       Get.back();
     }
@@ -282,7 +286,7 @@ class TaskListDetailController extends GetxController {
             base64AfterPhotos: _afterBase64, noteTad: noteTadController.text),
       );
 
-      print(res);
+      // print(res);
 
       if (res?.error == false) {
         EasyLoading.showSuccess('Berhasil disimpan');

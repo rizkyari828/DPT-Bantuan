@@ -52,7 +52,7 @@ class ListTaskListTadKorlapView
             thirdParagrafLabel: 'Type ',
             thirdParagrafValue: controller.list[i].task?.taskType?.name ?? '',
             forthParagraf:
-                '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.list[i].task?.createdAt ?? DateTime.now())}',
+                '${DateFormat("EEEE, d MMMM yyyy", "id_ID").format(controller.list[i].createdAt ?? DateTime.now())}',
             approval: controller.list[i].statusLabel == 'Waiting for approval'
                 ? 'Waiting'
                 : controller.list[i].statusLabel ?? '',

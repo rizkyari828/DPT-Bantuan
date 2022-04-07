@@ -43,8 +43,8 @@ class ShowTadKorlapTaskData {
   ShowTadKorlapTaskData({
     this.id,
     this.branchId,
-    this.beforePhotos,
-    this.afterPhotos,
+    this.beforePhotos = const [],
+    this.afterPhotos = const [],
     this.status,
     this.statusLabel,
     this.branch,
@@ -58,8 +58,8 @@ class ShowTadKorlapTaskData {
 
   int? id;
   int? branchId;
-  List<String>? beforePhotos;
-  List<String>? afterPhotos;
+  List<dynamic> beforePhotos;
+  List<dynamic> afterPhotos;
   String? status;
   String? statusLabel;
   Branch? branch;
@@ -75,11 +75,11 @@ class ShowTadKorlapTaskData {
         id: json["id"] == null ? null : json["id"],
         branchId: json["branch_id"] == null ? null : json["branch_id"],
         beforePhotos: json["before_photos"] == null
-            ? null
-            : List<String>.from(json["before_photos"].map((x) => x)),
+            ? []
+            : List<dynamic>.from(json["before_photos"].map((x) => x)),
         afterPhotos: json["after_photos"] == null
-            ? null
-            : List<String>.from(json["after_photos"].map((x) => x)),
+            ? []
+            : List<dynamic>.from(json["after_photos"].map((x) => x)),
         status: json["status"] == null ? null : json["status"],
         statusLabel: json["status_label"] == null ? null : json["status_label"],
         branch: json["branch"] == null ? null : Branch.fromJson(json["branch"]),
@@ -96,12 +96,8 @@ class ShowTadKorlapTaskData {
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "branch_id": branchId == null ? null : branchId,
-        "before_photos": beforePhotos == null
-            ? null
-            : List<dynamic>.from(beforePhotos!.map((x) => x)),
-        "after_photos": afterPhotos == null
-            ? null
-            : List<dynamic>.from(afterPhotos!.map((x) => x)),
+        "before_photos": List<dynamic>.from(beforePhotos.map((x) => x)),
+        "after_photos": List<dynamic>.from(afterPhotos.map((x) => x)),
         "status": status == null ? null : status,
         "status_label": statusLabel == null ? null : statusLabel,
         "branch": branch == null ? null : branch?.toJson(),
