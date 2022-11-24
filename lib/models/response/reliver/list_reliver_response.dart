@@ -1,17 +1,16 @@
 // To parse this JSON data, do
 //
-//     final listReliverResponse = listReliverResponseFromJson(jsonString);
+//     final eventResponse = eventResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-ListReliverResponse listReliverResponseFromJson(String str) =>
-    ListReliverResponse.fromJson(json.decode(str));
+EventResponse eventResponseFromJson(String str) =>
+    EventResponse.fromJson(json.decode(str));
 
-String listReliverResponseToJson(ListReliverResponse data) =>
-    json.encode(data.toJson());
+String eventResponseToJson(EventResponse data) => json.encode(data.toJson());
 
-class ListReliverResponse {
-  ListReliverResponse({
+class EventResponse {
+  EventResponse({
     this.error,
     this.message,
     this.data,
@@ -19,16 +18,15 @@ class ListReliverResponse {
 
   bool? error;
   String? message;
-  List<DataListReliver>? data;
+  List<EventList>? data;
 
-  factory ListReliverResponse.fromJson(Map<String, dynamic> json) =>
-      ListReliverResponse(
+  factory EventResponse.fromJson(Map<String, dynamic> json) => EventResponse(
         error: json["error"] == null ? null : json["error"],
         message: json["message"] == null ? null : json["message"],
         data: json["data"] == null
             ? null
-            : List<DataListReliver>.from(
-                json["data"].map((x) => DataListReliver.fromJson(x))),
+            : List<EventList>.from(
+                json["data"].map((x) => EventList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,98 +38,54 @@ class ListReliverResponse {
       };
 }
 
-class DataListReliver {
-  DataListReliver({
+class EventList {
+  EventList({
     this.id,
-    this.code,
-    this.dateRequest,
-    this.dateNeeded,
-    this.dateEndNeeded,
-    this.branchId,
-    this.userClientId,
-    this.userClientBranchId,
-    this.userCoordinatorId,
-    this.note,
-    this.noteApproval,
-    this.needEmployee,
-    this.needAprroveEmployee,
-    this.dateStartWorkEmployee,
-    this.status,
-    this.statusLabel,
+    this.idKomandante,
+    this.tanggalPelaksanaan,
+    this.keterangan,
+    this.judul,
+    this.start,
+    this.end,
+    this.area,
   });
 
-  int? id;
-  String? code;
-  DateTime? dateRequest;
-  DateTime? dateNeeded;
-  DateTime? dateEndNeeded;
-  int? branchId;
-  dynamic userClientId;
-  int? userClientBranchId;
-  dynamic userCoordinatorId;
-  String? note;
-  String? noteApproval;
-  int? needEmployee;
-  dynamic needAprroveEmployee;
-  DateTime? dateStartWorkEmployee;
-  String? status;
-  String? statusLabel;
+  String? id;
+  String? idKomandante;
+  DateTime? tanggalPelaksanaan;
+  String? keterangan;
+  String? judul;
+  DateTime? start;
+  DateTime? end;
+  String? area;
 
-  factory DataListReliver.fromJson(Map<String, dynamic> json) =>
-      DataListReliver(
+  factory EventList.fromJson(Map<String, dynamic> json) => EventList(
         id: json["id"] == null ? null : json["id"],
-        code: json["code"] == null ? null : json["code"],
-        dateRequest: json["date_request"] == null
+        idKomandante: json["id_komandante"],
+        tanggalPelaksanaan: json["tanggal_pelaksanaan"] == null
             ? null
-            : DateTime.parse(json["date_request"]),
-        dateNeeded: json["date_needed"] == null
-            ? null
-            : DateTime.parse(json["date_needed"]),
-        dateEndNeeded: json["date_end_needed"] == null
-            ? null
-            : DateTime.parse(json["date_end_needed"]),
-        branchId: json["branch_id"] == null ? null : json["branch_id"],
-        userClientId: json["user_client_id"],
-        userClientBranchId: json["user_client_branch_id"] == null
-            ? null
-            : json["user_client_branch_id"],
-        userCoordinatorId: json["user_coordinator_id"],
-        note: json["note"] == null ? null : json["note"],
-        noteApproval: json["note_approval"],
-        needEmployee:
-            json["need_employee"] == null ? null : json["need_employee"],
-        needAprroveEmployee: json["need_aprrove_employee"],
-        dateStartWorkEmployee: json["date_start_work_employee"] == null
-            ? null
-            : DateTime.parse(json["date_start_work_employee"]),
-        status: json["status"] == null ? null : json["status"],
-        statusLabel: json["status_label"] == null ? null : json["status_label"],
+            : DateTime.parse(json["tanggal_pelaksanaan"]),
+        keterangan: json["keterangan"],
+        judul: json["judul"] == null ? null : json["judul"],
+        start: json["start"] == null ? null : DateTime.parse(json["start"]),
+        end: json["end"] == null ? null : DateTime.parse(json["end"]),
+        area: json["area"] == null ? null : json["area"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
-        "code": code == null ? null : code,
-        "date_request":
-            dateRequest == null ? null : dateRequest?.toIso8601String(),
-        "date_needed": dateNeeded == null
+        "id_komandante": idKomandante,
+        "tanggal_pelaksanaan": tanggalPelaksanaan == null
             ? null
-            : "${dateNeeded?.year.toString().padLeft(4, '0')}-${dateNeeded?.month.toString().padLeft(2, '0')}-${dateNeeded?.day.toString().padLeft(2, '0')}",
-        "date_end_needed": dateEndNeeded == null
+            : "${tanggalPelaksanaan?.year.toString().padLeft(4, '0')}-${tanggalPelaksanaan?.month.toString().padLeft(2, '0')}-${tanggalPelaksanaan?.day.toString().padLeft(2, '0')}",
+        "keterangan": keterangan,
+        "judul": judul == null ? null : judul,
+        "start": start == null
             ? null
-            : "${dateEndNeeded?.year.toString().padLeft(4, '0')}-${dateEndNeeded?.month.toString().padLeft(2, '0')}-${dateEndNeeded?.day.toString().padLeft(2, '0')}",
-        "branch_id": branchId == null ? null : branchId,
-        "user_client_id": userClientId,
-        "user_client_branch_id":
-            userClientBranchId == null ? null : userClientBranchId,
-        "user_coordinator_id": userCoordinatorId,
-        "note": note == null ? null : note,
-        "note_approval": noteApproval,
-        "need_employee": needEmployee == null ? null : needEmployee,
-        "need_aprrove_employee": needAprroveEmployee,
-        "date_start_work_employee": dateStartWorkEmployee == null
+            : "${start?.year.toString().padLeft(4, '0')}-${start?.month.toString().padLeft(2, '0')}-${start?.day.toString().padLeft(2, '0')}",
+        "end": end == null
             ? null
-            : "${dateStartWorkEmployee?.year.toString().padLeft(4, '0')}-${dateStartWorkEmployee?.month.toString().padLeft(2, '0')}-${dateStartWorkEmployee?.day.toString().padLeft(2, '0')}",
-        "status": status == null ? null : status,
-        "status_label": statusLabel == null ? null : statusLabel,
+            : "${end?.year.toString().padLeft(4, '0')}-${end?.month.toString().padLeft(2, '0')}-${end?.day.toString().padLeft(2, '0')}",
+        "area": area == null ? null : area,
       };
 }

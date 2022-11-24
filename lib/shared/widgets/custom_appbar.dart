@@ -1,5 +1,5 @@
-import 'package:cleaner/shared/constants/colors.dart';
-import 'package:cleaner/shared/utils/size_config.dart';
+import 'package:sales/shared/constants/colors.dart';
+import 'package:sales/shared/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -155,9 +155,8 @@ class CustomHeaderHome extends StatelessWidget {
               onPressed: () {},
               child: Icon(Icons.person_rounded, color: Colors.grey, size: 50),
               style: ElevatedButton.styleFrom(
-                elevation: 0.1,
+                foregroundColor: Colors.white, elevation: 0.1,
                 shape: CircleBorder(),
-                primary: Colors.white,
               ),
             ),
           ),

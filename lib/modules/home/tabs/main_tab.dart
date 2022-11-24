@@ -1,25 +1,34 @@
-import 'package:cleaner/shared/widgets/approval.dart';
 import 'package:flutter/material.dart';
-import 'package:cleaner/models/response/user/users_response.dart';
-import 'package:cleaner/modules/home/home.dart';
-import 'package:cleaner/shared/constants/colors.dart';
-import 'package:cleaner/shared/utils/common_widget.dart';
-import 'package:cleaner/shared/utils/size_config.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sales/modules/home/home.dart';
+import 'package:sales/shared/constants/colors.dart';
+import 'package:sales/shared/utils/common_widget.dart';
+import 'package:sales/shared/utils/size_config.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:sales/shared/widgets/button.dart';
+import 'package:sales/shared/widgets/custom_card.dart';
 
 class MainTab extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     double scaleWidth = MediaQuery.of(context).size.width / 360;
+    final sw = SizeConfig().screenWidth;
     controller.context = context;
     return Scaffold(
-      backgroundColor: ColorConstants.mainColor,
-      body: Obx(() => RefreshIndicator(
-            child: _buildGridView(scaleWidth, context),
-            onRefresh: () => controller.onRefresh(),
-          )),
+      backgroundColor: ColorConstants.lightScaffoldBackgroundColor,
+      body: Obx(() => _buildGridView(scaleWidth, context)),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(left: sw * .08),
+        child: CustomButton(
+          buttonColor: Colors.green,
+          buttonText: 'BUKA QR SCANNER',
+          width: sw,
+          onPressed: () {
+            controller.goToScannerPages();
+          },
+        ),
+      ),
     );
   }
 
@@ -29,350 +38,146 @@ class MainTab extends GetView<HomeController> {
     return SingleChildScrollView(
       child: Stack(
         children: [
-          Container(
-            margin: EdgeInsets.only(
-              top: sh * 0.27,
-            ),
-            width: sw,
-            height: sh - sh / 5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(30),
-                topLeft: Radius.circular(30),
-              ),
-              color: Colors.red,
-            ),
-            child: Card(
-              elevation: 1,
-              color: ColorConstants.lightScaffoldBackgroundColor,
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              top: sh / 12,
-              left: 10.0,
-              right: 10.0,
-            ),
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(controller.profilePhoto.value),
-              ),
-              title: Text(
-                controller.name.value,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              subtitle: CommonWidget.subtitleText(
-                  text: controller.simId.value, color: Colors.white),
-              // trailing: InkWell(
-              //     onTap: controller.goToNotificationPages,
-              //     child:
-              //         Icon(Icons.notifications, color: Colors.white, size: 27)),
-            ),
-          ),
-          CommonWidget.rowHeight(),
-          Container(
-            margin: EdgeInsets.only(left: 20.0, right: 20.0, top: sh * .20),
-            child: Column(
-              children: [
-                _graphMenu(context),
-                CommonWidget.rowHeight(),
-                Container(child: _statusTaskBar()),
-                CommonWidget.rowHeight(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: sw * .04, right: sw * .04),
+                child: Column(
                   children: [
-                    _cardMenu(Icons.batch_prediction_rounded, "Informasi",
-                        controller.goToInformationPages, Colors.blueGrey),
-                    CommonWidget.rowWidth(width: 15),
-                    _cardMenu(Icons.work_off_rounded, "Izin",
-                        controller.goToIzinPages, Colors.blue),
-                    CommonWidget.rowWidth(width: 15),
-                    _cardMenu(Icons.airplane_ticket_rounded, "Cuti",
-                        controller.goToCutiPages, Colors.indigo),
-                    CommonWidget.rowWidth(width: 15),
-                    _cardMenu(Icons.alarm_add_rounded, "Lembur",
-                        controller.goToLemburPages, Colors.purple),
-                  ],
-                ),
-                CommonWidget.rowHeight(),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ApprovalFlow.notHideWidget(
-                      id: controller.groupId,
-                      widget: _cardMenu(Icons.bar_chart_rounded, "Rekap",
-                          controller.goToRecapPages, Colors.pink),
-                      hideId: '5',
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: sh / 12,
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(controller.profilePhoto.value),
+                        ),
+                        title: Text(
+                          controller.name.value,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        subtitle: CommonWidget.subtitleText(
+                          text: controller.username.value,
+                          color: Colors.black87,
+                        ),
+                        // trailing: InkWell(
+                        //     onTap: controller.goToNotificationPages,
+                        //     child: Container(
+                        //       decoration: BoxDecoration(
+                        //         color: ColorConstants.mainColor,
+                        //         borderRadius: BorderRadius.circular(10.0),
+                        //         boxShadow: [
+                        //           BoxShadow(
+                        //             color: Colors.grey.withOpacity(0.3),
+                        //             blurRadius: 15.0,
+                        //             spreadRadius: 1.0,
+                        //             offset: Offset(
+                        //               -10.0,
+                        //               10.0,
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       child: Padding(
+                        //         padding: const EdgeInsets.all(8.0),
+                        //         child: Icon(Icons.notifications,
+                        //             color: ColorConstants.white, size: 27),
+                        //       ),
+                        //     )),
+                      ),
                     ),
-                    ApprovalFlow.notHideWidget(
-                      id: controller.groupId,
-                      widget: CommonWidget.rowWidth(width: 15),
-                      hideId: '5',
+                    CommonWidget.rowHeight(height: sh * 0.03),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0, left: 10),
+                      child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: CommonWidget.minHeadText(text: 'Campaign')),
                     ),
-                    _cardMenu(Icons.build_rounded, "CnC",
-                        controller.goToCnCPages, Colors.deepOrange),
-                    ApprovalFlow.hideWidget(
-                      id: controller.groupId,
-                      widget: CommonWidget.rowWidth(width: 15),
-                      hideId: '5',
-                    ),
-                    ApprovalFlow.hideWidget(
-                      id: controller.groupId,
-                      widget: _cardMenu(Icons.hail_outlined, "Reliver",
-                          controller.goToReliverPages, Colors.teal),
-                      hideId: '5',
-                    ),
-                    ApprovalFlow.hideWidget(
-                      id: controller.groupId,
-                      widget: CommonWidget.rowWidth(width: 15),
-                      hideId: '5',
-                    ),
-                    ApprovalFlow.hideWidget(
-                      id: controller.groupId,
-                      widget: _cardMenu(Icons.list, "TASK TAD",
-                          controller.goToListTadKorlapPages, Colors.lime),
-                      hideId: '5',
+                    Container(
+                      width: double.infinity,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: ColorConstants.backgroundTextField,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: TextField(
+                        onSubmitted: (value) {
+                          controller.listEvent.clear();
+                          controller.getData(1);
+                        },
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13,
+                          letterSpacing: 0.15,
+                          fontFamily: 'Poppins',
+                        ),
+                        controller: controller.searchNameController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              controller.onSearch(false);
+                              controller.searchNameController.clear();
+                            },
+                          ),
+                          hintText: 'Search...',
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 13,
+                            letterSpacing: 0.15,
+                            fontFamily: 'Poppins',
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
                     )
                   ],
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _graphMenu(context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            blurRadius: 20.0,
-            spreadRadius: 4.0,
-            offset: Offset(
-              -10.0,
-              10.0,
-            ),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            Row(children: [
-              CommonWidget.bodyText(text: controller.month.value),
-              new Spacer(),
-              InkWell(
-                onTap: () {
-                  showMonthPicker(
-                    context: context,
-                    firstDate: DateTime(DateTime.now().year - 1, 5),
-                    lastDate: DateTime(DateTime.now().year + 1, 9),
-                    initialDate: controller.selectedDate ?? DateTime.now(),
-                  ).then((date) {
-                    if (date != null) {
-                      controller.selectedDate = date;
-                      controller.month.value = DateFormat("MMMM yyyy", "id_ID")
-                          .format(date)
-                          .toString();
-                      // controller.getData();
-                    }
-                  });
-                },
-                child: Container(
-                  decoration: new BoxDecoration(
-                    color: ColorConstants.mainColor,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 20.0,
-                        spreadRadius: 4.0,
-                        offset: Offset(
-                          -10.0,
-                          10.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Icon(
-                      Icons.calendar_today_rounded,
-                      color: Colors.white,
-                      size: 15.0,
-                    ),
-                  ),
-                ),
               ),
-            ]),
-            CommonWidget.rowHeight(height: 8),
-            // Divider(),
-            CommonWidget.rowHeight(height: 8),
-            Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonWidget.subtitleText(text: "Kehadiran"),
-                        ListTile(
-                          leading: Text(
-                            "100%",
-                            style: TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 30,
-                                fontFamily: 'Poppins'),
-                          ),
-                          title: CommonWidget.captionText(
-                              text: "Kehadiran 7 Hari"),
-                          subtitle:
-                              CommonWidget.captionText(text: "Alfa 0 Hari"),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CommonWidget.subtitleText(text: "Jam Kerja"),
-                        ListTile(
-                          leading: Text(
-                            "50.0",
-                            style: TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 30,
-                                fontFamily: 'Poppins'),
-                          ),
-                          title: CommonWidget.captionText(
-                              text: "Terlambat 1 Kali"),
-                          subtitle:
-                              CommonWidget.captionText(text: "Durasi 0 Menit"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ])
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _statusTaskBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            blurRadius: 20.0,
-            spreadRadius: 4.0,
-            offset: Offset(
-              -10.0,
-              10.0,
-            ),
+              Container(height: sh * 0.7, child: _getItems(controller))
+            ],
           ),
         ],
       ),
-      height: SizeConfig().screenHeight / 11,
-      child: ListTile(
-        leading: Icon(
-          Icons.check_circle_outline,
-          size: 40,
-          color: Colors.grey,
-        ),
-        title: CommonWidget.subtitleText(
-            text: "Ayo selesaikan task harianmu", color: Colors.black87),
-        subtitle: LinearProgressIndicator(
-          minHeight: 10,
-          value: 0.5,
-          semanticsLabel: 'Linear progress indicator',
-        ),
-        trailing: Icon(
-          Icons.keyboard_arrow_right,
-          color: Colors.black87,
-          size: 30,
-        ),
-        isThreeLine: true,
-      ),
     );
   }
 
-  Widget _cardMenu(icon, title, onPressed, colorCircle) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              blurRadius: 20.0,
-              spreadRadius: 4.0,
-              offset: Offset(
-                -10.0,
-                10.0,
-              ),
-            ),
-          ],
-        ),
-        width: SizeConfig().screenWidth * .20,
-        height: SizeConfig().screenHeight * .12,
-        child: InkWell(
+  SmartRefresher _getItems(HomeController controller) {
+    return SmartRefresher(
+      enablePullDown: true,
+      enablePullUp: true,
+      header: WaterDropHeader(),
+      controller: controller.refreshController,
+      onRefresh: controller.onRefresh,
+      onLoading: controller.onLoading,
+      child: ListView.builder(
+        itemCount: controller.listEvent.length,
+        itemBuilder: (context, i) => InkWell(
           onTap: () {
-            onPressed();
+            controller.goToDetailPages(
+                id: controller.listEvent[i].id.toString());
           },
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 5),
-                  Container(
-                    decoration: new BoxDecoration(
-                      color: colorCircle,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        icon,
-                        color: Colors.white,
-                        size: SizeConfig().screenWidth * .06,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  CommonWidget.captionText(text: title),
-                ],
+          child: CustomExpandedImageCardView(
+              title: controller.listEvent[i].judul ?? '',
+              // date:
+              //     '${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.listEvent[i].tanggalPelaksanaan ?? DateTime.now())}',
+              description: controller.listEvent[i].area ?? '',
+              image: '',
+              location: controller.listEvent[i].keterangan ?? '',
+              timeStart:
+                  '${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.listEvent[i].start ?? DateTime.now())}',
+              timeEnd:
+                  '${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.listEvent[i].end ?? DateTime.now())}'
+              // tipe: controller.listReliver[i].leaveTypeName ?? '',
               ),
-            ),
-          ),
         ),
       ),
     );
-  }
-
-  List<Datum>? get data {
-    return controller.users.value == null ? [] : controller.users.value!.data;
   }
 }

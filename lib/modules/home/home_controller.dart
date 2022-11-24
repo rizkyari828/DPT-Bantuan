@@ -1,61 +1,55 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:cleaner/models/request/logout_request.dart';
-import 'package:cleaner/models/request/rate/submit_rate_request.dart';
-import 'package:cleaner/models/request/update_fcm_profile_request.dart';
-import 'package:cleaner/models/request/update_photo_profile_request.dart';
-import 'package:cleaner/models/response/rate/show_rate_review_response.dart';
-import 'dart:io' as Io;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:cleaner/api/api.dart';
-import 'package:cleaner/models/response/user/users_response.dart';
-import 'package:cleaner/modules/home/home.dart';
-import 'package:cleaner/routes/app_pages.dart';
-import 'package:cleaner/shared/shared.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sales/api/api.dart';
+import 'package:sales/models/response/reliver/list_reliver_response.dart';
+import 'package:sales/models/response/user/users_response.dart';
+import 'package:sales/modules/home/home.dart';
+import 'package:sales/routes/app_pages.dart';
+import 'package:sales/shared/shared.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:mime/mime.dart';
-import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
   final ApiRepository apiRepository;
   HomeController({required this.apiRepository});
-
-  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-  late LatLng myLocation = LatLng(0, 0);
-
   var currentTab = MainTabs.home.obs;
   var users = Rxn<UsersResponse>();
   var user = Rxn<Datum>();
-  List<Marker> markers = <Marker>[];
-  Set<Circle> circles = <Circle>{};
-
+  var listEvent = <EventList>[].obs;
   late MainTab mainTab;
-  late DiscoverTab discoverTab;
-  late TaskListTab taskListTab;
   late MeTab meTab;
   DateTime? selectedDate;
   RxString month =
       DateFormat("MMMM yyyy", "id_ID").format(DateTime.now()).toString().obs;
+  RxString previousMonth = DateFormat("MMMM yyyy", "id_ID")
+      .format(DateTime(
+          DateTime.now().year, DateTime.now().month - 1, DateTime.now().day))
+      .toString()
+      .obs;
+  String monthInt = DateFormat("MM", "id_ID").format(DateTime.now()).toString();
+  String previousMonthInt = DateFormat("MM", "id_ID")
+      .format(DateTime(
+          DateTime.now().year, DateTime.now().month - 1, DateTime.now().day))
+      .toString();
+  RxString dateNow =
+      DateFormat("dd MMMM yyyy", "id_ID").format(DateTime.now()).toString().obs;
+  final searchNameController = TextEditingController();
 
   RxString name = "".obs;
-  RxString simId = "".obs;
+  RxString nameKomandante = "".obs;
+  RxString userId = "".obs;
+  RxString idKomandante = "".obs;
   RxString profilePhoto = "".obs;
-  RxString placement = "".obs;
-  RxString location = "".obs;
-  RxString building = "".obs;
-  RxString groupName = "".obs;
-  RxString groupId = "".obs;
+  RxString username = "".obs;
+  RxString token = "".obs;
   RxBool showRateDialog = false.obs;
-
-  var showRate = ShowReviewRateData().obs;
+  RxBool isSearch = false.obs;
+  ScrollController scrollController = ScrollController();
 
   var imageFileList = <XFile>[].obs;
 
@@ -73,99 +67,81 @@ class HomeController extends GetxController {
 
   late BuildContext context;
 
+  double position = 0;
+  RxInt page = 0.obs;
+
   @override
   void onInit() async {
     super.onInit();
-    getReviewRate();
+
     mainTab = MainTab();
     loadUsers();
-    discoverTab = DiscoverTab();
-    taskListTab = TaskListTab();
     meTab = MeTab();
-    determinePosition();
-    // FirebaseMessaging messaging = FirebaseMessaging.instance;
+    getData(page.value);
 
-    // messaging.getToken().then((value) {
-    //   print("token FCM Home ${value}");
-    //   submitToken(value);
+    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    //   if (message.data.containsKey('type')) {
+    //     if (message.data['type'] == 'izin') {
+    //       Get.toNamed(Routes.LEAVE);
+    //     } else if (message.data['type'] == 'cuti') {
+    //       Get.toNamed(Routes.BENEFIT);
+    //     } else if (message.data['type'] == 'overtime') {
+    //       Get.toNamed(Routes.PROSPEK);
+    //     } else if (message.data['type'] == 'task') {
+    //       Get.toNamed(Routes.HOME);
+    //     } else {
+    //       Get.toNamed(Routes.HOME);
+    //     }
+    //   }
     // });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      if (message.data.containsKey('type')) {
-        if (message.data['type'] == 'cnc') {
-          Get.toNamed(Routes.CN_C);
-        } else if (message.data['type'] == 'izin') {
-          Get.toNamed(Routes.IZIN);
-        } else if (message.data['type'] == 'cuti') {
-          Get.toNamed(Routes.CUTI);
-        } else if (message.data['type'] == 'overtime') {
-          Get.toNamed(Routes.LEMBUR);
-        } else if (message.data['type'] == 'task') {
-          Get.toNamed(Routes.HOME);
-          // getCurrentIndex(MainTabs.inbox);
-          if (groupId.value == '3' || groupId.value == '4') {
-            switchTab(1);
-          } else {
-            switchTab(2);
-          }
-          // return 1;
-        } else {
-          Get.toNamed(Routes.HOME);
-        }
-      }
-    });
   }
 
-  void callDialog() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      await showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => new RatingDialog(
-                initialRating: 1.0,
-                title: CommonWidget.minHeadText(
-                  text: 'Berikan Review Anda',
-                  align: TextAlign.center,
-                ),
-                message:
-                    CommonWidget.subtitleText(text: showRate.value.note ?? ''),
-                // your app's logo?
-                image: Container(
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: MediaQuery.of(context).size.height * .1,
-                    // width: MediaQuery.of(context).size.width * .1,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                submitButtonText: 'Submit',
-                commentHint: 'Masukkan komentar',
-                onCancelled: () => print('cancelled'),
-                onSubmitted: (response) {
-                  submitReview(
-                      rate: response.rating.round(), note: response.comment);
-                  print(
-                      'rating: ${response.rating}, comment: ${response.comment}');
-                },
-              ));
-    });
-  }
+  RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   Future<void> onRefresh() async {
-    loadUsers();
+    await Future.delayed(Duration(milliseconds: 1000));
+    listEvent.clear();
+    page.value = 0;
+    getData(page.value);
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    page.value = page.value + 1;
+
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    getData(page.value);
+    refreshController.loadComplete();
+  }
+
+  void onSearch(status) {
+    isSearch.value = status;
+  }
+
+  void goToDetailPages({String id = ""}) {
+    Get.toNamed(Routes.DETAIL_EVENT, arguments: id);
+  }
+
+  void getData(page) async {
+    final res = await apiRepository.listEvent(
+        page: page,
+        idKomandante: idKomandante.value,
+        keyword: searchNameController.text);
+    listEvent.addAll(res?.data ?? []);
   }
 
   loadUsers() async {
     var prefs = Get.find<SharedPreferences>();
     name.value = prefs.getString('name') ?? "";
-    simId.value = prefs.getString('simId') ?? "";
+    nameKomandante.value = prefs.getString('nameKomandante') ?? "";
+    userId.value = prefs.getString('userId') ?? "";
     profilePhoto.value = prefs.getString('profilePhoto') ?? "";
-    placement.value = prefs.getString('placement') ?? "";
-    location.value = prefs.getString('location') ?? "";
-    building.value = prefs.getString('building') ?? "";
-    groupName.value = prefs.getString('groupName') ?? "";
-    groupId.value = prefs.getString('groupId') ?? "";
-
-    // Get.defaultDialog(title: "Alert", content: _dialog);
+    username.value = prefs.getString('username') ?? "";
+    token.value = prefs.getString('token') ?? "";
+    userId.value = prefs.getString('userId') ?? "";
+    idKomandante.value = prefs.getString('idKomandante') ?? "";
   }
 
   void signout() async {
@@ -174,32 +150,10 @@ class HomeController extends GetxController {
     var storage = Get.find<SharedPreferences>();
     try {
       if (storage.getString(StorageConstants.token) != null) {
-        final res = await apiRepository.logout(LogoutRequest(
-          username: storage.getString('simId'),
-        ));
-        if (res?.message == "Logout Success") {
-          storage.clear();
-
-          // NavigatorHelper.popLastScreens(popCount: 1);
-          goToLoginPages();
-          EasyLoading.dismiss();
-        } else {
-          Get.snackbar(
-            "Error",
-            "Logout Failed",
-            icon: Icon(Icons.person, color: Colors.white),
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            borderRadius: 20,
-            margin: EdgeInsets.all(15),
-            colorText: Colors.white,
-            duration: Duration(seconds: 4),
-            isDismissible: true,
-            //dismissDirection: SnackDismissDirection.HORIZONTAL,
-            forwardAnimationCurve: Curves.easeOutBack,
-          );
-          EasyLoading.dismiss();
-        }
+        storage.clear();
+        // NavigatorHelper.popLastScreens(popCount: 1);
+        goToLoginPages();
+        EasyLoading.dismiss();
       } else {
         storage.clear();
         // NavigatorHelper.popLastScreens(popCount: 1);
@@ -261,205 +215,24 @@ class HomeController extends GetxController {
   }
 
   int getCurrentIndex(MainTabs tab) {
-    if (groupId.value == '3' || groupId.value == '4') {
-      switch (tab) {
-        case MainTabs.home:
-          return 0;
-        case MainTabs.inbox:
-          return 1;
-        case MainTabs.me:
-          return 2;
-        default:
-          return 0;
-      }
-    } else {
-      switch (tab) {
-        case MainTabs.home:
-          return 0;
-        case MainTabs.discover:
-          return 1;
-        case MainTabs.inbox:
-          return 2;
-        case MainTabs.me:
-          return 3;
-        default:
-          return 0;
-      }
+    switch (tab) {
+      case MainTabs.home:
+        return 0;
+      case MainTabs.me:
+        return 1;
+      default:
+        return 0;
     }
   }
 
   MainTabs _getCurrentTab(int index) {
-    if (groupId.value == '3' || groupId.value == '4') {
-      switch (index) {
-        case 0:
-          return MainTabs.home;
-        case 1:
-          return MainTabs.inbox;
-        case 2:
-          return MainTabs.me;
-        default:
-          return MainTabs.home;
-      }
-    } else {
-      switch (index) {
-        case 0:
-          return MainTabs.home;
-        case 1:
-          return MainTabs.discover;
-        case 2:
-          return MainTabs.inbox;
-        case 3:
-          return MainTabs.me;
-        default:
-          return MainTabs.home;
-      }
-    }
-  }
-
-  Future<void> determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      Get.snackbar(
-        "Error",
-        "Location services are disabled.",
-        icon: Icon(Icons.person, color: Colors.white),
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        borderRadius: 20,
-        margin: EdgeInsets.all(15),
-        colorText: Colors.white,
-        duration: Duration(seconds: 4),
-        isDismissible: true,
-        //dismissDirection: SnackDismissDirection.HORIZONTAL,
-        forwardAnimationCurve: Curves.easeOutBack,
-      );
-
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        Get.snackbar(
-          "Error",
-          "Location permissions are denied",
-          icon: Icon(Icons.person, color: Colors.white),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          borderRadius: 20,
-          margin: EdgeInsets.all(15),
-          colorText: Colors.white,
-          duration: Duration(seconds: 4),
-          isDismissible: true,
-          //dismissDirection: SnackDismissDirection.HORIZONTAL,
-          forwardAnimationCurve: Curves.easeOutBack,
-        );
-        print("Location permissions are denied");
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      Get.snackbar(
-        "Error",
-        "Location permissions are permanently denied, we cannot request permissions.",
-        icon: Icon(Icons.person, color: Colors.white),
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        borderRadius: 20,
-        margin: EdgeInsets.all(15),
-        colorText: Colors.white,
-        duration: Duration(seconds: 4),
-        isDismissible: true,
-        //dismissDirection: SnackDismissDirection.HORIZONTAL,
-        forwardAnimationCurve: Curves.easeOutBack,
-      );
-      print(
-          "Location permissions are permanently denied, we cannot request permissions.");
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    final position = await _geolocatorPlatform.getCurrentPosition();
-    myLocation = LatLng(position.latitude, position.longitude);
-    markers.add(Marker(
-        markerId: MarkerId('SomeId'),
-        position: LatLng(position.latitude, position.longitude),
-        infoWindow: InfoWindow(title: 'My Location')));
-
-    final prefs = Get.find<SharedPreferences>();
-    if (prefs.getString('token') != null) {
-      prefs.setDouble(StorageConstants.initLatitude, position.latitude);
-      prefs.setDouble(StorageConstants.initLongitude, position.longitude);
-    }
-
-    EasyLoading.dismiss();
-  }
-
-  void submitToken(token) async {
-    final res = await apiRepository
-        .updateFcmProfile(UpdateFcmProfileRequest(fcmToken: token));
-    if (res!.error == false) {
-      print('Token updated');
-    } else {
-      print('Token update failed');
-    }
-  }
-
-  void getReviewRate() async {
-    final res = await apiRepository.getRate();
-    if (res!.error == false) {
-      showRate.value = res.data ?? ShowReviewRateData();
-      showRateDialog.value = true;
-      callDialog();
-      print('need review');
-    } else {
-      print('Token update failed');
-    }
-  }
-
-  void submitReview({int rate = 0, String note = ''}) async {
-    final res =
-        await apiRepository.submitRate(SubmitRate(rate: rate, note: note));
-    if (res!.error == false) {
-      EasyLoading.showSuccess('Berhasil disimpan');
-      // Get.back();
-    } else {
-      EasyLoading.showError('Gagal disimpan');
-    }
-  }
-
-  void submitPhotoProfile() async {
-    List<String> _afterBase64 = [];
-    EasyLoading.show(status: 'loading..');
-    for (var itemBefore in imageFileList) {
-      var mimeType = lookupMimeType(itemBefore.path);
-      var bytesBefore = await Io.File(itemBefore.path).readAsBytes();
-      String img64 = 'data:' +
-          mimeType.toString() +
-          ';base64,' +
-          base64Encode(bytesBefore);
-      _afterBase64.add(img64);
-    }
-
-    final res = await apiRepository.updatePhotoProfile(
-        UpdatePhotoProfileRequest(base64Photo: _afterBase64.first));
-    if (res!.error == false) {
-      EasyLoading.showSuccess('Berhasil disimpan');
-      final prefs = Get.find<SharedPreferences>();
-      prefs.setString(
-          StorageConstants.profilePhoto, res.data?.profilePhotoPath ?? "");
-      profilePhoto.value = res.data?.profilePhotoPath ?? "";
-      onRefresh();
-      EasyLoading.dismiss();
-      Get.back();
-    } else {
-      EasyLoading.showError('Gagal disimpan');
-      EasyLoading.dismiss();
+    switch (index) {
+      case 0:
+        return MainTabs.home;
+      case 1:
+        return MainTabs.me;
+      default:
+        return MainTabs.home;
     }
   }
 
@@ -467,40 +240,45 @@ class HomeController extends GetxController {
     Get.offAllNamed(Routes.SPLASH);
   }
 
-  void goToCnCPages() {
-    Get.toNamed(Routes.CN_C);
+  void goToLeavePages() {
+    Get.toNamed(Routes.LEAVE);
   }
 
-  void goToIzinPages() {
-    Get.toNamed(Routes.IZIN);
+  void goToLemburPages(String month, String type, String status,
+      {bool needBack = true}) {
+    if (needBack) {
+      Get.back();
+    }
+    Get.toNamed(Routes.PROSPEK,
+        arguments: {'month': month, 'type': type, 'status': status});
   }
 
-  void goToLemburPages() {
-    Get.toNamed(Routes.LEMBUR);
-  }
-
-  void goToCutiPages() {
-    Get.toNamed(Routes.CUTI);
-  }
-
-  void goToInformationPages() {
-    Get.toNamed(Routes.INFORMATION);
+  void goToBenefitPages() {
+    Get.toNamed(Routes.BENEFIT);
   }
 
   void goToRecapPages() {
     Get.toNamed(Routes.RECAP);
   }
 
-  void goToReliverPages() {
-    Get.toNamed(Routes.RELIVER);
-  }
-
-  void goToListTadKorlapPages() {
-    Get.toNamed(Routes.TASK_LIST_TAD_KORLAP_LIST);
+  void goToEventPages() {
+    Get.toNamed(Routes.EVENT);
   }
 
   void goToNotificationPages() {
     Get.toNamed(Routes.NOTIFICATION);
+  }
+
+  void goToTaskListPages() {
+    Get.toNamed(Routes.HOME);
+  }
+
+  void goToDetailEventPages({String id = ""}) {
+    Get.toNamed(Routes.DETAIL_EVENT, arguments: id);
+  }
+
+  void goToScannerPages() {
+    Get.toNamed(Routes.QRSCANNER, arguments: null);
   }
 
   @override
