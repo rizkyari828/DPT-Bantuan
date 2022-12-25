@@ -1,6 +1,6 @@
-import 'package:sales/shared/utils/common_widget.dart';
-import 'package:sales/shared/utils/size_config.dart';
-import 'package:sales/shared/widgets/button.dart';
+import 'package:konconeDeDe/shared/utils/common_widget.dart';
+import 'package:konconeDeDe/shared/utils/size_config.dart';
+import 'package:konconeDeDe/shared/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class ApprovalFlow {

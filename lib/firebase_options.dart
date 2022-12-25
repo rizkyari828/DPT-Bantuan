@@ -41,23 +41,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCfyGHxXijDMLys7gzVYJ2DA5J1T80sw-k',
-    appId: '1:301855838376:android:da8fd40ee0c58dcea6329d',
-    messagingSenderId: '301855838376',
-    projectId: 'com-tam-revi',
-    storageBucket: 'com-tam-revi.appspot.com',
+    apiKey: 'AIzaSyCBHf9G8Nnv_jcwX4OJxjgdYJwJ8JISwLQ',
+    appId: '1:118145354533:android:bf99625ad65a8f2d86a8cc',
+    messagingSenderId: '118145354533',
+    projectId: 'dptbantuan',
+    storageBucket: 'dptbantuan.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBozjBaeZojbyE_tO0KvyLumoWUg2Gs5gs',
-    appId: '1:301855838376:ios:663baaef468f21dda6329d',
-    messagingSenderId: '301855838376',
-    projectId: 'com-tam-revi',
-    storageBucket: 'com-tam-revi.appspot.com',
-    androidClientId:
-        '301855838376-29aakpakh4uuub3j5npl1lb3hler2kr3.apps.googleusercontent.com',
-    iosClientId:
-        '301855838376-s5vk8471mkpijlvv5pboqnft2rg6869d.apps.googleusercontent.com',
-    iosBundleId: 'com.tam.revi',
+    apiKey: 'AIzaSyAlexPVT-oeMscWaqkh2KIIEzCYqEuhykU',
+    appId: '1:118145354533:ios:9c545e32bd906d8886a8cc',
+    messagingSenderId: '118145354533',
+    projectId: 'dptbantuan',
+    storageBucket: 'dptbantuan.appspot.com',
+    iosClientId: '118145354533-jtiiodj1ig2oqpral1trlpqrnbvfueij.apps.googleusercontent.com',
+    iosBundleId: 'com.tama.dpt',
   );
 }

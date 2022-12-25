@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 
 class CustomCardView extends StatelessWidget {
   final String code;
@@ -343,26 +343,28 @@ class CustomExpandedImageCardView extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: sw * .3,
-            height: sw * .3,
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  bottomLeft: Radius.circular(10)),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    image: new NetworkImage(
-                      image,
+          image == ''
+              ? Container()
+              : Container(
+                  width: sw * .3,
+                  height: sw * .3,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        image: new DecorationImage(
+                          fit: BoxFit.cover,
+                          image: new NetworkImage(
+                            image,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
           CommonWidget.rowWidth(width: 10.0),
           Padding(
             padding: const EdgeInsets.all(10.0),

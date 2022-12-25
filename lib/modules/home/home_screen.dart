@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sales/modules/home/home.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/modules/home/home.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends GetView<HomeController> {

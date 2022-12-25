@@ -23,4 +23,5 @@ abstract class Routes {
   static const DETAIL_EVENT = '/detail-event';
   static const NOTIFICATION = '/notification';
   static const QRSCANNER = '/qr-scanner';
+  static const PENERIMA = '/penerima';
 }

@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
-import 'package:sales/modules/event/bindings/event_binding.dart';
-import 'package:sales/modules/event/views/event_detail_view.dart';
-import 'package:sales/modules/event/views/event_view.dart';
-import 'package:sales/modules/event/views/qrcode_scanner_view.dart';
+import 'package:konconeDeDe/modules/event/bindings/event_binding.dart';
+import 'package:konconeDeDe/modules/event/views/event_detail_view.dart';
+import 'package:konconeDeDe/modules/event/views/event_view.dart';
+import 'package:konconeDeDe/modules/event/views/penerima_view.dart';
+import 'package:konconeDeDe/modules/event/views/qrcode_scanner_view.dart';
 import '../modules/notification/bindings/notification_binding.dart';
 import '../modules/notification/views/notification_view.dart';
 import '../modules/auth/auth.dart';
@@ -23,6 +24,11 @@ class AppPages {
     GetPage(
       name: Routes.EVENT,
       page: () => EventView(),
+      binding: EventBinding(),
+    ),
+    GetPage(
+      name: Routes.PENERIMA,
+      page: () => RecapView(),
       binding: EventBinding(),
     ),
     GetPage(

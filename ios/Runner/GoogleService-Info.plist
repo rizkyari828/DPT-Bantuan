@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>301855838376-s5vk8471mkpijlvv5pboqnft2rg6869d.apps.googleusercontent.com</string>
+	<string>118145354533-jtiiodj1ig2oqpral1trlpqrnbvfueij.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.301855838376-s5vk8471mkpijlvv5pboqnft2rg6869d</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>301855838376-29aakpakh4uuub3j5npl1lb3hler2kr3.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.118145354533-jtiiodj1ig2oqpral1trlpqrnbvfueij</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBozjBaeZojbyE_tO0KvyLumoWUg2Gs5gs</string>
+	<string>AIzaSyAlexPVT-oeMscWaqkh2KIIEzCYqEuhykU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>301855838376</string>
+	<string>118145354533</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.tam.revi</string>
+	<string>com.tama.dpt</string>
 	<key>PROJECT_ID</key>
-	<string>com-tam-revi</string>
+	<string>dptbantuan</string>
 	<key>STORAGE_BUCKET</key>
-	<string>com-tam-revi.appspot.com</string>
+	<string>dptbantuan.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:301855838376:ios:663baaef468f21dda6329d</string>
+	<string>1:118145354533:ios:9c545e32bd906d8886a8cc</string>
 </dict>
 </plist>

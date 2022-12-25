@@ -48,6 +48,9 @@ class EventList {
     this.start,
     this.end,
     this.area,
+    this.kota,
+    this.kecamatan,
+    this.kelurahan,
   });
 
   String? id;
@@ -58,6 +61,9 @@ class EventList {
   DateTime? start;
   DateTime? end;
   String? area;
+  String? kota;
+  String? kecamatan;
+  String? kelurahan;
 
   factory EventList.fromJson(Map<String, dynamic> json) => EventList(
         id: json["id"] == null ? null : json["id"],
@@ -70,6 +76,9 @@ class EventList {
         start: json["start"] == null ? null : DateTime.parse(json["start"]),
         end: json["end"] == null ? null : DateTime.parse(json["end"]),
         area: json["area"] == null ? null : json["area"],
+        kota: json["kota"] == null ? null : json["kota"],
+        kecamatan: json["kecamatan"] == null ? null : json["kecamatan"],
+        kelurahan: json["kelurahan"] == null ? null : json["kelurahan"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -87,5 +96,8 @@ class EventList {
             ? null
             : "${end?.year.toString().padLeft(4, '0')}-${end?.month.toString().padLeft(2, '0')}-${end?.day.toString().padLeft(2, '0')}",
         "area": area == null ? null : area,
+        "kota": kota == null ? null : kota,
+        "kecamatan": kecamatan == null ? null : kecamatan,
+        "kelurahan": kelurahan == null ? null : kelurahan,
       };
 }

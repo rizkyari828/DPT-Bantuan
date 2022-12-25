@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sales/shared/shared.dart';
-import 'package:sales/shared/widgets/button.dart';
+import 'package:konconeDeDe/shared/shared.dart';
+import 'package:konconeDeDe/shared/widgets/button.dart';
 import 'package:get/get.dart';
 
 import 'auth_controller.dart';
@@ -13,24 +13,22 @@ class LoginScreen extends GetView<AuthController> {
       backgroundColor: ColorConstants.mainColor,
       body: Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 200)),
+        decoration: BoxDecoration(color: Color.fromRGBO(0, 0, 0, 210)),
         child: SingleChildScrollView(
           child: Stack(
             children: [
               Align(
-                alignment: Alignment.center,
-                child: Container(
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: MediaQuery.of(context).size.height * .30,
-                    width: MediaQuery.of(context).size.width * .70,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
+                  alignment: Alignment.center,
+                  child: Text('#KonconeDeDe',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          // color: color,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40,
+                          fontFamily: 'Poppins'))),
               Container(
                 margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * .25),
+                    top: MediaQuery.of(context).size.height * .10),
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 35.0),
                 child: _buildForms(context),

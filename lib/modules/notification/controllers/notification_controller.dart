@@ -1,5 +1,5 @@
-import 'package:sales/api/api_repository.dart';
-import 'package:sales/routes/app_pages.dart';
+import 'package:konconeDeDe/api/api_repository.dart';
+import 'package:konconeDeDe/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,4 +1,4 @@
-import 'package:sales/api/api.dart';
+import 'package:konconeDeDe/api/api.dart';
 import 'package:get/get.dart';
 
 class AppBinding extends Bindings {

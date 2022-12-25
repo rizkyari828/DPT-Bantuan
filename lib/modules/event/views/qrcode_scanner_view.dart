@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sales/modules/event/controllers/event_detail_controller.dart';
-import 'package:sales/modules/event/controllers/qr_code_controller.dart';
-import 'package:sales/modules/event/views/qr_scanner_overlay.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/modules/event/controllers/qr_code_controller.dart';
+import 'package:konconeDeDe/modules/event/views/qr_scanner_overlay.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:sales/shared/utils/size.dart';
-import 'package:sales/shared/widgets/button.dart';
+import 'package:konconeDeDe/shared/utils/size.dart';
+import 'package:konconeDeDe/shared/widgets/button.dart';
 
 class QRScannerView extends GetView<QRCodeController> {
   final data = Get.arguments;

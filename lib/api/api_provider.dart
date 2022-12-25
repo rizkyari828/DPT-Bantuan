@@ -1,10 +1,9 @@
-import 'package:sales/api/base_provider.dart';
-import 'package:sales/models/models.dart';
-import 'package:sales/models/request/detail_request.dart';
-import 'package:sales/models/request/logout_request.dart';
+import 'package:konconeDeDe/api/base_provider.dart';
+import 'package:konconeDeDe/models/models.dart';
+import 'package:konconeDeDe/models/request/logout_request.dart';
 import 'package:get/get.dart';
-import 'package:sales/models/request/reliver/approve_reliver_request.dart';
-import 'package:sales/models/request/reliver/create_reliver_request.dart';
+import 'package:konconeDeDe/models/request/reliver/approve_reliver_request.dart';
+import 'package:konconeDeDe/models/request/reliver/create_reliver_request.dart';
 
 class ApiProvider extends BaseProvider {
   Future<Response> login(String path, LoginRequest data) {

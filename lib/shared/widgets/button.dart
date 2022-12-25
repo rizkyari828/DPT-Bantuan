@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback? onPressed;

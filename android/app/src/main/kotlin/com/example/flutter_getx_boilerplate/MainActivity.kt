@@ -1,4 +1,4 @@
-package com.tam.revi
+package com.tama.dpt
 
 import io.flutter.embedding.android.FlutterActivity
 

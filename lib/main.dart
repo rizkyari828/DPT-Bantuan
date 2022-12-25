@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'app_binding.dart';
@@ -87,7 +87,7 @@ class App extends StatelessWidget {
       getPages: AppPages.routes,
       initialBinding: AppBinding(),
       smartManagement: SmartManagement.keepFactory,
-      title: 'SALES',
+      title: 'konconeDeDe',
       theme: ThemeConfig.lightTheme,
       locale: TranslationService.locale,
       fallbackLocale: TranslationService.fallbackLocale,

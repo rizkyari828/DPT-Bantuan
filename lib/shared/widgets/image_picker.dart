@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:sales/modules/home/home_controller.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/modules/home/home_controller.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

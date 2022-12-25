@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sales/modules/auth/auth.dart';
-import 'package:sales/routes/routes.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/modules/auth/auth.dart';
+import 'package:konconeDeDe/routes/routes.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:get/get.dart';
 
 class AuthScreen extends GetView<AuthController> {

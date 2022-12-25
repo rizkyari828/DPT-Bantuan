@@ -1,5 +1,5 @@
-import 'package:sales/modules/notification/controllers/notification_controller.dart';
-import 'package:sales/shared/constants/constants.dart';
+import 'package:konconeDeDe/modules/notification/controllers/notification_controller.dart';
+import 'package:konconeDeDe/shared/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +26,4 @@ class NotificationView extends GetView<NotificationController> {
         ),
         body: Container());
   }
-
-
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 
 class ThemeConfig {
   static ThemeData createTheme({
@@ -48,12 +48,14 @@ class ThemeConfig {
         color: cardBackground,
         iconTheme: IconThemeData(
           color: secondaryText,
-        ), toolbarTextStyle: TextTheme(
+        ),
+        toolbarTextStyle: TextTheme(
           bodyText1: baseTextTheme.bodyText1!.copyWith(
             color: secondaryText,
             fontSize: 18,
           ),
-        ).bodyText2, titleTextStyle: TextTheme(
+        ).bodyText2,
+        titleTextStyle: TextTheme(
           bodyText1: baseTextTheme.bodyText1!.copyWith(
             color: secondaryText,
             fontSize: 18,
@@ -167,7 +169,8 @@ class ThemeConfig {
           fontSize: 11.0,
           fontWeight: FontWeight.w500,
         ),
-      ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
+      ),
+      colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
     );
   }
 

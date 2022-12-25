@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:sales/shared/widgets/button.dart';
-import 'package:sales/shared/widgets/image_picker.dart';
+import 'package:konconeDeDe/shared/widgets/button.dart';
+import 'package:konconeDeDe/shared/widgets/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:sales/modules/home/home.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/modules/home/home.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 

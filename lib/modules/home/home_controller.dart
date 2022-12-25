@@ -1,14 +1,13 @@
 import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:sales/api/api.dart';
-import 'package:sales/models/response/reliver/list_reliver_response.dart';
-import 'package:sales/models/response/user/users_response.dart';
-import 'package:sales/modules/home/home.dart';
-import 'package:sales/routes/app_pages.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/api/api.dart';
+import 'package:konconeDeDe/models/response/reliver/list_reliver_response.dart';
+import 'package:konconeDeDe/models/response/user/users_response.dart';
+import 'package:konconeDeDe/modules/home/home.dart';
+import 'package:konconeDeDe/routes/app_pages.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -39,6 +38,11 @@ class HomeController extends GetxController {
   RxString dateNow =
       DateFormat("dd MMMM yyyy", "id_ID").format(DateTime.now()).toString().obs;
   final searchNameController = TextEditingController();
+
+  RxString monthSubmit =
+      DateFormat("MM", "id_ID").format(DateTime.now()).toString().obs;
+  RxString yearSubmit =
+      DateFormat("yyyy", "id_ID").format(DateTime.now()).toString().obs;
 
   RxString name = "".obs;
   RxString nameKomandante = "".obs;
@@ -125,10 +129,22 @@ class HomeController extends GetxController {
   }
 
   void getData(page) async {
+    monthSubmit.value = selectedDate == null
+        ? ''
+        : DateFormat("MM", "id_ID")
+            .format(selectedDate ?? DateTime.now())
+            .toString();
+    yearSubmit.value = selectedDate == null
+        ? ''
+        : DateFormat("yyyy", "id_ID")
+            .format(selectedDate ?? DateTime.now())
+            .toString();
     final res = await apiRepository.listEvent(
         page: page,
         idKomandante: idKomandante.value,
-        keyword: searchNameController.text);
+        keyword: searchNameController.text,
+        month: monthSubmit.value,
+        year: yearSubmit.value);
     listEvent.addAll(res?.data ?? []);
   }
 

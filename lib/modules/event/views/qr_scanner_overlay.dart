@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sales/shared/utils/size.dart';
+import 'package:konconeDeDe/shared/utils/size.dart';
 
 class QRScannerOverlay extends StatelessWidget {
   const QRScannerOverlay({Key? key}) : super(key: key);

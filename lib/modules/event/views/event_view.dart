@@ -1,7 +1,7 @@
 import 'package:month_picker_dialog_2/month_picker_dialog_2.dart';
-import 'package:sales/modules/event/controllers/event_controller.dart';
-import 'package:sales/shared/constants/constants.dart';
-import 'package:sales/shared/widgets/custom_card.dart';
+import 'package:konconeDeDe/modules/event/controllers/event_controller.dart';
+import 'package:konconeDeDe/shared/constants/constants.dart';
+import 'package:konconeDeDe/shared/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

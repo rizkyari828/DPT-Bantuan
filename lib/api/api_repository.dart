@@ -1,16 +1,9 @@
 import 'dart:async';
-import 'package:sales/models/models.dart';
-import 'package:sales/models/request/detail_request.dart';
-import 'package:sales/models/request/logout_request.dart';
-import 'package:sales/models/request/reliver/approve_reliver_request.dart';
-import 'package:sales/models/request/reliver/create_reliver_request.dart';
-import 'package:sales/models/response/branch_response.dart';
-import 'package:sales/models/response/name_tad_list_response.dart';
-import 'package:sales/models/response/reliver/list_reliver_response.dart';
-import 'package:sales/models/response/reliver/show_reliver_response.dart';
-import 'package:sales/models/response/user/logout_response.dart';
-import 'package:sales/models/response/user/user_schedule.dart';
-import 'package:sales/models/response/user/users_response.dart';
+import 'package:konconeDeDe/models/models.dart';
+import 'package:konconeDeDe/models/request/reliver/create_reliver_request.dart';
+import 'package:konconeDeDe/models/response/penerima_list_response.dart';
+import 'package:konconeDeDe/models/response/reliver/list_reliver_response.dart';
+import 'package:konconeDeDe/models/response/reliver/show_reliver_response.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'api.dart';
@@ -40,14 +33,36 @@ class ApiRepository {
   }
 
   Future<EventResponse?> listEvent(
-      {int page: 1, String idKomandante: '', String keyword: ''}) async {
+      {int page: 1,
+      String idKomandante: '',
+      String keyword: '',
+      String month: '',
+      String year: ''}) async {
     try {
       final res = await apiProvider
           .getReliver(
-              '/campaign/list?page=$page&id_komandante=$idKomandante&keyword=$keyword')
+              '/campaign/list?page=$page&id_komandante=$idKomandante&keyword=$keyword&month=$month&year=$year')
           .timeout(Duration(seconds: timeout));
       if (res.statusCode == 200 || res.statusCode == 401) {
         return EventResponse.fromJson(res.body);
+      }
+    } on TimeoutException catch (_) {
+      EasyLoading.showError('Connection Timeout. Please try again later');
+      EasyLoading.dismiss();
+    } catch (exception) {
+      print(exception);
+    }
+    return null;
+  }
+
+  Future<ListPenerimaResponse?> listPenerima(
+      {int page: 1, String idCampaignProses: '', String keyword: ''}) async {
+    try {
+      final res = await apiProvider
+          .getReliver('/campaign/showPenerima?page=$page&id=$idCampaignProses')
+          .timeout(Duration(seconds: timeout));
+      if (res.statusCode == 200 || res.statusCode == 401) {
+        return ListPenerimaResponse.fromJson(res.body);
       }
     } on TimeoutException catch (_) {
       EasyLoading.showError('Connection Timeout. Please try again later');

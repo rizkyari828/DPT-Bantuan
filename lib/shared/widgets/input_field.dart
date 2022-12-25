@@ -1,7 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:sales/shared/constants/colors.dart';
-import 'package:sales/shared/constants/common.dart';
+import 'package:konconeDeDe/shared/constants/colors.dart';
+import 'package:konconeDeDe/shared/constants/common.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController controller;

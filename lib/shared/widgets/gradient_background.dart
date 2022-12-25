@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 

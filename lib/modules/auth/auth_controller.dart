@@ -1,9 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:sales/api/api.dart';
-import 'package:sales/models/models.dart';
-import 'package:sales/routes/app_pages.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/api/api.dart';
+import 'package:konconeDeDe/models/models.dart';
+import 'package:konconeDeDe/routes/app_pages.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -2,9 +2,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:sales/api/api_repository.dart';
-import 'package:sales/models/request/reliver/create_reliver_request.dart';
-import 'package:sales/models/response/reliver/show_reliver_response.dart';
+import 'package:konconeDeDe/api/api_repository.dart';
+import 'package:konconeDeDe/models/request/reliver/create_reliver_request.dart';
+import 'package:konconeDeDe/models/response/reliver/show_reliver_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +17,7 @@ class QRCodeController extends GetxController {
   RxString groupName = "".obs;
   RxString groupId = "".obs;
   RxString userId = "".obs;
-  RxString stringQr = "1".obs;
+  RxString stringQr = "".obs;
 
   var qrKey = GlobalKey(debugLabel: 'QR').obs;
   QRViewController? qrViewController;
@@ -81,7 +81,6 @@ class QRCodeController extends GetxController {
 
   void submit() async {
     detail.value = argm;
-    stringQr.value = '123456';
     String dateNow =
         DateFormat("yyyy-MM-dd", "id_ID").format(DateTime.now()).toString();
     final res = await apiRepository.submitQr(CreateReliverRequest(

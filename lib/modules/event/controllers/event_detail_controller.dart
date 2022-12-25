@@ -1,9 +1,9 @@
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:sales/api/api_repository.dart';
-import 'package:sales/models/response/reliver/show_reliver_response.dart';
+import 'package:konconeDeDe/api/api_repository.dart';
+import 'package:konconeDeDe/models/response/reliver/show_reliver_response.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sales/routes/routes.dart';
+import 'package:konconeDeDe/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReliverDetailController extends GetxController {
@@ -66,6 +66,10 @@ class ReliverDetailController extends GetxController {
 
   void goToScannerPages() {
     Get.toNamed(Routes.QRSCANNER, arguments: detail.value);
+  }
+
+  void goToPenerimaPages() {
+    Get.toNamed(Routes.PENERIMA, arguments: detail.value);
   }
 
   void setQRViewController(QRViewController? controller) {

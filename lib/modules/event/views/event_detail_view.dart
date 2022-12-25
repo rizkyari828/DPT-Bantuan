@@ -1,10 +1,9 @@
-import 'package:sales/modules/event/controllers/event_detail_controller.dart';
-import 'package:sales/shared/shared.dart';
+import 'package:konconeDeDe/modules/event/controllers/event_detail_controller.dart';
+import 'package:konconeDeDe/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:sales/shared/widgets/approval.dart';
-import 'package:sales/shared/widgets/button.dart';
+import 'package:konconeDeDe/shared/widgets/button.dart';
 
 class ReliverDetailView extends GetView<ReliverDetailController> {
   final data = Get.arguments;
@@ -21,44 +20,54 @@ class ReliverDetailView extends GetView<ReliverDetailController> {
             () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: sw,
-                  height: sw * .5,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        image: new DecorationImage(
-                          fit: BoxFit.cover,
-                          image: new NetworkImage(
-                            '',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
+                // Container(
+                //   width: sw,
+                //   height: sw * .5,
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                //     child: Container(
+                //       decoration: BoxDecoration(
+                //         color: Colors.black,
+                //         image: new DecorationImage(
+                //           fit: BoxFit.cover,
+                //           image: new NetworkImage(
+                //             '',
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 20.0),
                 CommonWidget.minHeadText(
                     text: controller.detail.value.judul ?? ''),
                 SizedBox(height: 20.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CommonWidget.labelRowIcon(
-                        icon: Icons.place_rounded,
-                        widget: CommonWidget.subtitleText(
-                            text: controller.detail.value.area ?? '')),
-                    CommonWidget.subtitleText(
-                        text: controller.detail.value.area ?? ''),
-                  ],
-                ),
-                CommonWidget.labelRowIcon(
-                    icon: Icons.access_alarms_rounded,
+                CommonWidget.labelRowText(
+                    text: 'Mulai',
                     widget: CommonWidget.subtitleText(
-                        text:
-                            '${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.detail.value.start ?? DateTime.now())} - ${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.detail.value.end ?? DateTime.now())}')),
+                        text: DateFormat("MMMM dd, yyyy", "en_EN").format(
+                            controller.detail.value.start ?? DateTime.now()))),
+                SizedBox(height: 10.0),
+                CommonWidget.labelRowText(
+                    text: 'Selesai',
+                    widget: CommonWidget.subtitleText(
+                        text: DateFormat("MMMM dd, yyyy", "en_EN").format(
+                            controller.detail.value.end ?? DateTime.now()))),
+                SizedBox(height: 10.0),
+                CommonWidget.labelRowText(
+                    text: 'Kota',
+                    widget: CommonWidget.subtitleText(
+                        text: controller.detail.value.kota ?? '')),
+                SizedBox(height: 10.0),
+                CommonWidget.labelRowText(
+                    text: 'Kecamatan',
+                    widget: CommonWidget.subtitleText(
+                        text: controller.detail.value.kecamatan ?? '')),
+                SizedBox(height: 10.0),
+                CommonWidget.labelRowText(
+                    text: 'Kelurahan',
+                    widget: CommonWidget.subtitleText(
+                        text: controller.detail.value.kelurahan ?? '')),
                 SizedBox(height: 10.0),
                 CommonWidget.subtitleText(
                     textAlign: TextAlign.justify,
@@ -71,13 +80,30 @@ class ReliverDetailView extends GetView<ReliverDetailController> {
       ),
       floatingActionButton: Container(
         margin: EdgeInsets.only(left: sw * .08),
-        child: CustomButton(
-          buttonColor: Colors.green,
-          buttonText: 'BUKA QR SCANNER',
-          width: sw,
-          onPressed: () {
-            controller.goToScannerPages();
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            CustomButton(
+              buttonColor: Colors.orange,
+              buttonText: 'LIST PENERIMA',
+              width: sw,
+              onPressed: () {
+                controller.goToPenerimaPages();
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CustomButton(
+              buttonColor: Colors.green,
+              buttonText: 'BUKA QR SCANNER',
+              width: sw,
+              onPressed: () {
+                controller.goToScannerPages();
+              },
+            ),
+          ],
         ),
       ),
     );
