@@ -61,7 +61,7 @@ class RecapView extends GetView<EventController> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CommonWidget.subtitleText(text: 'Data'),
+                                  CommonWidget.subtitleText(text: 'Program'),
                                   CommonWidget.minHeadText(
                                       text:
                                           controller.detail.value.judul ?? ''),
@@ -81,7 +81,7 @@ class RecapView extends GetView<EventController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                                width: sw * .13,
+                                width: sw * .15,
                                 child: CommonWidget.minSubtitleText(
                                     text: 'Tanggal',
                                     fontWeight: FontWeight.bold)),
@@ -96,7 +96,7 @@ class RecapView extends GetView<EventController> {
                               width: sw * .01,
                             ),
                             Container(
-                                width: sw * .12,
+                                width: sw * .15,
                                 child: CommonWidget.minSubtitleText(
                                     text: 'NIK', fontWeight: FontWeight.bold)),
                           ],
@@ -116,7 +116,7 @@ class RecapView extends GetView<EventController> {
   }
 
   SmartRefresher _getItems(EventController controller) {
-    final sh = SizeConfig().screenHeight;
+    // final sh = SizeConfig().screenHeight;
     final sw = SizeConfig().screenWidth;
     return SmartRefresher(
       enablePullDown: true,
@@ -135,7 +135,7 @@ class RecapView extends GetView<EventController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: sw * .13,
+                    width: sw * .15,
                     child: CommonWidget.minSubtitleText(
                         text: DateFormat("dd/MM/yyyy", "id_ID")
                             .format(controller.listPenerima[i].createDate ??
@@ -154,7 +154,7 @@ class RecapView extends GetView<EventController> {
                     width: sw * .01,
                   ),
                   Container(
-                    width: sw * .12,
+                    width: sw * .15,
                     child: CommonWidget.minSubtitleText(
                         text: controller.listPenerima[i].ktp ?? ''),
                   ),

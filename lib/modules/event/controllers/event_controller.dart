@@ -41,8 +41,7 @@ class EventController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    // getCnC();
+    detail.value = argm['detail'];
   }
 
   @override
@@ -68,9 +67,8 @@ class EventController extends GetxController {
   }
 
   void getData(page) async {
-    detail.value = argm;
     final res = await apiRepository.listPenerima(
-        page: page, idCampaignProses: detail.value.idCampaign ?? '');
+        page: page, idCampaignProses: argm['id'] ?? '');
     listPenerima.addAll(res?.data ?? []);
   }
 

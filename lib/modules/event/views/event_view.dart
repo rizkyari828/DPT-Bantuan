@@ -126,7 +126,7 @@ class EventView extends GetView<EventController> {
             //     '${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.listEvent[i].tanggalPelaksanaan ?? DateTime.now())}',
             description: controller.listEvent[i].area ?? '',
             image: '',
-            location: controller.listEvent[i].keterangan ?? '',
+            // location: controller.listEvent[i].keterangan ?? '',
             // time:
             //     '${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.listEvent[i].start ?? DateTime.now())} - ${DateFormat("MMMM dd, yyyy", "en_EN").format(controller.listEvent[i].end ?? DateTime.now())}',
             // tipe: controller.listReliver[i].leaveTypeName ?? '',

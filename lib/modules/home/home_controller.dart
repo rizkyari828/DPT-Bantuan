@@ -146,6 +146,7 @@ class HomeController extends GetxController {
         month: monthSubmit.value,
         year: yearSubmit.value);
     listEvent.addAll(res?.data ?? []);
+    // EasyLoading.dismiss();
   }
 
   loadUsers() async {

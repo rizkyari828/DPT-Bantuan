@@ -305,7 +305,7 @@ class CustomExpandedImageCardView extends StatelessWidget {
   final String title;
   final String date;
   final String description;
-  final String location;
+  // final String location;
   final String image;
   final String timeStart;
   final String timeEnd;
@@ -314,7 +314,7 @@ class CustomExpandedImageCardView extends StatelessWidget {
     this.title = '',
     this.description = '',
     this.date = '',
-    this.location = '',
+    // this.location = '',
     this.image = '',
     this.timeStart = '',
     this.timeEnd = '',
@@ -381,19 +381,19 @@ class CustomExpandedImageCardView extends StatelessWidget {
                   CommonWidget.labelRowText(
                       text: 'Selesai',
                       widget: CommonWidget.subtitleText(text: timeEnd)),
-                  CommonWidget.labelRowIcon(
-                      icon: Icons.place_rounded,
-                      widget: CommonWidget.subtitleText(text: description)),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: CommonWidget.labelExpanded(
-                          label: location,
-                          value: date,
-                          fontWeight2: FontWeight.normal,
-                          fontSize: 12.0),
-                    ),
-                  ),
+                  // CommonWidget.labelRowIcon(
+                  //     icon: Icons.place_rounded,
+                  //     widget: CommonWidget.subtitleText(text: description)),
+                  // Expanded(
+                  //   child: Align(
+                  //     alignment: Alignment.bottomLeft,
+                  //     child: CommonWidget.labelExpanded(
+                  //         label: location,
+                  //         value: date,
+                  //         fontWeight2: FontWeight.normal,
+                  //         fontSize: 12.0),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

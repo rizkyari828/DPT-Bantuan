@@ -60,14 +60,9 @@ class ReliverDetailView extends GetView<ReliverDetailController> {
                         text: controller.detail.value.kota ?? '')),
                 SizedBox(height: 10.0),
                 CommonWidget.labelRowText(
-                    text: 'Kecamatan',
+                    text: 'Komandante',
                     widget: CommonWidget.subtitleText(
-                        text: controller.detail.value.kecamatan ?? '')),
-                SizedBox(height: 10.0),
-                CommonWidget.labelRowText(
-                    text: 'Kelurahan',
-                    widget: CommonWidget.subtitleText(
-                        text: controller.detail.value.kelurahan ?? '')),
+                        text: controller.nameKomandante.value)),
                 SizedBox(height: 10.0),
                 CommonWidget.subtitleText(
                     textAlign: TextAlign.justify,

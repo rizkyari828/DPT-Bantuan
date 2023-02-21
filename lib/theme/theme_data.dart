@@ -44,6 +44,7 @@ class ThemeConfig {
       ),
       toggleableActiveColor: accentColor,
       appBarTheme: AppBarTheme(
+        // ignore: deprecated_member_use
         brightness: brightness,
         color: cardBackground,
         iconTheme: IconThemeData(

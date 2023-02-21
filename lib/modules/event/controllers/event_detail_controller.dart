@@ -22,7 +22,7 @@ class ReliverDetailController extends GetxController {
   final TextEditingController numberReliver = TextEditingController();
   RxString groupName = "".obs;
   RxString groupId = "".obs;
-
+  RxString nameKomandante = "".obs;
   Barcode? result;
   RxString stringQr = "".obs;
 
@@ -56,6 +56,7 @@ class ReliverDetailController extends GetxController {
     var prefs = Get.find<SharedPreferences>();
     groupName.value = prefs.getString('groupName') ?? "";
     groupId.value = prefs.getString('groupId') ?? "";
+    nameKomandante.value = prefs.getString('nameKomandante') ?? "";
   }
 
   void getDetail() async {
@@ -69,7 +70,8 @@ class ReliverDetailController extends GetxController {
   }
 
   void goToPenerimaPages() {
-    Get.toNamed(Routes.PENERIMA, arguments: detail.value);
+    Get.toNamed(Routes.PENERIMA,
+        arguments: {'id': argm.toString(), 'detail': detail.value});
   }
 
   void setQRViewController(QRViewController? controller) {

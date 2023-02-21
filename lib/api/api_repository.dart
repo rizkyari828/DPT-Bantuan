@@ -61,7 +61,7 @@ class ApiRepository {
       final res = await apiProvider
           .getReliver('/campaign/showPenerima?page=$page&id=$idCampaignProses')
           .timeout(Duration(seconds: timeout));
-      if (res.statusCode == 200 || res.statusCode == 401) {
+      if (res.statusCode == 200) {
         return ListPenerimaResponse.fromJson(res.body);
       }
     } on TimeoutException catch (_) {
